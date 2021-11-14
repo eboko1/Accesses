@@ -1,0 +1,24 @@
+{
+  "viewportWidth": 1240,
+  "viewportHeight": 960,
+  "//viewportWidth": 414,
+  "//viewportHeight": 736,
+  "projectId": "kq8qxc",
+  "chromeWebSecurity": false,
+  
+
+  "env": {
+    "url":"test-",
+    "NameSTO":"Start",
+    "//Login":"0502333355",
+    "//Password":"6215-test",
+
+    "//NameSTO":"Specialist",
+    "////Login":"0502333355",
+    "////Password":"Specialist.Pro-01.21",
+
+    "Login":"0502333355",
+    "Password":"MASTER.PRO - 02.02.2021"
+    
+  }
+}

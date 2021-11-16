@@ -10,15 +10,15 @@
   "env": {
     "url":"test-",
     "NameSTO":"Start",
-    "//Login":"0502333355",
-    "//Password":"6215-test",
+    "Login":"start@admin.com",
+    "Password":"123456",
 
     "//NameSTO":"Specialist",
     "////Login":"0502333355",
     "////Password":"Specialist.Pro-01.21",
 
-    "Login":"0502333355",
-    "Password":"MASTER.PRO - 02.02.2021"
+    "//Login":"0502333355",
+    "//Password":"MASTER.PRO - 02.02.2021"
     
   }
 }

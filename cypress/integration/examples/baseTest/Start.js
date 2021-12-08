@@ -40,25 +40,25 @@ describe ('Start|Admin|UA|Desktop', function(){
     loginPage.enterLogin(username,password)
   });
 
-  // it('1. Профіль вибір українського інтерфейсу', function(){
-  //   profilePage.selectUA()
-  // })
+  it('1. Профіль вибір українського інтерфейсу', function(){
+    profilePage.selectUA()
+  })
 
-  // it('2. Додавання Клієнта та а/м: '+idClient, function(){
-  //   clientPage.createClient(idClient,tel)
-  // });
+  it('2. Додавання Клієнта та а/м: '+idClient, function(){
+    clientPage.createClient(idClient,tel)
+  });
 
-  // it('3. Перевірка заповнених полів Картка клієнта '+idClient, function(){
-  //   clientPage.checkClient(idClient,tel)
-  // })
+  it('3. Перевірка заповнених полів Картка клієнта '+idClient, function(){
+    clientPage.checkClient(idClient,tel)
+  })
 
-  // it('4. Редагування мобільного номера Клієнта:'+idClient, function(){
-  //   clientPage.editClientNumber(idClient,tel)
-  // })
+  it('4. Редагування мобільного номера Клієнта:'+idClient, function(){
+    clientPage.editClientNumber(idClient,tel)
+  })
 
-  // it('5. Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
-  //   orderPage.createOrder(idClient)
-  // });
+  it('5. Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
+    orderPage.createOrder(idClient)
+  });
 
   it('6. Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
     orderPage.editOrder(idClient)

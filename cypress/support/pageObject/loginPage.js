@@ -10,7 +10,6 @@ class LoginPage {
         this.getUsername().type(username).should('have.value', username);
         this.getPassword().type(password,{log: false});
         this.getLoginButton();
-        cy.intercept('GET', baseUrl+'/dashboard')
         cy.get('.styles-m__title---Nwr2X').contains('Календар Завантаження');
         cy.wait(3000)
     }

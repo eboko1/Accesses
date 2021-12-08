@@ -35,7 +35,7 @@ const tel =second+'0'+minute+''+second+''+minute;
 var codeNZ =''
 
 
-describe ('Specialist|Desktop|UA|', function(){
+describe ('Specialist|Admin|Desktop|UA|', function(){
   beforeEach('User LogIn ', () => {
     cy.visit(baseUrl)
     loginPage.enterLogin(username,password)

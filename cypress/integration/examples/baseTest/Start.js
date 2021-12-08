@@ -22,7 +22,7 @@ var codeNZ =''
 
 
 
-describe ('Start|Desktop|UA|', function(){
+describe ('Start|Admin|Desktop|UA|', function(){
   beforeEach('User LogIn ', () => {
     cy.visit(baseUrl)
     loginPage.enterLogin(username,password)

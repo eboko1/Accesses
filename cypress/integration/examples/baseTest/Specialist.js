@@ -24,16 +24,12 @@ const progress = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/progress';
 const success = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/success';
 const cancel = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/cancel';
 
-
 var date = new Date();
 //const idClient ='81139'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel =second+'0'+minute+''+second+''+minute;
-
-var codeNZ =''
-
 
 describe ('Specialist|Admin|UA|Desktop|', function(){
   beforeEach('User LogIn ', () => {
@@ -173,7 +169,7 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
     cy.get('.styles-m__logo---2zDPJ').click()
     cy.wait(4000);
     cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {codeNZ = text;
+    .then (text => {var codeNZ = text;
         cy.log(codeNZ)
         const numArr = text.split('-')  //[MDR, 594, 12345]
         cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
@@ -198,7 +194,7 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
     cy.get('.styles-m__logo---2zDPJ').click()
     cy.wait(3000);
     cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {codeNZ = text;
+    .then (text => {var codeNZ = text;
         cy.log(codeNZ)
         const numArr = text.split('-')  //[MDR, 594, 12345]
         cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
@@ -218,7 +214,7 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
     cy.get('.styles-m__logo---2zDPJ').click()
     cy.wait(3000);
     cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {codeNZ = text;
+    .then (text => { var codeNZ = text;
         cy.log(codeNZ)
         const numArr = text.split('-')  //[MDR, 594, 12345]
         cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук

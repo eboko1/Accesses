@@ -29,10 +29,9 @@ const cancel = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/cancel';
 var date = new Date();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
-const idClient ='81133'
-//const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
+//const idClient ='81182'
+const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 const tel =second+'0'+minute+''+second+''+minute;
-var codeNZ =''
 
 describe ('Start|Admin|UA|Desktop', function(){
   beforeEach('User LogIn ', () => {

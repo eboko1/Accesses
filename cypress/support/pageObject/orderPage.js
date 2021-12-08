@@ -255,7 +255,7 @@ class OrderPage {
         cy.get('.styles-m__tableHeader---1i3oL').should('have.text','Спецификации масел и технических жидкостей')
         cy.get('.ant-modal-close-x').last().click({force: true})
         cy.wait(1000);
-        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонт')
+        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Запис')
         cy.wait(1000);
     }
 

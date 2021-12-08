@@ -26,7 +26,7 @@ class OrderPage {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.wait(4000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-        .then (text => {codeNZ = text;
+        .then (text => {var codeNZ = text;
             cy.log(codeNZ)
             const numArr = text.split('-')  //[MDR, 594, 12345]
             cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
@@ -47,7 +47,7 @@ class OrderPage {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.wait(4000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-        .then (text => {codeNZ = text;
+        .then (text => {var codeNZ = text;
             cy.log(codeNZ)
             const numArr = text.split('-')  //[MDR, 594, 12345]
             cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
@@ -203,11 +203,11 @@ class OrderPage {
           cy.get ('#paymentMethod').should('not.have.text','')
       })
       .then(()=>{
-          cy.get('.ant-select-dropdown-menu-item-active').click();
+          cy.get('.ant-select-dropdown-menu-item-active').first().click({ force: true })
           cy.log('Вибір Реквізити');
           cy.get ('#requisite').click();
           cy.wait(1000);
-          cy.get('.ant-select-dropdown-menu-item-active').click();
+          cy.get('.ant-select-dropdown-menu-item-active').first().click({ force: true })
           cy.get ('#requisite').should('not.have.text','')
       })
       .then(()=>{
@@ -317,7 +317,7 @@ class OrderPage {
         })
         cy.wait(2000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-            .then (text => {codeNZ = text;
+            .then (text => {var codeNZ = text;
             cy.log(codeNZ)
             const path = require("path");
             ////  cy.readFile(path.join('cypress/downloads', 'act-'+codeNZ+'.pdf')).should("exist"); // файл Акт прийому-передачі автомобіля

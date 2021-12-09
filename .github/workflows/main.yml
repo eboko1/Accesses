@@ -1,5 +1,8 @@
 name: E2E Testing
-on: pull_request
+on:
+  push:
+    branches:
+      - main
 jobs:
   install:
     runs-on: ubuntu-latest

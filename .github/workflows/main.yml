@@ -6,7 +6,7 @@ on:
       - main
 jobs:
 
-  base-start-admin-elec-linux-run:
+  start-admin-elec-linux-run:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
     steps:
@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name:  base-start-admin-elec-linux-run
+      - name: start-admin-elec-linux-run
         uses: cypress-io/github-action@v2
         with:
           start: npm start
@@ -28,7 +28,7 @@ jobs:
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
-  base-master-admin-elec-linux-run:
+  specialist-admin-elec-linux-run:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +36,29 @@ jobs:
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name:  base-master-admin-elec-linux-run
+      - name: specialist-admin-elec-linux-run
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm start
+          record: true
+          spec: cypress/integration/baseTest/specialist.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  master-admin-elec-linux-run:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: master-admin-elec-linux-run
         uses: cypress-io/github-action@v2
         with:
           start: npm start
@@ -49,3 +71,5 @@ jobs:
           # Recommended: pass the GitHub token lets this action correctly
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+ 

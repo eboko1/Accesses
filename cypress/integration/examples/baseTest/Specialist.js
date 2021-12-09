@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
-import LoginPage from '../support/pageObject/loginPage';
-import OrderPage from '../support/pageObject/orderPage';
-import ClientPage from '../support/pageObject/clientPage';
-import ProfilePage from '../support/pageObject/profilePage';
+import LoginPage from '../../../support/pageObject/loginPage';
+import OrderPage from '../../../support/pageObject/orderPage';
+import ClientPage from '../../../support/pageObject/clientPage';
+import ProfilePage from '../../../support/pageObject/profilePage';
 
-import LaborTab from '../support/pageObject/tabsOrder/laborTab';
-import ProductTab from '../support/pageObject/tabsOrder/productTab';
+import LaborTab from '../../../support/pageObject/tabsOrder/laborTab';
+import ProductTab from '../../../support/pageObject/tabsOrder/productTab';
 
 const loginPage = new LoginPage();
 const orderPage = new OrderPage();

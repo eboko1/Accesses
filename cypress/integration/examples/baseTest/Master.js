@@ -31,7 +31,7 @@ var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel =second+'0'+minute+''+second+''+minute;
 
-describe ('Specialist|Admin|UA|Desktop|', function(){
+describe ('Master|Admin|UA|Desktop|', function(){
   beforeEach('User LogIn ', () => {
     cy.visit(baseUrl)
     loginPage.enterLogin(username,password)
@@ -174,7 +174,7 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
   });
 
   it('Відсутність $ в НЗ', function(){
-    cy.visit(progress);
+    cy.visit(success);
     cy.get('.styles-m__logo---2zDPJ').click()
     cy.wait(4000);
     cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
@@ -183,13 +183,13 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
         const numArr = text.split('-')  //[MDR, 594, 12345]
         cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
     })
-    cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонти')
+    cy.get('.styles-m__title---Nwr2X > span').should('have.text','Виконані')
     cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
     cy.get('.anticon-dollar').should('not.exist')// ел не має на в DOM
     });
 
   it('Копія НЗ', function(){
-    cy.visit(progress);
+    cy.visit(success);
     orderPage.copyOrder(idClient)
   });
 
@@ -282,44 +282,6 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
         cy.get('.ant-dropdown-menu > :nth-child(2) > div > span').click({force: true})
         cy.get('[data-row-key] > :nth-child(2)').should('exist');
       })
-  });
-  
-  it('Перевідка вмісту Вкладка Історія в НЗ', function(){
-    cy.visit(success);
-    cy.get('.styles-m__logo---2zDPJ').click()
-    cy.wait(3000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {codeNZ = text;
-      cy.log(codeNZ)
-      const numArr = text.split('-')  //[MDR, 594, 12345]
-      cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-    })
-    cy.wait(2000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.log('Вибір Запису');
-    cy.wait(4000);
-    cy.log('Для нового клієнта історія містить 1 елемент');
-    cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(7)').click();
-    cy.get('.ant-table-row > :nth-child(2) > a').should('exist');
-  });
-
-  it('Вкладка Пост в НЗ', function(){
-    cy.visit(success);
-    cy.get('.styles-m__logo---2zDPJ').click()
-    cy.wait(3000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {codeNZ = text;
-      cy.log(codeNZ)
-      const numArr = text.split('-')  //[MDR, 594, 12345]
-      cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-    })
-    cy.wait(2000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.log('Вибір Запису');
-    cy.wait(4000);
-    cy.log('Вкладка Пост');
-    cy.get('.ant-tabs-nav').contains('Пост').click()
-    cy.get('.styles-m__staticStationLoadsRow---MnLCJ > :nth-child(1)').should('exist');
   });
 
   it('Меню / Швидка навігація + Ремонт', () => {

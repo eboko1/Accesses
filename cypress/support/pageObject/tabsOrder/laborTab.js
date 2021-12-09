@@ -177,6 +177,7 @@ class LaborTab {
         cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(7) > div > .ant-btn').first().click({force: true});
         cy.wait(1000);
         cy.get('.styles-m__blockButtonsWrap---1eB6I > :nth-child(1)').first().click({force: true});
+        cy.wait(1000);
         cy.get('.styles-m__blockButtonsWrap---1eB6I > :nth-child(2)').first().click({force: true});
         cy.get('.styles-m__blockButtonsWrap---1eB6I > :nth-child(3)').first().click({force: true});
         cy.get('.ant-modal-body > :nth-child(2) > .ant-input').contains('попереду, вгорі;')

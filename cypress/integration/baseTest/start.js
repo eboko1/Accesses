@@ -173,47 +173,14 @@ describe ('Start|Admin|UA|Desktop', function(){
   });
 
   it('26. Копія НЗ', function(){
-        cy.visit(success);
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(4000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-        .then (text => {var codeNZ = text;
-            cy.log(codeNZ)
-            const numArr = text.split('-')  //[MDR, 594, 12345]
-            cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-        })
-        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Виконані')
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-        cy.get('.anticon-copy').last().click({force: true})
-        cy.get('.ant-modal-confirm-body-wrapper').should('be.visible')
-        cy.get('.ant-modal-confirm-btns > .ant-btn-primary').click({force: true})
-        cy.wait(4000); 
-        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Новий')  
-        cy.get('.ant-modal-close-x').last().click({force: true})
-        cy.wait(1000);
-    });
+    cy.visit(success);
+    orderPage.copyOrder(idClient)
+  });
 
   it('Видалення НЗ', function(){
-        cy.visit(appointments);
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(4000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-        .then (text => {var codeNZ = text;
-            cy.log(codeNZ)
-            const numArr = text.split('-')  //[MDR, 594, 12345]
-            cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-        })
-        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Нові')
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-        cy.get('.anticon-delete').first().click({force: true})
-        cy.wait(1000);
-        cy.get('.ant-modal').should('be.visible')
-        cy.get('.styles-m__submit---20j0q').contains('Так').click({force: true})
-        cy.wait(3000); 
-        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Відмова')  
-        cy.get('.ant-modal-close-x').last().click({force: true})
-        cy.wait(1000);
-    });
+    cy.visit(appointments);
+    orderPage.deleteOrder(idClient)
+  });
 
   it('Вкладка Історія в н/з', function(){
     cy.visit(success);

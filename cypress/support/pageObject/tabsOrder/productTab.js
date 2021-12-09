@@ -10,7 +10,7 @@ class ProductTab {
         })
         .then(()=>{
             cy.log('Вкладка Запчастин');
-            cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(4)').click()
+            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click()
         })
         .then(()=>{
             cy.get('#detailsDiscount').clear().type('15')
@@ -46,7 +46,7 @@ class ProductTab {
         cy.log('Вибір Запису');
         cy.wait(10000);
         cy.log('Вкладка Запчастини');
-        cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(4)').click();
+        cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click();
         cy.wait(2000);
         cy.log('Пряме редагування');
         cy.get('[style="width: min-content;"] > :nth-child(1) > [title="Додати"]').click()
@@ -71,6 +71,7 @@ class ProductTab {
         cy.get('.ant-btn-primary').last().click({force: true});//ОК;
         cy.wait(3000);
     }
+
     addProductVIN = (idClient) => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.wait(3000);
@@ -78,7 +79,7 @@ class ProductTab {
         cy.wait(2000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
         cy.log('Вкладка Запчастини');
-        cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(4)').click();
+        cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click();
         cy.wait(2000);
         cy.log('Модалка Деталь');
         cy.get('[style="width: min-content;"] > :nth-child(1) > [title="Додати"]').click()
@@ -110,7 +111,7 @@ class ProductTab {
         cy.log('Вибір Запису');
         cy.wait(10000);
         cy.log('Вкладка Запчастини');
-        cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(4)').click();
+        cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click();
         cy.wait(1000);
         cy.get('[title="Інфо по автомобілю"] > .anticon').click()
         cy.wait(2000);
@@ -131,7 +132,7 @@ class ProductTab {
         cy.log('Вибір Запису');
         cy.wait(10000);
         cy.log('Вкладка Запчастини');
-        cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(4)').click();
+        cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click();
         cy.wait(1000);
         cy.log('Швидке редагування запчастин');
         cy.get(':nth-child(4) > .ant-btn > div').first().click({force: true});
@@ -148,6 +149,37 @@ class ProductTab {
         cy.get('.styles-m__headerContorls---2pU_V > .anticon-save').click() // зберегти картку
         cy.log('Процес Збереження н/з ');
         cy.wait(5000);
+    }
+
+    addProductPlus = () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.wait(4000);
+        cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
+        .then (text => { var codeNZ = text;
+          cy.log(codeNZ)
+          const numArr = text.split('-')  //[MDR, 594, 12345]
+          cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
+        })
+        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонти')
+        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.get('.ant-tabs-nav').contains('Запчастини').click()
+        cy.get('.styles-m__headerActions---29OlS > [title="Додати"]').click()
+        cy.get(':nth-child(2) > .ant-radio > .ant-radio-inner').click({force: true});
+    
+        cy.get('.ant-table-row > :nth-child(4) > .ant-input').should('have.text','')
+        cy.get('.ant-table-row > :nth-child(4) > .ant-input').clear().type('Моторне мастило')
+        cy.get('.styles-m__brandColumn---3m8NH > .ant-select > .ant-select-selection').type('ABEX')
+        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
+    
+        cy.get('[style="display: flex;"] > .ant-select > .ant-select-selection').type('АНД')
+        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
+        cy.get(':nth-child(10) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('123.45')
+        cy.get(':nth-child(12) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('102.8')
+        cy.wait(1000);
+        cy.get('.ant-modal-footer > div > .ant-btn-primary').last().click({force: true}) /// кнопка Гаразд
+    
+        cy.get('.ant-tabs-tabpane-active > .ant-table-wrapper > .ant-spin-nested-loading > .ant-spin-container > .ant-table > .ant-table-content').contains('Моторне мастило')
+     
     }
 }
 

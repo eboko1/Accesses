@@ -9,7 +9,7 @@ class LaborTab {
         cy.log('Вибір Запису');
         cy.wait(4000);
         cy.log('Вкладка Роботи');
-        cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(3)').click();
+        cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
         /// перевірка доданої роботи з діагностики
         cy.wait(1000);
         cy.get(':nth-child(1) > [title="Швидке редагування"] > div').first().click({force: true})
@@ -40,7 +40,7 @@ class LaborTab {
         })
         .then(()=>{
             cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(3)').click();
+            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
             cy.wait(2000)
         })
         .then(()=>{
@@ -86,7 +86,7 @@ class LaborTab {
         })
         .then(()=>{
             cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(3)').click();
+            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
             cy.wait(2000)
         })
         .then(()=>{
@@ -114,7 +114,7 @@ class LaborTab {
         })
         .then(()=>{
             cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(3)').click();
+            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
             cy.wait(2000)
         })
         .then(()=>{
@@ -139,7 +139,7 @@ class LaborTab {
         })
         .then(()=>{
             cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(3)').click();
+            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
             cy.wait(2000)
         })
         .then(()=>{
@@ -157,6 +157,36 @@ class LaborTab {
         })
 
     }
+    addCommentsToLabor = () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.wait(4000);
+        cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
+        .then (text => {var codeNZ = text;
+          cy.log(codeNZ)
+          const numArr = text.split('-')  //[MDR, 594, 12345]
+          cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
+        })
+        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонти')
+        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.get('.ant-tabs-nav').contains('Роботи').click()
+        cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
+        cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(4) > .ant-select > .ant-select-selection').type('Діагностика')
+        cy.wait(1000)
+        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
+        cy.wait(1000);
+        cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(7) > div > .ant-btn').first().click({force: true});
+        cy.wait(1000);
+        cy.get('.styles-m__blockButtonsWrap---1eB6I > :nth-child(1)').first().click({force: true});
+        cy.get('.styles-m__blockButtonsWrap---1eB6I > :nth-child(2)').first().click({force: true});
+        cy.get('.styles-m__blockButtonsWrap---1eB6I > :nth-child(3)').first().click({force: true});
+        cy.get('.ant-modal-body > :nth-child(2) > .ant-input').contains('попереду, вгорі;')
+        cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true});
+        cy.wait(1000);
+        cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true}) /// кнопка Гаразд
+        cy.get('.ant-tabs-tabpane-active > .ant-table-wrapper > .ant-spin-nested-loading > .ant-spin-container > .ant-table > .ant-table-content').contains('попереду, вгорі;')       
+
+    }
+
 }
 
 export default LaborTab

@@ -66,13 +66,15 @@ class OrderPage {
    addComments = (idClient) =>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.wait(4000);
-        cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
-        cy.wait(2000);
+        cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
+        .then (text => { var codeNZ = text;
+        cy.log(codeNZ)
+        const numArr = text.split('-')  //[MDR, 594, 12345]
+        cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
+        })
+        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонти')
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-        cy.log('Вибір Н/З');
-        cy.wait(4000);
-        cy.get('#ОВ > .styles-m__mapChildsBlock---1oGYD > :nth-child(2) > .ant-btn').click();
-        cy.wait(1000);
+        cy.get('.ant-tabs-nav').contains('Коментарі').click()
         cy.get('.ant-input.styles-m__comment---3QjTs').clear().type('Не заляпать бампер мастилом');
         cy.get(':nth-child(3) > .styles-m__commentInput---2Ptrr').clear().type('Без царапин...'); //Стан автомобіля
         cy.wait(2000);
@@ -81,14 +83,13 @@ class OrderPage {
         cy.wait(1000);
         cy.get('.anticon-save > svg').first().click({force: true});
         cy.wait(4000);
-        cy.wait(4000);
-        cy.get('#ОВ > .styles-m__mapChildsBlock---1oGYD > :nth-child(2) > .ant-btn').click();
+        cy.get('.ant-tabs-nav').contains('Коментарі').click()
         cy.wait(1000);
         cy.get('.ant-input.styles-m__comment---3QjTs').should('not.have.text','Коментарі клієнта');
         cy.get(':nth-child(3) > .styles-m__commentInput---2Ptrr').should('not.have.text','Рекомендації для клієнта');
         cy.get(':nth-child(4) > .styles-m__commentInput---2Ptrr').should('have.text','Замінити повітряні фільтри мотора'); 
-        cy.get(':nth-child(5) > .styles-m__commentInput---2Ptrr').contains('Пройти повторно діагностику')
-    }
+    cy.get(':nth-child(5) > .styles-m__commentInput---2Ptrr').contains('Пройти повторно діагностику')   
+ }
 
    createProgress = (idClient) =>{
         cy.get('.styles-m__logo---2zDPJ').click()
@@ -97,7 +98,6 @@ class OrderPage {
         cy.wait(2000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
         cy.log('Вибір Н/З');
-        cy.wait(4000);
         cy.wait(7000);
         cy.log('Переведіть н/з в статус Ремонт');
         cy.get('.styles-m__dropdownTitle---3Vlog > :nth-child(2) > span').click();
@@ -130,7 +130,24 @@ class OrderPage {
         cy.wait(9000);
         cy.get('.styles-m__title---Nwr2X').contains('Виконано')
         cy.wait(4000);   
-   }
+    }
+
+   payOrderStart = (idClient) =>{
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.wait(4000);
+        cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
+        cy.wait(2000);
+        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.wait(7000);
+        cy.log('Переведіть н/з в статус Завершено');
+        cy.get('.styles-m__dropdownTitle---3Vlog > :nth-child(2) > span').click();
+        cy.wait(1000);
+        cy.get('.ant-dropdown-menu-item').contains('Завершено').click()
+        cy.wait(1000); 
+        cy.get('.sc-bxivhb > .ant-checkbox > .ant-checkbox-inner').click({force: true})
+        cy.get('.ant-btn-primary').contains('Так').click({force: true})
+        cy.wait(3000); 
+    }
 
    checkOrder = (idClient) =>{ 
     cy.log('Вибір Меню ремонти');

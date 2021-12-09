@@ -8,16 +8,14 @@
   
   "env": {
     "url":"test-",
-    "NameSTO":"Start",
-    "Login":"start@admin.com",
-    "Password":"123456",
+    "pw":"123456",
 
-    "//NameSTO":"Specialist",
-    "LoginSpec":"0502333355",
-    "PasswordSpec":"Specialist.Pro-01.21",
+    "LoginFree":"free@admin.com",
 
-    "//Login":"0502333355",
-    "//Password":"MASTER.PRO - 02.02.2021"
+    "LoginStart":"start@admin.com",
+    "LoginSpec":"specialist@admin.com",
+    "LoginMaster":"master@admin.com"
+    
     
   }
 }

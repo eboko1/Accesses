@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
-import LoginPage from '../../../support/pageObject/loginPage';
-import OrderPage from '../../../support/pageObject/orderPage';
-import ClientPage from '../../../support/pageObject/clientPage';
-import ProfilePage from '../../../support/pageObject/profilePage';
+import LoginPage from '../support/pageObject/loginPage';
+import OrderPage from '../support/pageObject/orderPage';
+import ClientPage from '../support/pageObject/clientPage';
+import ProfilePage from '../support/pageObject/profilePage';
 
-import LaborTab from '../../../support/pageObject/tabsOrder/laborTab';
-import ProductTab from '../../../support/pageObject/tabsOrder/productTab';
+import LaborTab from '../support/pageObject/tabsOrder/laborTab';
+import ProductTab from '../support/pageObject/tabsOrder/productTab';
 
 const loginPage = new LoginPage();
 const orderPage = new OrderPage();
@@ -14,8 +14,8 @@ const profilePage = new ProfilePage();
 const laborTab = new LaborTab();
 const productTab = new ProductTab();
 
-const username = Cypress.env('LoginSpec')
-const password = Cypress.env('PasswordSpec')
+const username = Cypress.env('LoginMaster')
+const password = Cypress.env('pw')
 
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 const appointments = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/appointments';
@@ -99,6 +99,15 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
       laborTab.addLaborComplexes(idClient)
     });
 
+  it('Додавання коментарів до Роботи ч/з +', function(){
+    cy.visit(progress);
+    laborTab.addCommentsToLabor()
+  });
+
+  it('Додавання Запчастин ч/з +', function(){
+    cy.visit(progress);
+    productTab.addProductPlus()
+  });
     it('14. Відображення механіка в табці Роботи  ', function(){
       cy.visit(approve)
       laborTab.showMehanicLabor(idClient)
@@ -275,96 +284,7 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
       })
   });
   
-  it('Додавання роботи ч/з +, коментар до Роботи', function(){
-    cy.visit(progress);
-    cy.get('.styles-m__logo---2zDPJ').click()
-    cy.wait(4000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {codeNZ = text;
-      cy.log(codeNZ)
-      const numArr = text.split('-')  //[MDR, 594, 12345]
-      cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-    })
-    cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонти')
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.get('.ant-tabs-nav').contains('Роботи').click()
-    cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
-    cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(4) > .ant-select > .ant-select-selection').type('Діагностика')
-    cy.wait(1000)
-    cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
-    cy.wait(1000);
-    cy.get(':nth-child(7) > div > .ant-btn').first().click({force: true});
-    cy.get('.styles-m__blockButtonsWrap---1eB6I > :nth-child(1)').first().click({force: true});
-    cy.get('.styles-m__blockButtonsWrap---1eB6I > :nth-child(2)').first().click({force: true});
-    cy.get('.styles-m__blockButtonsWrap---1eB6I > :nth-child(3)').first().click({force: true});
-    cy.get('.ant-modal-body > :nth-child(2) > .ant-input').contains('попереду, вгорі;')
-    cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true});
-    cy.wait(1000);
-    cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true}) /// кнопка Гаразд
-    cy.get('.ant-tabs-tabpane-active > .ant-table-wrapper > .ant-spin-nested-loading > .ant-spin-container > .ant-table > .ant-table-content').contains('попереду, вгорі;')
-  });
-
-  it('Додавання Запчастин ч/з +', function(){
-    cy.visit(progress);
-    cy.get('.styles-m__logo---2zDPJ').click()
-    cy.wait(4000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {codeNZ = text;
-      cy.log(codeNZ)
-      const numArr = text.split('-')  //[MDR, 594, 12345]
-      cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-    })
-    cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонти')
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.get('.ant-tabs-nav').contains('Запчастини').click()
-    cy.get('.styles-m__headerActions---29OlS > [title="Додати"]').click()
-    cy.get(':nth-child(2) > .ant-radio > .ant-radio-inner').click({force: true});
-
-    cy.get('.ant-table-row > :nth-child(4) > .ant-input').should('have.text','')
-    cy.get('.ant-table-row > :nth-child(4) > .ant-input').clear().type('Моторне мастило')
-    cy.get('.styles-m__brandColumn---3m8NH > .ant-select > .ant-select-selection').type('ABEX')
-    cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
-
-    cy.get('[style="display: flex;"] > .ant-select > .ant-select-selection').type('АНД')
-    cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
-    cy.get(':nth-child(10) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('123.45')
-    cy.get(':nth-child(12) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('102.8')
-    cy.wait(1000);
-    cy.get('.ant-modal-footer > div > .ant-btn-primary').last().click({force: true}) /// кнопка Гаразд
-
-    cy.get('.ant-tabs-tabpane-active > .ant-table-wrapper > .ant-spin-nested-loading > .ant-spin-container > .ant-table > .ant-table-content').contains('Моторне мастило')
-  });
-
-  it('Додавання Коментів', function(){
-    cy.visit(progress);
-    cy.get('.styles-m__logo---2zDPJ').click()
-    cy.wait(4000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {codeNZ = text;
-      cy.log(codeNZ)
-      const numArr = text.split('-')  //[MDR, 594, 12345]
-      cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-    })
-    cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонти')
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.get('.ant-tabs-nav').contains('Коментарі').click()
-    cy.get('.ant-input.styles-m__comment---3QjTs').clear().type('Не заляпать бампер мастилом');
-    cy.get(':nth-child(3) > .styles-m__commentInput---2Ptrr').clear().type('Без царапин...'); //Стан автомобіля
-    cy.wait(2000);
-    cy.get(':nth-child(4) > .styles-m__commentInput---2Ptrr').clear().type('Замінити повітряні фільтри мотора'); 
-    cy.get(':nth-child(5) > .styles-m__commentInput---2Ptrr').clear().type('Пройти повторно діагностику');
-    cy.wait(1000);
-    cy.get('.anticon-save > svg').first().click({force: true});
-    cy.wait(4000);
-    cy.get('.ant-tabs-nav').contains('Коментарі').click()
-    cy.wait(1000);
-    cy.get('.ant-input.styles-m__comment---3QjTs').should('not.have.text','Коментарі клієнта');
-    cy.get(':nth-child(3) > .styles-m__commentInput---2Ptrr').should('not.have.text','Рекомендації для клієнта');
-    cy.get(':nth-child(4) > .styles-m__commentInput---2Ptrr').should('have.text','Замінити повітряні фільтри мотора'); 
-    cy.get(':nth-child(5) > .styles-m__commentInput---2Ptrr').contains('Пройти повторно діагностику')   
-  });
-  
-  it('Вкладка Історія в НЗ', function(){
+  it('Перевідка вмісту Вкладка Історія в НЗ', function(){
     cy.visit(success);
     cy.get('.styles-m__logo---2zDPJ').click()
     cy.wait(3000);

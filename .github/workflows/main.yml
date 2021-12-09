@@ -17,8 +17,6 @@ jobs:
   base-test-master-admin-elec-linux-run:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
-    container: cypress/browsers:node14.17.0-chrome91-ff89
-    needs: install
     strategy:
       fail-fast: false
       matrix:

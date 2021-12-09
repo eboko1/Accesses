@@ -1,28 +1,21 @@
-name: E2E Testing
+name: Base Tests
+#off
 on:
   push:
     branches:
       - main
+      - test_specialist
+      - test_master
+
+      - dev_specialist    
+      - dev_master
+      
+      - prod_specialist
+      - prod_master
 jobs:
-  install:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Install
-        uses: cypress-io/github-action@v2
-        with:
-          runTests: false
-      - name: Run CRA Build
-        run: yarn build
-      - name: Save Cypress artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          start: npm start
-          #name: build
-          #if-no-files-found: error
-          #path: build
-  e2e_tests:
+
+  base-test-master-admin-elec-linux-run:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
     needs: install
     container: cypress/browsers:node14.17.0-chrome91-ff89
@@ -33,18 +26,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Download Cypress artifacts
-        uses: actions/download-artifact@v2
-        with:
-          start: npm start
-          #name: build
-          #path: build
-      - name: Cypress Test
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name:  base-test-master-admin-elec-linux-run
         uses: cypress-io/github-action@v2
         with:
-          spec: cypress/integration/examples/baseTest/${{ matrix.containers }}.js
-          browser: chrome
-          start: yarn start
+          start: npm start
+          record: true
+          spec: cypress/integration/${{ matrix.containers }}.js
+          # edge, firefox
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # pass the Dashboard record key as an environment variable
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

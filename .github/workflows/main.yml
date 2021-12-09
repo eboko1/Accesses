@@ -42,3 +42,4 @@ jobs:
           start: yarn start
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}

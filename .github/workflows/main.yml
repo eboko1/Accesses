@@ -13,18 +13,19 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           runTests: false
-      - name: Run CRA Build
-        run: yarn build
+      - name: Compile Cypress tests from JS to TS
+        run: yarn tsc:compile
       - name: Save Cypress artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build
+          name: cypress
           if-no-files-found: error
-          path: cypress/e2e/build
+          path: cypress/integration
   e2e_tests:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
-    needs: install
     container: cypress/browsers:node14.17.0-chrome91-ff89
+    needs: install
     strategy:
       fail-fast: false
       matrix:
@@ -35,14 +36,21 @@ jobs:
       - name: Download Cypress artifacts
         uses: actions/download-artifact@v2
         with:
-          name: build
-          path: build
+          name: cypress
+          path: cypress/integration
       - name: Cypress Test
         uses: cypress-io/github-action@v2
         with:
+          record: true
+          tag: ${{ matrix.containers }}
           spec: cypress/integration/${{ matrix.containers }}.js
           browser: chrome
-          start: yarn start
+          build: yarn workspace ${{ matrix.containers }} build:cypress
+          start: yarn workspace ${{ matrix.containers }} serve
+         # config: "baseUrl=http://localhost:9000"
+          cache-key: node-v${{ matrix.containers }}-on-${{ runner.os }}-hash-${{ hashFiles('yarn.lock') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CIRCLECI_KEY: ${{ secrets.CIRCLECI_KEY }}
+          NETLIFY_ACCESS_KEY: ${{ secrets.NETLIFY_ACCESS_KEY }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}

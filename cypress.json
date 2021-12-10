@@ -14,8 +14,7 @@
 
     "LoginStart":"start@admin.com",
     "LoginSpec":"specialist@admin.com",
-    "LoginMaster":"master@admin.com"
-    
-    
+    "LoginMaster":"master@admin.com",
+    "LoginMasterMehanic":"master@mehanic.com"
   }
 }

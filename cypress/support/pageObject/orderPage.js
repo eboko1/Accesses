@@ -266,7 +266,7 @@ class OrderPage {
         cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(1)').click(); /// Вибір Н/З
         cy.wait(1000);
         cy.get('[title="Інфо по автомобілю"] > .anticon > svg').click({force: true})
-        cy.wait(3000);
+        cy.wait(4000);
         cy.get('.ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body').should('exist');
         cy.wait(3000);
         cy.get('.styles-m__tableHeader---1i3oL').should('have.text','Спецификации масел и технических жидкостей')

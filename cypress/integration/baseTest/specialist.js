@@ -25,7 +25,7 @@ const success = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/success';
 const cancel = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/cancel';
 
 var date = new Date();
-//const idClient ='81139'
+////const idClient ='101116'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -100,12 +100,12 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
     });
 
   it('Додавання коментарів до Роботи ч/з +', function(){
-    cy.visit(progress);
+    cy.visit(approve);
     laborTab.addCommentsToLabor()
   });
 
   it('Додавання Запчастин ч/з +', function(){
-    cy.visit(progress);
+    cy.visit(approve);
     productTab.addProductPlus()
   });
     it('Відображення механіка в табці Роботи  ', function(){

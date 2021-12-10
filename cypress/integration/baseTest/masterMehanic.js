@@ -37,195 +37,75 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
     loginPage.enterLogin(username,password)
   });
 
-  it('Профіль вибір українського інтерфейсу', function(){
-    profilePage.selectUA()
-  })
+  // it('Профіль вибір українського інтерфейсу', function(){
+  //   profilePage.selectUA()
+  // })
 
-  it('Інформація по а/м в НЗ', function(){
-      cy.visit(approve);
-      orderPage.getInfoAuto()
-  });
+  // it('Інформація по а/м в НЗ', function(){
+  //     cy.visit(approve);
+  //     orderPage.getInfoAuto()
+  // });
 
-  it('Додавання Робіт в НЗ через групи Товарів', function(){
-    cy.visit(approve)
-    cy.get('.styles-m__logo---2zDPJ').click()
-        .then(()=>{
-            //////cy.get('.ant-input-search > .ant-input').type(idClient)
-            cy.wait(2000);
-            cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-            cy.log('Вибір Запису');
-        })
-        .then(()=>{
-            cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-            cy.wait(2000)
-        })
-        .then(()=>{
-            cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
-        })
-        .then(()=>{
-            cy.get('.styles-m__modalSectionTitle---3iMcZ > div > span').contains('Робота')
-            cy.wait(1000)
-        })
-        .then(()=>{
-            cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(2) > .ant-select > .ant-select-selection').click();
-            cy.wait(1000)
-        })
-        .then(()=>{
-            cy.get('.ant-select-dropdown-search > .ant-select-search__field__wrap > .ant-select-search__field').type('Фільтри повітряні')
-            cy.get('.ant-select-tree-child-tree-open').eq(1).click()
-        })
-        .then(()=>{
-            cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(4) > .ant-select > .ant-select-selection').click()
-            cy.get('.ant-select-dropdown-menu-item-active').click();
-            cy.wait(1000)
-        })
-        .then(()=>{
-            cy.get(':nth-child(8) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('222')
-            cy.wait(1000)
-            cy.get(':nth-child(10) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('2')
-            //додати механіка
-        })
-        .then(()=>{
-            cy.wait(3000);
-            cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true})
-            cy.wait(2000);
-        })
-  })
+ 
+  // it('Редагування ціни для Роботи в НЗ', function(){
+  //   cy.visit(approve);
+  //   cy.get('.styles-m__logo---2zDPJ').click()
+  //   cy.wait(3000);
+  //   ///cy.get('.ant-input-search > .ant-input').type(idClient)
+  //   cy.wait(2000);
+  //   cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+  //   cy.log('Вибір Запису');
+  //   cy.wait(4000);
+  //   cy.log('Вкладка Роботи');
+  //   cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
+  //   /// перевірка доданої роботи з діагностики
+  //   cy.wait(1000);
+  //   cy.get(':nth-child(1) > [title="Швидке редагування"] > div').first().click({force: true})
+  //   cy.wait(1000);
+  //   cy.log('Закупочна ціна');
+  //   cy.get(':nth-child(4) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('111');
+  //   cy.wait(1000);
+  //   cy.get('.ant-btn-primary').last().click({force: true})
+  //   cy.wait(1000);
+  //   cy.get('.styles-m__headerContorls---2pU_V > .anticon-save').click() // зберегти картку
+  //   cy.log('Процес Збереження н/з ');
+  //   cy.wait(5000);
+  // });
 
-  it('Редагування ціни для Роботи в НЗ', function(){
-    cy.visit(approve);
-    cy.get('.styles-m__logo---2zDPJ').click()
-    cy.wait(3000);
-    ///cy.get('.ant-input-search > .ant-input').type(idClient)
-    cy.wait(2000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.log('Вибір Запису');
-    cy.wait(4000);
-    cy.log('Вкладка Роботи');
-    cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-    /// перевірка доданої роботи з діагностики
-    cy.wait(1000);
-    cy.get(':nth-child(1) > [title="Швидке редагування"] > div').first().click({force: true})
-    cy.wait(1000);
-    cy.log('Закупочна ціна');
-    cy.get(':nth-child(4) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('111');
-    cy.wait(1000);
-    cy.get('.ant-btn-primary').last().click({force: true})
-    cy.wait(1000);
-    cy.get('.styles-m__headerContorls---2pU_V > .anticon-save').click() // зберегти картку
-    cy.log('Процес Збереження н/з ');
-    cy.wait(5000);
-  });
-
-  it('Додавання Робіт в НЗ через поле Робіт', function(){
-    cy.visit(approve)
-    cy.get('.styles-m__logo---2zDPJ').click()
-        .then(()=>{
-            ////////cy.get('.ant-input-search > .ant-input').type(idClient)
-            cy.wait(2000);
-            cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-            cy.log('Вибір Запису');
-        })
-        .then(()=>{
-            cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-            cy.wait(2000)
-        })
-        .then(()=>{
-            cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
-        })
-        .then(()=>{
-            cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(4) > .ant-select > .ant-select-selection').type('Заміна')
-            cy.wait(4000)
-            cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
-        })
-        .then(()=>{
-            cy.wait(3000);
-            cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true})
-            cy.wait(2000);
-        })
-    })
-
-    it('Додавання Робіт повторно', function(){
-        cy.visit(approve)
-        cy.get('.styles-m__logo---2zDPJ').click()
-            .then(()=>{
-                //////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
-                cy.wait(2000);
-                cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-                cy.log('Вибір Запису');
-            })
-            .then(()=>{
-                cy.log('Вкладка Роботи');
-                cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-                cy.wait(2000)
-            })
-            .then(()=>{
-                cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
-            })
-            .then(()=>{
-                cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(4) > .ant-select > .ant-select-selection').type('Діагностика')
-                cy.wait(4000)
-                cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
-            })
-            .then(()=>{
-                cy.wait(3000);
-                cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true})
-                cy.wait(2000);
-            })
-        })
-
-    it('Відображення механіка в табці Роботи  ', function(){
-        cy.visit(approve)
-        cy.get('.styles-m__logo---2zDPJ').click()
-        .then(()=>{
-            //////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
-            cy.wait(2000);
-            cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-            cy.log('Вибір Запису');
-        })
-        .then(()=>{
-            cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-            cy.wait(2000)
-        })
-        .then(()=>{
-            cy.log('Механік // робота з Діагностики');
-            cy.get('[data-row-key="0"] > :nth-child(6) > .ant-select > .ant-select-selection').contains('Механік').should('exist')
-            cy.wait(1000)
-            cy.log('Механік // + з модалки Робота');
-            cy.get('[data-row-key="1"] > :nth-child(6) > .ant-select > .ant-select-selection').contains('Механік').should('exist')
-            cy.wait(1000)
-            cy.get('[data-row-key="2"] > :nth-child(6) > .ant-select > .ant-select-selection').contains('Механік').should('exist')
-            cy.wait(1000)
-            cy.log('Механік // + роботи з модалки Комплекси');
-            cy.get('[data-row-key="3"] > :nth-child(6) > .ant-select > .ant-select-selection').contains('Механік').should('exist')
-
-        })
-    })
-
+  // it('Відкриття таб. Роботи', function(){
+  //   cy.visit(approve);
+  //   cy.get('.styles-m__logo---2zDPJ').click()
+  //   cy.wait(3000);
+  //   ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
+  //   cy.wait(2000);
+  //   cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+  //   cy.log('Вибір Запису');
+  //   cy.wait(10000);
+  //   cy.log('Вкладка Запчастини');
+  //   cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click()
+  //   cy.wait(2000);
+  //   cy.get('.ant-table-content').should('exist')
+  // });
   
-  it('Відкриття таб. Запчастини', function(){
-    cy.visit(approve);
-    cy.get('.styles-m__logo---2zDPJ').click()
-    cy.wait(3000);
-    ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
-    cy.wait(2000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.log('Вибір Запису');
-    cy.wait(10000);
-    cy.log('Вкладка Запчастини');
-    cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click()
-    cy.wait(2000);
-    cy.log('Пряме редагування');
-    cy.get('[style="width: min-content;"] > :nth-child(1) > [title="Додати"]').click()
-  });
+  // it('Відкриття таб. Запчастини', function(){
+  //   cy.visit(approve);
+  //   cy.get('.styles-m__logo---2zDPJ').click()
+  //   cy.wait(3000);
+  //   ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
+  //   cy.wait(2000);
+  //   cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+  //   cy.log('Вибір Запису');
+  //   cy.wait(10000);
+  //   cy.log('Вкладка Запчастини');
+  //   cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click()
+  //   cy.wait(2000);
+  //   cy.get('.ant-table-content').should('exist')
+  // });
 
-  it('Статистика в НЗ', function(){
-    cy.visit(success);
-    orderPage.getStatisticOrder()
-  });
+  // it('Статистика в НЗ', function(){
+  //   cy.visit(success);
+  //   orderPage.getStatisticOrder()
+  // });
 
   it('Додавання Коментарів', function(){
     cy.visit(progress);
@@ -235,20 +115,17 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
     cy.wait(2000);
     cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
     cy.log('Вибір Н/З');
-    cy.wait(4000);
-    cy.get('#ОВ > .styles-m__mapChildsBlock---1oGYD > :nth-child(2) > .ant-btn').click();
-    cy.wait(1000);
+    cy.wait(4000)
+    cy.get('.ant-tabs-nav > :nth-child(1)').contains('Коментарі').click();
     cy.get('.ant-input.styles-m__comment---3QjTs').clear().type('Не заляпать бампер мастилом');
     cy.get(':nth-child(3) > .styles-m__commentInput---2Ptrr').clear().type('Без царапин...'); //Стан автомобіля
     cy.wait(2000);
     cy.get(':nth-child(4) > .styles-m__commentInput---2Ptrr').clear().type('Замінити повітряні фільтри мотора'); 
     cy.get(':nth-child(5) > .styles-m__commentInput---2Ptrr').clear().type('Пройти повторно діагностику');
     cy.wait(1000);
-    cy.get('.anticon-save > svg').first().click({force: true});
+    cy.get('.anticon-save > svg').first().click({force: true})
     cy.wait(4000);
-    cy.wait(4000);
-    cy.get('#ОВ > .styles-m__mapChildsBlock---1oGYD > :nth-child(2) > .ant-btn').click();
-    cy.wait(1000);
+    cy.get('.ant-tabs-nav > :nth-child(1)').contains('Коментарі').click();
     cy.get('.ant-input.styles-m__comment---3QjTs').should('not.have.text','Коментарі клієнта');
     cy.get(':nth-child(3) > .styles-m__commentInput---2Ptrr').should('not.have.text','Рекомендації для клієнта');
     cy.get(':nth-child(4) > .styles-m__commentInput---2Ptrr').should('have.text','Замінити повітряні фільтри мотора'); 

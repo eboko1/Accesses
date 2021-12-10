@@ -80,7 +80,7 @@ jobs:
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: master-admin-elec-linux
+      - name: master-mehanic-elec-linux
         uses: cypress-io/github-action@v2
         with:
           start: npm start
@@ -102,7 +102,7 @@ jobs:
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: master-admin-elec-linux
+      - name: master-storage-elec-linux
         uses: cypress-io/github-action@v2
         with:
           start: npm start

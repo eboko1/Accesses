@@ -251,8 +251,8 @@ class ClientPage {
         })
         .then(()=>{
             cy.get('.styles-m__clientLink---1JZdU').first().click()
-            cy.wait(2000)
         })
+        cy.wait(5000)
         cy.get('#source').should('have.text','CarBook') 
     }
 

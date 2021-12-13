@@ -257,13 +257,14 @@ class ClientPage {
     }
 
     editClientNumber = (idClient,tel) => {
+        cy.wait(2000)
         cy.get(':nth-child(2) > .ant-menu-submenu-title').click()
         cy.contains('Клієнти').click()
         .then(()=>{
-            cy.wait(5000)
+            cy.wait(6000)
             cy.log('Пошук клієнта');
             cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)  //
-            cy.wait(5000)
+            cy.wait(6000)
         })
         .then(()=>{
             cy.get('.styles-m__clientLink---1JZdU').first().click()

@@ -197,10 +197,11 @@ class OrderPage {
           cy.get('.ant-input-search > .ant-input').type(idClient)
           cy.wait(2000);
           cy.get('.styles-m__ordernLink---T-qWz').first().click({ force: true });//Нові н/з
+          cy.wait(2000);
       })
       .then(()=>{
           cy.log('Відкриття модалки Планувальника');
-          cy.get(':nth-child(2) > .ant-form-item-label > .ant-form-item-no-colon > span > .anticon > svg').first().click({ force: true })
+          cy.get(':nth-child(2) > .ant-form-item-label > .ant-form-item-no-colon > span > .anticon').first().click({ force: true })
           cy.wait(2000);
           cy.get('.timeColumn > :nth-child(2)').should('exist')
           ///Вибір поста

@@ -55,8 +55,10 @@ class OrderPage {
         cy.get('.styles-m__title---Nwr2X > span').should('have.text','Виконані')
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
         cy.get('.anticon-copy').last().click({force: true})
+        cy.wait(1000);
         cy.get('.ant-modal-confirm-body-wrapper').should('be.visible')
-        cy.get('.ant-modal-confirm-btns > .ant-btn-primary').click({force: true})
+        cy.wait(1000); 
+        cy.get('.ant-modal-confirm-btns > .ant-btn-primary').first().click({force: true})
         cy.wait(4000); 
         cy.get('.styles-m__title---Nwr2X > span').should('have.text','Новий')  
         cy.get('.ant-modal-close-x').last().click({force: true})

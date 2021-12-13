@@ -37,75 +37,75 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
     loginPage.enterLogin(username,password)
   });
 
-  // it('Профіль вибір українського інтерфейсу', function(){
-  //   profilePage.selectUA()
-  // })
+  it('Профіль вибір українського інтерфейсу', function(){
+    profilePage.selectUA()
+  })
 
-  // it('Інформація по а/м в НЗ', function(){
-  //     cy.visit(approve);
-  //     orderPage.getInfoAuto()
-  // });
+  it('Інформація по а/м в НЗ', function(){
+      cy.visit(approve);
+      orderPage.getInfoAuto()
+  });
 
  
-  // it('Редагування ціни для Роботи в НЗ', function(){
-  //   cy.visit(approve);
-  //   cy.get('.styles-m__logo---2zDPJ').click()
-  //   cy.wait(3000);
-  //   ///cy.get('.ant-input-search > .ant-input').type(idClient)
-  //   cy.wait(2000);
-  //   cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-  //   cy.log('Вибір Запису');
-  //   cy.wait(4000);
-  //   cy.log('Вкладка Роботи');
-  //   cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-  //   /// перевірка доданої роботи з діагностики
-  //   cy.wait(1000);
-  //   cy.get(':nth-child(1) > [title="Швидке редагування"] > div').first().click({force: true})
-  //   cy.wait(1000);
-  //   cy.log('Закупочна ціна');
-  //   cy.get(':nth-child(4) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('111');
-  //   cy.wait(1000);
-  //   cy.get('.ant-btn-primary').last().click({force: true})
-  //   cy.wait(1000);
-  //   cy.get('.styles-m__headerContorls---2pU_V > .anticon-save').click() // зберегти картку
-  //   cy.log('Процес Збереження н/з ');
-  //   cy.wait(5000);
-  // });
+  it('Редагування ціни для Роботи в НЗ', function(){
+    cy.visit(approve);
+    cy.get('.styles-m__logo---2zDPJ').click()
+    cy.wait(3000);
+    ///cy.get('.ant-input-search > .ant-input').type(idClient)
+    cy.wait(2000);
+    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+    cy.log('Вибір Запису');
+    cy.wait(4000);
+    cy.log('Вкладка Роботи');
+    cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
+    /// перевірка доданої роботи з діагностики
+    cy.wait(1000);
+    cy.get(':nth-child(1) > [title="Швидке редагування"] > div').first().click({force: true})
+    cy.wait(1000);
+    cy.log('Закупочна ціна');
+    cy.get(':nth-child(4) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('111');
+    cy.wait(1000);
+    cy.get('.ant-btn-primary').last().click({force: true})
+    cy.wait(1000);
+    cy.get('.styles-m__headerContorls---2pU_V > .anticon-save').click() // зберегти картку
+    cy.log('Процес Збереження н/з ');
+    cy.wait(5000);
+  });
 
-  // it('Відкриття таб. Роботи', function(){
-  //   cy.visit(approve);
-  //   cy.get('.styles-m__logo---2zDPJ').click()
-  //   cy.wait(3000);
-  //   ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
-  //   cy.wait(2000);
-  //   cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-  //   cy.log('Вибір Запису');
-  //   cy.wait(10000);
-  //   cy.log('Вкладка Запчастини');
-  //   cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click()
-  //   cy.wait(2000);
-  //   cy.get('.ant-table-content').should('exist')
-  // });
+  it('Відкриття таб. Роботи', function(){
+    cy.visit(approve);
+    cy.get('.styles-m__logo---2zDPJ').click()
+    cy.wait(3000);
+    ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
+    cy.wait(2000);
+    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+    cy.log('Вибір Запису');
+    cy.wait(10000);
+    cy.log('Вкладка Запчастини');
+    cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click()
+    cy.wait(2000);
+    cy.get('.ant-table-content').should('exist')
+  });
   
-  // it('Відкриття таб. Запчастини', function(){
-  //   cy.visit(approve);
-  //   cy.get('.styles-m__logo---2zDPJ').click()
-  //   cy.wait(3000);
-  //   ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
-  //   cy.wait(2000);
-  //   cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-  //   cy.log('Вибір Запису');
-  //   cy.wait(10000);
-  //   cy.log('Вкладка Запчастини');
-  //   cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click()
-  //   cy.wait(2000);
-  //   cy.get('.ant-table-content').should('exist')
-  // });
+  it('Відкриття таб. Запчастини', function(){
+    cy.visit(approve);
+    cy.get('.styles-m__logo---2zDPJ').click()
+    cy.wait(3000);
+    ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
+    cy.wait(2000);
+    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+    cy.log('Вибір Запису');
+    cy.wait(10000);
+    cy.log('Вкладка Запчастини');
+    cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click()
+    cy.wait(2000);
+    cy.get('.ant-table-content').should('exist')
+  });
 
-  // it('Статистика в НЗ', function(){
-  //   cy.visit(success);
-  //   orderPage.getStatisticOrder()
-  // });
+  it('Статистика в НЗ', function(){
+    cy.visit(success);
+    orderPage.getStatisticOrder()
+  });
 
   it('Додавання Коментарів', function(){
     cy.visit(progress);

@@ -2,12 +2,12 @@
 import LoginPage from '../../support/pageObject/loginPage';
 
 const loginPage = new LoginPage();
-
+const path = require("path");
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 const textServise = 'Доставка Запчастин'
 var date = new Date();
 const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
-//const idProduct ='TEST'+'91053'
+//const idProduct ='TEST'+'111116'
 
 const username = Cypress.env('LoginMaster')
 const password = Cypress.env('pw')
@@ -45,9 +45,118 @@ describe ('Складські документи ', function(){
                 expect(text).to.eq(idProduct)
            })
         })
-///**************************************************************************************************************************** */
 
-  it('Замовлення Постачальнику (ORD) через + / Сторінка Швидка навігація ', ()=>{
+it(' AUT / Витрати з НЗ / Створення нового Ремонту та відображення автоматично створеного дока в AUT', ()=>{
+    cy.get('.styles-m__logo---2zDPJ').click()
+    cy.contains('Швидка навігація').click({force: true})
+    cy.get('h1').should('have.text','Швидка навігація')
+    cy.get(':nth-child(1) > .styles-m__blockItems---2q9Ea > :nth-child(1) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+    cy.get('.styles-m__title---Nwr2X > span').should('have.text','Нові')
+    cy.get('.styles-m__description---1eHYb > span').should('have.text','Керування Вашими замовленнями')
+    cy.get('.styles-m__header---2z2EP').find('.ant-btn').contains('Додати').first().click({force: true})
+    cy.wait(2000);
+    cy.get('#searchClientQuery').type('Vika')
+    cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
+    cy.get('.ant-select-dropdown-menu-item').last().click({force: true})
+    cy.wait(2000);
+    cy.get('.ant-table-row > :nth-child(1)').first().click({force: true})
+    cy.get('.styles-m__header---2z2EP').find('.ant-btn').contains('Додати').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.ant-tabs-nav').contains('Запчастини').first().click({force: true})
+    cy.get('.styles-m__headerActions---29OlS > [title="Додати"]').first().click({force: true})
+    cy.get('.ant-radio-group').contains('Склад').first().click({force: true})
+    cy.get(':nth-child(7) > :nth-child(1) > [style="display: flex;"] > .ant-btn').first().click({force: true})
+    cy.wait(1000);
+    cy.get('[data-row-key="0"] > :nth-child(8) > .ant-btn').first().click({force: true})
+    cy.wait(1000);
+    cy.get('.ant-modal-footer > div > .ant-btn-primary').last().click({force: true}) //ok
+    cy.wait(1000);
+    cy.get('.styles-m__dropdownTitle---3Vlog > :nth-child(2) > span').first().click({force: true}) /// перевести
+    cy.wait(2000);
+    cy.get('.ant-dropdown-menu-item').contains('Завершено').first().click({force: true})
+    cy.wait(2000); 
+    cy.get('.sc-bxivhb > .ant-checkbox > .ant-checkbox-inner').first().click({force: true})  ///модалка оплати ч/з Завершено
+    cy.get('.ant-btn-primary').contains('Так').click({force: true})
+    cy.wait(3000); 
+
+    cy.get('.styles-m__title---Nwr2X').first().invoke('text').then(text =>{
+        cy.log(text)
+        const numArr = text.split('-') 
+        cy.log(numArr[numArr.length-1])
+        const newNmArr = numArr[numArr.length-1].split('З') 
+        cy.log(newNmArr[0])
+       //// cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+
+        cy.get('.styles-m__logo---2zDPJ').click()  ////перехід швидка навігація
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')  
+        cy.get(':nth-child(12) > .styles-m__buttonLink---1D7wr > .ant-btn').first().click({force: true})///витрати з НЗ AUT
+        cy.wait(2000);
+        cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})// вибір першого AUT в списку
+        cy.get(':nth-child(5) > :nth-child(1) > div > a').first().invoke('text').then( textFind =>{
+            expect('MRD-'+'4835-'+newNmArr[0]).to.eq(textFind)
+        })
+    })
+    cy.wait(2000);
+})
+
+    it('AUT / Завантаження документа .pdf для ORD', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(12) > .styles-m__buttonLink---1D7wr > .ant-btn').first().click({force: true})///витрати з НЗ AUT
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('AUT / Завантаження документа .xlsx для ORD', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(12) > .styles-m__buttonLink---1D7wr > .ant-btn').first().click({force: true})///витрати з НЗ AUT
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+  it('ORD / Замовлення Постачальнику через + / Сторінка Швидка навігація ', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -71,7 +180,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })
 
-    it('Додавання ЗЧ в Замовлення постачальнику (ORD)/ Модалка +', () => {
+    it('ORD / Додавання ЗЧ в Замовлення постачальнику (ORD)/ Модалка +', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -90,7 +199,7 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
     })
 
-    it('Перевід документа Замовлення постачальнику в статус Враховано ', () => {
+    it('ORD / Перевід документа Замовлення постачальнику в статус Враховано ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -105,7 +214,63 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
     })
 
-    it('Відображення документа в списку Замовлення постачальнику', () => {
+    it('ORD / Завантаження документа .pdf для ORD', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(2) > .styles-m__blockItems---2q9Ea > :nth-child(1) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('ORD / Завантаження документа .xlsx для ORD', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(2) > .styles-m__blockItems---2q9Ea > :nth-child(1) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+   
+    it('ORD / Відображення документа в списку Замовлення постачальнику', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -121,7 +286,7 @@ describe ('Складські документи ', function(){
         })
    })
 
-   it('Створення документа Замовлення Постачальнику через кнопку Додати', () => {
+it('ORD / Створення документа Замовлення Постачальнику через кнопку Додати', () => {
     cy.get('.styles-m__logo---2zDPJ').click()
     cy.contains('Швидка навігація').click({force: true})
     cy.get('h1').should('have.text','Швидка навігація')
@@ -132,8 +297,7 @@ describe ('Складські документи ', function(){
     cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Замовлення постачальнику')
 })
 
-//     /// //*************КОРИГУВАННЯ ЗАМОВЛЕННЯ*************************************************************************************************** */
-     it('Коригування Замовлення (BOR) через +', ()=>{
+     it('BOR / Коригування Замовлення через +', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -157,7 +321,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })     
         
-    it('Вибір корегуючого Товару з модалки Каталог. Перевід у статус Враховано', () => {
+    it('BOR / Вибір коригуючого Товару з модалки Каталог. Перевід у статус Враховано', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -169,10 +333,14 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct) 
-        cy.get('.ant-modal-body').find('.ant-input-number').first().type('111.11') 
+        ///////cy.get('.ant-modal-body > .ant-select > .ant-select-selection').type('100')
+
+        cy.get('.ant-modal-body').find('.ant-input-number').first().type('111.11')
+        cy.wait(2000); 
         cy.get('.ant-modal-body').find('.ant-input-number-handler-up').eq(1).dblclick()
+        cy.wait(2000);
         cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true})
-        cy.get('div.ant-dropdown-trigger > span').click()
+        cy.get('div.ant-dropdown-trigger ').click()
         cy.wait(2000);
         cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
         cy.wait(2000);
@@ -181,7 +349,63 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
     })
 
-    it('Відображення документа в списку Коригуючих замовлень BOR', () => {
+    it('BOR / Завантаження документа .pdf для BOR', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(2) > .styles-m__blockItems---2q9Ea > :nth-child(3) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('BOR / Завантаження документа .xlsx для BOR', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(2) > .styles-m__blockItems---2q9Ea > :nth-child(3) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('BOR / Відображення документа в списку Коригуючих замовлень BOR', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -197,7 +421,7 @@ describe ('Складські документи ', function(){
         })
     })
 
-    it('Створення документа Коригуючих замовлень BOR через кнопку Додати', () => {
+    it('BOR / Створення документа Коригуючих замовлень BOR через кнопку Додати', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -207,9 +431,8 @@ describe ('Складські документи ', function(){
         cy.wait(2000)
         cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Коригування замовлення') 
     })
-    // /***********ПРИХІД за ЗАМОВЛЕННЯМ***************************************************************************************************** */
 
-    it('Прихід за Замовленням (COM) через +', ()=>{
+    it('COM / Прихід за Замовленням через +', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -233,7 +456,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })     
         
-    it('Додавання ЗЧ в Прихід за Замовленням', () => {
+    it('COM / Додавання ЗЧ в Прихід за Замовленням', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -251,7 +474,7 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
     })
 
-    it('Перевід документа Приходу за Замовленням в статус Враховано', () => {
+    it(' COM / Перевід документа Приходу за Замовленням в статус Враховано', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -267,7 +490,63 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
     })
 
-    it('Відображення документа в списку Прихoди за Замовленнями', () => {
+    it('COM / Завантаження документа .pdf ', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(2) > .styles-m__blockItems---2q9Ea > :nth-child(2) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('COM / Завантаження документа .xlsx', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(2) > .styles-m__blockItems---2q9Ea > :nth-child(2) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('COM / Відображення документа в списку Прихoди за Замовленнями', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -283,7 +562,7 @@ describe ('Складські документи ', function(){
         })
     })
 
-    it('Створення документа Прихoди за Замовленнями через кнопку Додати', () => {
+    it('COM / Створення документа Прихoди за Замовленнями через кнопку Додати', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -293,10 +572,8 @@ describe ('Складські документи ', function(){
         cy.wait(2000)
         cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Прихід за замовленням')
     })
-    /////***********ПРИХІД за ЗАМОВЛЕННЯМ***************************************************************************************************** */
   
-   // /***********ПРИХІД ТОВАРУ***************************************************************************************************** */
-    it('Прихід Товару від Постачальника (INC) через + ', ()=>{
+    it('INC / Прихід Товару від Постачальника через + ', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -322,7 +599,7 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
     })
 
-    it('Додавання ЗЧ в Прихід від Постачальника (INC), редагування ціни', () => {
+    it('INC / Додавання ЗЧ в Прихід від Постачальника (INC), редагування ціни', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -348,7 +625,7 @@ describe ('Складські документи ', function(){
         cy.wait(1000);
     })
 
-    it('Перевід документа Приходу від Постачальника в статус Враховано ', () => {
+    it('INC / Перевід документа Приходу від Постачальника в статус Враховано ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -363,7 +640,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__header---2z2EP').contains('Врах.').should('exist')
     })
 
-    it('Оплата Приходу від Постачальника', () => {
+    it('INC / Оплата Приходу від Постачальника', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -378,7 +655,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
     })
 
-    it('Відображення документа в списку Приходів на Склад ', () => {
+    it('INC / Відображення документа в списку Приходів на Склад ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -394,31 +671,64 @@ describe ('Складські документи ', function(){
         })
     })
 
-    it('Завантаження документа Приходу від Постачальника', () => {
+
+    it('INC /  Завантаження документа .pdf ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
         cy.get(':nth-child(6) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
         cy.wait(2000)
-        cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
-        cy.get('.styles-m__header---2z2EP').find('.anticon-printer ').click({force: true})
-        cy.get('.ant-dropdown-menu > :nth-child(1)').click({force: true})  // document-INC-594-1759
-        cy.get('.styles-m__header---2z2EP').contains('Врах.').should('exist')
-        cy.get('.ant-dropdown-menu > :nth-child(2)').click({force: true}) // Store document report for 1759
-        cy.get('.styles-m__header---2z2EP').contains('Врах.').should('exist')
-        cy.get('.styles-m__title---Nwr2X > :nth-child(1)').first().invoke('text')
-            .then (text => {
-               var textArr = text.split(' ')
-               var numArr = textArr[textArr.length-1].split('-') 
-               const path = require("path");
-               cy.wait(1000);
-               cy.readFile(path.join('cypress/downloads', 'document-'+textArr[textArr.length-1]+'.pdf')).should("exist"); 
-               cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist"); 
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
         })
-        cy.get('.ant-form').should('exist')
     })
 
-    it('Створення документа Прихід від Постачальника (INC) через кнопку Додати', () => {
+    it('INC / Завантаження документа .xlsx', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(6) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('INC / Створення документа Прихід від Постачальника (INC) через кнопку Додати', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -429,10 +739,7 @@ describe ('Складські документи ', function(){
         cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Прихід від постачальника')
     })
 
-     ///***********ПРИХІД ТОВАРУ***************************************************************************************************** */
-
-      /***********ПРИХІД Послуги***************************************************************************************************** */
-    it('Прихід Послуги (SRV) через кнопку +', ()=>{
+      it('SRV / Прихід Послуги через кнопку +', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -456,7 +763,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })
 
-    it('Додавання Послуги', () => {
+    it('SRV / Додавання Послуги', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -479,7 +786,7 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
     })
 
-    it('Перевід Прихід Послуги в статус Враховано', () => {
+    it('SRV / Перевід Прихід Послуги в статус Враховано', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -494,7 +801,7 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
     })
 
-    it('Оплата / Прихід Послуги ', () => {
+    it('SRV / Оплата / Прихід Послуги ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -508,7 +815,63 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
     })
 
-    it('Відображення документа в списку Послуг', () => {
+    it('SRV / Завантаження документа .pdf ', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(7) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('SRV / Завантаження документа .xlsx', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(7) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('SRV / Відображення документа в списку Послуг', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -526,33 +889,7 @@ describe ('Складські документи ', function(){
         })
     })
 
-    it('Завантаження документа Прихід Послуг', () => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.contains('Швидка навігація').click({force: true})
-        cy.get('h1').should('have.text','Швидка навігація')
-        cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(7) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
-        cy.wait(2000)
-        cy.get('.styles-m__header---2z2EP').find(':nth-child(1) > .ant-btn').should('have.text','Послуги')
-        cy.wait(2000)
-        cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
-        cy.get('.styles-m__header---2z2EP').find('.anticon-printer ').click({force: true})
-        cy.get('.ant-dropdown-menu > :nth-child(1)').click({force: true})  // document-SRV-594-1759
-        cy.get('.styles-m__header---2z2EP').contains('Врах.').should('exist')
-        cy.get('.ant-dropdown-menu > :nth-child(2)').click({force: true}) // Store document report for 1759
-        cy.get('.styles-m__header---2z2EP').contains('Врах.').should('exist')
-        cy.get('.styles-m__title---Nwr2X > :nth-child(1)').first().invoke('text')
-            .then (text => {
-               var textArr = text.split(' ')
-               var numArr = textArr[textArr.length-1].split('-') 
-               const path = require("path");
-               cy.wait(1000);
-               cy.readFile(path.join('cypress/downloads', 'document-'+textArr[textArr.length-1]+'.pdf')).should("exist"); 
-               cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist"); 
-        })
-        cy.get('.ant-form').should('exist')
-    })
-
-    it('Створення документа Послуги через кнопку Додати', () => {
+    it('SRV / Створення документа Послуги через кнопку Додати', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -564,12 +901,8 @@ describe ('Складські документи ', function(){
         cy.wait(2000)
         cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Послуги')
     })
-
-  ///***********ПРИХІД Послуги***************************************************************************************************** */
-
-  ////***********Повернення Постачальнику***************************************************************************************************** */
     
-  it('Повернення Постачальнику (SRT) через +', ()=>{
+  it('SRT / Повернення Постачальнику через +', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -593,7 +926,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })
 
-    it('Додавання ЗЧ в документ Повернення Постачальнику (SRT)', () => {
+    it('SRT / Додавання ЗЧ в документ Повернення Постачальнику (SRT)', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -614,7 +947,7 @@ describe ('Складські документи ', function(){
         cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true})
     })
 
-    it('Перевід Повернення Постачальнику в статус Враховано ', () => {
+    it('SRT / Перевід Повернення Постачальнику в статус Враховано ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -631,7 +964,63 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
     })
 
-    it('Відображення документа Повернення Постачальнику (SRT) у списку Витрат на Складі ', () => {
+    it('SRT / Завантаження документа .pdf ', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(2) > .styles-m__blockItems---2q9Ea > :nth-child(8) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('SRT / Завантаження документа .xlsx', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(2) > .styles-m__blockItems---2q9Ea > :nth-child(8) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('SRT / Відображення документа Повернення Постачальнику (SRT) у списку Витрат на Складі ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -647,33 +1036,8 @@ describe ('Складські документи ', function(){
             })
         })
     })
-
-    it('Завантаження документа Повернення Постачальнику (SRT)', () => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.contains('Швидка навігація').click({force: true})
-        cy.get('h1').should('have.text','Швидка навігація')
-        cy.get(':nth-child(2) > .styles-m__blockItems---2q9Ea > :nth-child(8) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
-        cy.get('.styles-m__header---2z2EP').find(':nth-child(1) > .ant-btn').should('have.text','Повернення постачальнику')
-        cy.wait(2000)
-        cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
-        cy.get('.styles-m__header---2z2EP').find('.anticon-printer ').click({force: true})
-        cy.get('.ant-dropdown-menu > :nth-child(1)').click({force: true})  // document-SRT-594-1759
-        cy.get('.styles-m__header---2z2EP').contains('Врах.').should('exist')
-        cy.get('.ant-dropdown-menu > :nth-child(2)').click({force: true}) // Store document report for 1759
-        cy.get('.styles-m__header---2z2EP').contains('Врах.').should('exist')
-        cy.get('.styles-m__title---Nwr2X > :nth-child(1)').first().invoke('text')
-            .then (text => {
-               var textArr = text.split(' ')
-               var numArr = textArr[textArr.length-1].split('-') 
-               const path = require("path");
-               cy.wait(1000);
-               cy.readFile(path.join('cypress/downloads', 'document-'+textArr[textArr.length-1]+'.pdf')).should("exist"); 
-               cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist"); 
-        })
-        cy.get('.ant-form').should('exist')
-    })
-
-    it('Створення документа Повернення Постачальнику (SRT) через кнопку Додати', () => {
+   
+    it('SRT / Створення документа Повернення Постачальнику (SRT) через кнопку Додати', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -684,9 +1048,8 @@ describe ('Складські документи ', function(){
         cy.wait(2000)
         cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Повернення постачальнику')
     })
-      //////***********Продаж Клієнту***************************************************************************************************** */
-    
-  it('Витрати Товару (OUT) / Продаж Клієнту через +', ()=>{
+   
+  it('OUT / Витрати Товару / Продаж Клієнту через +', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -710,7 +1073,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })
 
-    it('Додавання ЗЧ Продажу Клієнту через модалку Каталог', () => {
+    it('OUT / Додавання ЗЧ Продажу Клієнту через модалку Каталог', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -731,7 +1094,7 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
     })
 
-    it('Оплата та Перевід в статус враховано Витрати Товару (OUT)/Продаж Клієнту ', () => {
+    it('OUT / Оплата та Перевід в статус враховано Витрати Товару / Продаж Клієнту ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -750,7 +1113,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
     })
 
-    it('Перевірка 0 Залишку Витрати Товару (OUT)/Продаж Клієнту ', () => {
+    it('OUT / Перевірка 0 Залишку Витрати Товару (OUT)/Продаж Клієнту ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -761,7 +1124,63 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
     })
 
-    it('Відображення документа в списку Витрати Товару (OUT)/ Продаж Клієнту / Пошук по номеру документа /  ', () => {
+    it('OUT / Завантаження документа .pdf ', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('OUT /  Завантаження документа .xlsx', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('OUT / Відображення документа в списку Витрати Товару (OUT)/ Продаж Клієнту / Пошук по номеру документа /  ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -777,7 +1196,7 @@ describe ('Складські документи ', function(){
         })
    })
 
-   it('Створення документа Витрати Товару (OUT)/Продаж Клієнту через кнопку Додати', () => {
+   it('OUT / Створення документа Витрати Товару / Продаж Клієнту через кнопку Додати', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -788,11 +1207,7 @@ describe ('Складські документи ', function(){
         cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Продаж')
     })
 
-    ///***********Продаж Клієнту***************************************************************************************************** *//
-
-    ////***********Повернення від Клієнта***************************************************************************************************** */
-
-  it('Прихід Товару (CRT) / Повернення від Клієнта через +', ()=>{
+  it('CRT / Прихід Товару / Повернення від Клієнта через +', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -816,7 +1231,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })
 
-    it('Додавання ЗЧ через модалку Каталог / Повернення від Клієнта', () => {
+    it('CRT / Додавання ЗЧ через модалку Каталог / Повернення від Клієнта', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -838,7 +1253,7 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
     })
 
-    it('Оплата та Перевід в статус враховано Прихід Товару (CRT)/ Повернення від клієнта ', () => {
+    it('CRT / Оплата та Перевід в статус враховано Прихід Товару / Повернення від клієнта ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -850,9 +1265,9 @@ describe ('Складські документи ', function(){
         cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
         cy.wait(2000);
         cy.get('.styles-m__title---Nwr2X').contains('Врах.').should('exist')
-//     })
+    })
 
-    it('Перевірка 0 Залишку Прихід Товару (CRT)/ Повернення від клієнта ', () => {
+    it('CRT / Перевірка 0 Залишку Прихід Товару (CRT)/ Повернення від клієнта ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -863,7 +1278,62 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
     })
 
-    it('Відображення документа в списку Прихід Товару (CRT)/ Повернення від клієнта / Пошук по номеру документа /  ', () => {
+    it('CRT / Завантаження документа .pdf ', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('CRT / Завантаження документа .xlsx', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+    it('CRT / Відображення документа в списку Прихід Товару (CRT)/ Повернення від клієнта / Пошук по номеру документа /  ', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -879,7 +1349,7 @@ describe ('Складські документи ', function(){
         })
    })
 
-   it('Створення документа Прихід Товару (CRT)/ Повернення від клієнта через кнопку Додати', () => {
+   it('CRT / Створення документа Прихід Товару (CRT)/ Повернення від клієнта через кнопку Додати', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -889,34 +1359,8 @@ describe ('Складські документи ', function(){
         cy.wait(2000)
         cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Повернення від клієнта')
     })
-    ////***********Прихід / Повернення від Клієнта***************************************************************************************************** */
 
-    ////***********Витрати з НЗ***************************************************************************************************** */
-    //   it('Витрати з НЗ / Створення нового Ремонту через Швидку навігацію', ()=>{
-    //         cy.get('.styles-m__logo---2zDPJ').click()
-    //         cy.contains('Швидка навігація').click({force: true})
-    //         cy.get('h1').should('have.text','Швидка навігація')
-    //         cy.get(':nth-child(1) > .styles-m__blockItems---2q9Ea > :nth-child(1) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
-    //         cy.get('.styles-m__title---Nwr2X > span').should('have.text','Нові')
-    //         cy.get('.styles-m__description---1eHYb > span').should('have.text','Керування Вашими замовленнями')
-    //         cy.get('.styles-m__header---2z2EP').find('.ant-btn').contains('Додати').first().click({force: true})
-    //         cy.wait(2000);
-    //         cy.get('#searchClientQuery').type('Vika')
-    //         cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
-    //         cy.get('.ant-select-dropdown-menu-item').last().click({force: true})
-    //         cy.wait(2000);
-    //         cy.get('.ant-table-row > :nth-child(1)').first().click({force: true})
-    //         cy.get('.styles-m__header---2z2EP').find('.ant-btn').contains('Додати').first().click({force: true})
-    //         cy.wait(2000);
-    //         cy.get('.ant-tabs-nav').contains('Запчастини').first().click({force: true})
-    //         cy.get('.styles-m__headerActions---29OlS > [title="Додати"]').first().click({force: true})
-    //         cy.wait(2000);
-    //     })
-    ////***********Витрати з НЗ***************************************************************************************************** */
-
-    ////***********Плюс по Інвент. / Надлишки по інвестиції***************************************************************************************************** */
-   
-  it('Плюс по Інвент. (STP) / через +', ()=>{
+  it('STP / Плюс по Інвент. / через +', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -929,7 +1373,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })
 
-    it('Додавання ЗЧ через модалку Каталог / Плюс/Надлишки по Інвент. (STP)', () => {
+    it('STP / Додавання ЗЧ через модалку Каталог / Плюс/Надлишки по Інвент. (STP)', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -951,7 +1395,7 @@ describe ('Складські документи ', function(){
     })
 
 
-    it('Оплата та Перевід в статус враховано Плюс/Надлишки по Інвент. (STP)', () => {
+    it('STP / Оплата та Перевід в статус враховано Плюс/Надлишки по Інвент. (STP)', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -965,7 +1409,63 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X').contains('Врах.').should('exist')
     })
 
-    it('Відображення документа в списку Плюс/Надлишки по Інвент. (STP)', () => {
+    it('STP / Завантаження документа .pdf ', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(10) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('STP / Завантаження документа .xlsx', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(10) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('STP / Відображення документа в списку Плюс/Надлишки по Інвент. (STP)', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -982,7 +1482,7 @@ describe ('Складські документи ', function(){
         })
    })
 
-   it('Створення документа  Плюс/Надлишки по Інвент. (STP)', () => {
+   it('STP / Створення документа  Плюс/Надлишки по Інвент. (STP)', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -992,11 +1492,8 @@ describe ('Складські документи ', function(){
         cy.wait(2000)
         cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Надлишки по iнвент.')
     })
-    ////***********Плюс по Інвент. / Надлишки по інвестиції***************************************************************************************************** */
-
-    ////***********Мінус по Інвент. / Недостача по інвестиції***************************************************************************************************** */
-   
-    it('Мінус по Інвент. (STM) / через +', ()=>{
+  
+    it('STM / Мінус по Інвент. / через +', ()=>{
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -1010,7 +1507,7 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })
 
-    it('Додавання ЗЧ через модалку Каталог Мінус/Недостача по Інвент.(STM)', () => {
+    it('STM / Додавання ЗЧ через модалку Каталог Мінус/Недостача по Інвент.', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -1032,7 +1529,7 @@ describe ('Складські документи ', function(){
     })
 
 
-    it('Оплата та Перевід в статус враховано Мінус/Недостача по Інвент.(STM)', () => {
+    it('STM / Оплата та Перевід в статус враховано Мінус/Недостача по Інвент.(STM)', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -1046,7 +1543,63 @@ describe ('Складські документи ', function(){
         cy.get('.styles-m__title---Nwr2X').contains('Врах.').should('exist')
     })
 
-    it('Відображення документа в списку Мінус/Недостача по Інвент.(STM)', () => {
+    it('STM /  Завантаження документа .pdf ', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(15) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('STM / Завантаження документа .xlsx', () => {
+        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.contains('Швидка навігація').click({force: true})
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(15) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.wait(2000)
+        cy.get('[data-row-key] > :nth-child(1) > a').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+            cy.get('.ant-table-row > :nth-child(1) > a').first().invoke('text').then( textFind =>{
+                expect(text).to.eq(textFind)
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
+           
+            if(cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")){
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            } else{
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
+            }
+          
+            cy.log('document-'+text+'.pdf')
+            })
+        })
+    })
+
+    it('STM / Відображення документа в списку Мінус/Недостача по Інвент.(STM)', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -1063,7 +1616,7 @@ describe ('Складські документи ', function(){
         })
    })
 
-   it('Створення документа Мінус/Недостача по Інвент.(STM)', () => {
+   it('STM / Створення документа Мінус/Недостача по Інвент.(STM)', () => {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -1072,7 +1625,5 @@ describe ('Складські документи ', function(){
         cy.get('.ant-btn').contains('Додати').click({force: true})
         cy.wait(2000)
         cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Недостача по iнвент.')
-    })
-    ////***********Мінус по Інвент. / Недостача по інвестиції***************************************************************************************************** */
     })
 })

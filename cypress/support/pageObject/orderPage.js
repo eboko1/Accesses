@@ -52,6 +52,7 @@ class OrderPage {
             const numArr = text.split('-')  //[MDR, 594, 12345]
             cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
         })
+        cy.wait(4000);
         cy.get('.styles-m__title---Nwr2X > span').should('have.text','Виконані')
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
         cy.get('.anticon-copy').last().click({force: true})

@@ -272,7 +272,7 @@ class OrderPage {
         cy.get('[title="Інфо по автомобілю"] > .anticon > svg').click({force: true})
         cy.wait(4000);
         cy.get('.ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body').should('exist');
-        cy.wait(3000);
+        cy.wait(5000);
         cy.get('.styles-m__tableHeader---1i3oL').should('have.text','Спецификации масел и технических жидкостей')
         cy.get('.ant-modal-close-x').last().click({force: true})
         cy.wait(1000);

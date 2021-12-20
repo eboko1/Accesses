@@ -69,7 +69,7 @@ jobs:
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  master-mehanic-elec-linux:
+ mehanic-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
     steps:
@@ -90,7 +90,7 @@ jobs:
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  master-storage-elec-linux:
+  storage-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
     steps:
@@ -110,4 +110,24 @@ jobs:
           # Recommended: pass the GitHub token lets this action correctly
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
- 
+
+  find-master-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: master-storage-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          spec: cypress/integration/baseTest/find.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     

@@ -160,7 +160,7 @@ class ProductTab {
           const numArr = text.split('-')  //[MDR, 594, 12345]
           cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
         })
-        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонти')
+        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Записи')
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
         cy.get('.ant-tabs-nav').contains('Запчастини').click()
         cy.get('.styles-m__headerActions---29OlS > [title="Додати"]').click()

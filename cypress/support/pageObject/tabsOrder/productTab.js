@@ -114,10 +114,10 @@ class ProductTab {
         cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click();
         cy.wait(1000);
         cy.get('[title="Інфо по автомобілю"] > .anticon').click()
-        cy.wait(2000);
-        cy.get('[data-row-key="0"] > :nth-child(6) > .ant-btn').first().click({force: true})
+        cy.wait(5000);
+        cy.get('[data-row-key] > :nth-child(6) > .ant-btn').first().click({force: true})
         cy.wait(3000);
-        cy.get('[data-row-key="0"] > :nth-child(10) > .ant-btn').first().click({force: true})
+        cy.get('[data-row-key] > :nth-child(10) > .ant-btn').first().click({force: true})
         cy.wait(2000);  
         cy.get('.ant-modal-footer > div > .ant-btn-primary').last().click({force: true}) //ok
         cy.wait(3000);

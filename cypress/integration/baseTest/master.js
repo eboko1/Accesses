@@ -99,76 +99,76 @@ describe ('Master|Admin|UA|Desktop|', function(){
       laborTab.addLaborComplexes(idClient)
     });
 
-  it('Додавання коментарів до Роботи ч/з +', function(){
-    cy.visit(progress);
+  it('14. Додавання коментарів до Роботи ч/з +', function(){
+    cy.visit(approve);
     laborTab.addCommentsToLabor()
   });
 
-  it('Додавання Запчастин ч/з +', function(){
-    cy.visit(progress);
+  it('15. Додавання Запчастин ч/з +', function(){
+    cy.visit(approve);
     productTab.addProductPlus()
   });
-    it('14. Відображення механіка в табці Роботи  ', function(){
+    it('16. Відображення механіка в табці Роботи  ', function(){
       cy.visit(approve)
       laborTab.showMehanicLabor(idClient)
     })
 
-    it('15. Додавання Запчастин ч/з Групу ЗЧ', function(){
+    it('17. Додавання Запчастин ч/з Групу ЗЧ', function(){
       cy.visit(approve)
       productTab.addProduct(idClient)
     })
 
-  it('16. Вкладка Запчастини > Пряме редагування', function(){
+  it('18. Вкладка Запчастини > Пряме редагування', function(){
     cy.visit(approve);
     productTab.editProduct(idClient)
   });
 
-  it('17. Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
+  it('19. Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
     cy.visit(approve);
     productTab.addProductVIN(idClient)
   });
 
-  it('18. Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){
+  it('20. Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){
     cy.visit(approve);
     productTab.addProductInfoAuto(idClient)
   });
 
-  it('19. Вкладка Запчастини > Швидке редагування запчастин', function(){
+  it('21. Вкладка Запчастини > Швидке редагування запчастин', function(){
     cy.visit(approve);
     productTab.editProductIcon(idClient)
   });
 
-  it('20. Інформація по а/м в НЗ', function(){
+  it('22. Інформація по а/м в НЗ', function(){
       cy.visit(approve);
       orderPage.getInfoAuto()
   });
 
-  it('21. Перевід у статус Ремонту', function(){
+  it('23. Перевід у статус Ремонту', function(){
     cy.visit(approve);
     orderPage.createProgress(idClient)
   })
 
-  it('22. Додавання Коментарів', function(){
+  it('24. Додавання Коментарів', function(){
     cy.visit(progress);
     orderPage.addComments(idClient)
   });
 
-  it('23. Оплата і видача (ОВ)', function(){
+  it('25. Оплата і видача (ОВ)', function(){
     cy.visit(progress);
     orderPage.payOrder(idClient)
   });
 
-  it('24. Статистика в НЗ', function(){
+  it('26. Статистика в НЗ', function(){
     cy.visit(success);
     orderPage.getStatisticOrder()
   });
 
-  it('25. Завантаження НЗ для Клієнта', function(){
+  it('27. Завантаження НЗ для Клієнта', function(){
     cy.visit(success);
     orderPage.downloadOrder()
   });
 
-  it('Перевірка завантаженних файлів', function(){
+  it('28. Перевірка завантаженних файлів', function(){
     cy.visit(success);
     orderPage.checkDownloadOrder()
   });

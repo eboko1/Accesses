@@ -25,8 +25,8 @@ const success = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/success';
 const cancel = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/cancel';
 
 var date = new Date();
-const idClient ='261138'
-//const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
+//const idClient ='261138'
+const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel =second+'0'+minute+''+second+''+minute;
@@ -37,101 +37,100 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
     loginPage.enterLogin(username,password)
   });
 
-    // it('Профіль вибір українського інтерфейсу', function(){
-    //   profilePage.selectUA()
-    // })
+    it('Профіль вибір українського інтерфейсу', function(){
+      profilePage.selectUA()
+    })
 
-    // it('Додавання Клієнта та а/м: '+idClient, function(){
-    //   clientPage.createClient(idClient,tel)
-    // });
+    it('Додавання Клієнта та а/м: '+idClient, function(){
+      clientPage.createClient(idClient,tel)
+    });
 
-    // it('Перевірка заповнених полів Картка клієнта '+idClient, function(){
-    //   clientPage.checkClient(idClient,tel)
-    // })
+    it('Перевірка заповнених полів Картка клієнта '+idClient, function(){
+      clientPage.checkClient(idClient,tel)
+    })
 
-    // it('Редагування мобільного номера Клієнта:'+idClient, function(){
-    //   clientPage.editClientNumber(idClient,tel)
-    // })
+    it('Редагування мобільного номера Клієнта:'+idClient, function(){
+      clientPage.editClientNumber(idClient,tel)
+    })
 
-    // it('Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
-    //   orderPage.createOrder(idClient)
-    // });
+    it('Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
+      orderPage.createOrder(idClient)
+    });
 
-    // it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
-    //   orderPage.editOrder(idClient)
-    // });
+    it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
+      orderPage.editOrder(idClient)
+    });
 
-    // it('Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Пробіг, Знижка', function(){
-    //   orderPage.checkOrder(idClient)
-    // });
+    it('Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Пробіг, Знижка', function(){
+      orderPage.checkOrder(idClient)
+    });
 
-    // it('Перевід у статус Запис', function(){
-    //   orderPage.createAppointments(idClient)
-    // });
+    it('Перевід у статус Запис', function(){
+      orderPage.createAppointments(idClient)
+    });
 
-    // it('Створення Діагностики', function(){
-    //   cy.visit(approve)
-    //   orderPage.createDiagnostic(idClient)
-    // });
+    it('Створення Діагностики', function(){
+      cy.visit(approve)
+      orderPage.createDiagnostic(idClient)
+    });
 
-    // it('Редагування ціни для доданої Роботи з діагностики', function(){
-    //   cy.visit(approve);
-    //   laborTab.editLaborDiagnostic(idClient)
-    // });
+    it('Редагування ціни для доданої Роботи з діагностики', function(){
+      cy.visit(approve);
+      laborTab.editLaborDiagnostic(idClient)
+    });
 
-    // it('Додавання Робіт через групи Товарів', function(){
-    //   cy.visit(approve)
-    //   laborTab.addLaborGroupProduct(idClient)
-    // })
+    it('Додавання Робіт через групи Товарів', function(){
+      cy.visit(approve)
+      laborTab.addLaborGroupProduct(idClient)
+    })
 
-    // it('Додавання Робіт через поле Робіт', function(){
-    //   cy.visit(approve)
-    //   laborTab.addLaborFieldLabor(idClient)
-    // })
+    it('Додавання Робіт через поле Робіт', function(){
+      cy.visit(approve)
+      laborTab.addLaborFieldLabor(idClient)
+    })
 
-    // it('Додавання Робіт повторно', function(){
-    //   cy.visit(approve)
-    //   laborTab.addLaborFieldLabor(idClient)
-    // })
+    it('Додавання Робіт повторно', function(){
+      cy.visit(approve)
+      laborTab.addLaborFieldLabor(idClient)
+    })
 
-    // it('Вкладка Роботи > Додавання Роботи ч/з Комплекси', function(){
-    //   cy.visit(approve)
-    //   laborTab.addLaborComplexes(idClient)
-    // });
+    it('Вкладка Роботи > Додавання Роботи ч/з Комплекси', function(){
+      cy.visit(approve)
+      laborTab.addLaborComplexes(idClient)
+    });
 
-  // it('Додавання коментарів до Роботи ч/з +', function(){
-  //   cy.visit(approve);
-  //   laborTab.addCommentsToLabor()
-  // });
+  it('Додавання коментарів до Роботи ч/з +', function(){
+    cy.visit(approve);
+    laborTab.addCommentsToLabor()
+  });
 
-  // it('Додавання Запчастин ч/з +', function(){
-  //   cy.visit(approve);
-  //   productTab.addProductPlus()
-  // });
-  //   it('Відображення механіка в табці Роботи  ', function(){
-  //     cy.visit(approve)
-  //     laborTab.showMehanicLabor(idClient)
-  //   })
+  it('Додавання Запчастин ч/з +', function(){
+    cy.visit(approve);
+    productTab.addProductPlus()
+  });
+    it('Відображення механіка в табці Роботи  ', function(){
+      cy.visit(approve)
+      laborTab.showMehanicLabor(idClient)
+    })
 
-  //   it('Додавання Запчастин ч/з Групу ЗЧ', function(){
-  //     cy.visit(approve)
-  //     productTab.addProduct(idClient)
-  //   })
+    it('Додавання Запчастин ч/з Групу ЗЧ', function(){
+      cy.visit(approve)
+      productTab.addProduct(idClient)
+    })
 
-  // it('Вкладка Запчастини > Пряме редагування', function(){
-  //   cy.visit(approve);
-  //   productTab.editProduct(idClient)
-  // });
+  it('Вкладка Запчастини > Пряме редагування', function(){
+    cy.visit(approve);
+    productTab.editProduct(idClient)
+  });
 
-  // it('Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
-  //   cy.visit(approve);
-  //   productTab.addProductVIN(idClient)
-  // });
+  it('Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
+    cy.visit(approve);
+    productTab.addProductVIN(idClient)
+  });
 
   it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){
     cy.visit(approve);
     productTab.addProductInfoAuto(idClient)
-    cy.pause()
   });
 
   it('Вкладка Запчастини > Швидке редагування запчастин', function(){

@@ -32,7 +32,7 @@ var minute = parseInt(date.getMinutes())+10
 const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Specialist|Admin|UA|Desktop|', function(){
-  beforeEach('User LogIn ', () => {
+  beforeEach('User LogIn ', function(){
     cy.visit(baseUrl)
     loginPage.enterLogin(username,password)
   });

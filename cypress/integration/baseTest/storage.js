@@ -13,7 +13,7 @@ const username = Cypress.env('LoginMaster')
 const password = Cypress.env('pw')
 
 describe ('Складські документи ', function(){
-        beforeEach('User LogIn ', () => {
+        beforeEach('User LogIn ',function(){
           cy.visit(baseUrl)
           loginPage.enterLogin(username,password)
         });

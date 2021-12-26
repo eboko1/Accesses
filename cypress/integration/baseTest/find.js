@@ -33,7 +33,7 @@ const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Find|Master|UA|Desktop|', function(){
 
-  beforeEach('User LogIn ', () => {
+  beforeEach('User LogIn ', function(){
     cy.visit(baseUrl)
     loginPage.enterLogin(username,password)
   });
@@ -46,7 +46,7 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.contains('Довідник').click({force: true})
     cy.contains('Клієнти').click({force: true})
     cy.get('.styles-m__title---Nwr2X').should('have.text','Клієнти')
-    cy.wait(5000)
+    cy.wait(6000)
     cy.get('[data-row-key] > :nth-child(2) > .styles-m__clientLink---1JZdU').eq(2).invoke('text')
         .then (text => {var clientName = text;
             cy.get('.ant-select-search__field > .ant-input').type(clientName)
@@ -106,6 +106,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('.ant-select-dropdown-menu').contains('Автомобілі').click();
           cy.get('[data-row-key] > :nth-child(4)').should('have.text',text) 
         })
+   
    })
 
    it('Пошук по Державному Номеру а/м ', function(){
@@ -119,6 +120,7 @@ describe ('Find|Master|UA|Desktop|', function(){
          cy.get('.ant-select-dropdown-menu').contains('Автомобілі').click();
          cy.get('[data-row-key] > [style="text-align: center;"]').should('have.text',text) 
        })
+  
   })
 
    it('Пошук по коду Товара ', function(){
@@ -132,6 +134,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('.ant-select-dropdown-menu').contains('Товари').click();
           cy.get('[data-row-key] > :nth-child(1) > :nth-child(1) > a').should('have.text',text) 
         })
+
     })
 
     it('Пошук по назві Товара ', function(){
@@ -146,6 +149,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('.ant-select-dropdown-menu').contains('Товари').click();
           cy.get('[data-row-key] > :nth-child(1) > :nth-child(1) > :nth-child(2)').first().should('have.text',text) 
         })
+
     })
 
   it('Пошук по короткій назві / Замовлення постачальнику / ORD' , function(){
@@ -163,6 +167,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
           cy.get('.ant-table-row > :nth-child(5)').first().contains(typeDoc)
         })
+       
     })
 
     it('Пошук за повною назвою / Прихід за замовленням / COM' , function(){
@@ -179,6 +184,7 @@ describe ('Find|Master|UA|Desktop|', function(){
             cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
             cy.get('.ant-table-row > :nth-child(5)').first().contains(typeDoc)
           })
+        
       })
 
   it('Пошук по короткій назві / Коригування замовлення / BOR' , function(){
@@ -196,6 +202,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
           cy.get('.ant-table-row > :nth-child(5)').first().contains(typeDoc)
         })
+
     })
 
     it('Пошук за повною назвою / Прихід Товару / INC' , function(){
@@ -212,6 +219,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
           cy.get('.ant-table-row > :nth-child(7)').first().contains('Прихід від постачальника')
       })
+ 
     })
 
     it('Пошук по короткій назві / Повернення постачальнику / SRT' , function(){
@@ -229,6 +237,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
           cy.get('.ant-table-row > :nth-child(7)').first().contains(typeDoc)
       })
+     
     })
 
     it('Пошук за повною назвою / Послуги / SRV' , function(){
@@ -245,6 +254,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
           cy.get('.ant-table-row > :nth-child(7)').first().contains(typeDoc)
       })
+
     })
 
     it('Пошук по короткій назві / Витрати товару / OUT' , function(){
@@ -262,6 +272,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
           cy.get('.ant-table-row > :nth-child(7)').first().contains('Продаж')
       })
+
     })
 
     it('Пошук за повною назвою / Витрати із н/з / AUT' , function(){
@@ -278,6 +289,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
           cy.get('.ant-table-row > :nth-child(7)').first().contains('Продаж')
       })
+  
     })
 
     it('Пошук по короткій назві / Повернення від клієнта / CRT ' , function(){
@@ -295,6 +307,7 @@ describe ('Find|Master|UA|Desktop|', function(){
           cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
           cy.get('.ant-table-row > :nth-child(7)').first().contains(typeDoc)
       })
+      
     })
 
 })

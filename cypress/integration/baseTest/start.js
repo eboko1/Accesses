@@ -34,7 +34,7 @@ const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Start|Admin|UA|Desktop', function(){
-  beforeEach('User LogIn ', () => {
+  beforeEach('User LogIn ', function(){
     browser.ignoreSynchronization = false
     cy.visit(baseUrl)
     loginPage.enterLogin(username,password)

@@ -18,35 +18,35 @@ describe ('Складські документи ', function(){
           loginPage.enterLogin(username,password)
         });
 
-        it('Створення нового Товару через картку Товару / id= '+idProduct , ()=>{
-            cy.get('.ant-menu-submenu-title').contains('Довідник').click()
-            cy.wait(2000);
-            cy.get('.ant-menu-submenu').contains('Товари').click()
-            cy.get('.ant-btn').contains('Додати').click({force: true})
-            cy.get('#code').type(idProduct)
-            cy.get('.ant-form').find('.ant-select-selection').eq(0).type('100 Plus')
-            cy.wait(2000);
-            cy.get('.ant-select-dropdown-menu-item').click({force: true})
-            cy.wait(2000);
-            cy.get('.ant-form').find('.ant-select-selection').eq(1).type('1020201')
-            cy.wait(2000);
-            cy.get(':nth-child(3) > :nth-child(1) > :nth-child(3) > .ant-select-tree-treenode-switcher-open > .ant-select-tree-child-tree > li > .ant-select-tree-node-content-wrapper').click({force: true})
-            cy.get('#tradeCode').type('0000000000')
-            cy.get('#certificate').type('00000000000000000')
-            cy.get('.ant-form').find('button').click()   //.contains('Застосувати')
-            cy.wait(2000);
-            cy.get(':nth-child(1) > :nth-child(1) > div > .ant-input').first().type(idProduct)
-            cy.wait(3000);
-            cy.get('.ant-table-content td').first().should('exist')
-            cy.wait(3000);
-            cy.get('a > div').first().invoke('text')
-              .then (text => {
-                  cy.log(text)
-                expect(text).to.eq(idProduct)
-           })
+    it('Створення нового Товару через картку Товару / id= '+idProduct ,function(){
+        cy.get('.ant-menu-submenu-title').contains('Довідник').click()
+        cy.wait(2000);
+        cy.get('.ant-menu-submenu').contains('Товари').click()
+        cy.get('.ant-btn').contains('Додати').click({force: true})
+        cy.get('#code').type(idProduct)
+        cy.get('.ant-form').find('.ant-select-selection').eq(0).type('100 Plus')
+        cy.wait(2000);
+        cy.get('.ant-select-dropdown-menu-item').click({force: true})
+        cy.wait(2000);
+        cy.get('.ant-form').find('.ant-select-selection').eq(1).type('1020201')
+        cy.wait(2000);
+        cy.get(':nth-child(3) > :nth-child(1) > :nth-child(3) > .ant-select-tree-treenode-switcher-open > .ant-select-tree-child-tree > li > .ant-select-tree-node-content-wrapper').click({force: true})
+        cy.get('#tradeCode').type('0000000000')
+        cy.get('#certificate').type('00000000000000000')
+        cy.get('.ant-form').find('button').click()   //.contains('Застосувати')
+        cy.wait(2000);
+        cy.get(':nth-child(1) > :nth-child(1) > div > .ant-input').first().type(idProduct)
+        cy.wait(3000);
+        cy.get('.ant-table-content td').first().should('exist')
+        cy.wait(3000);
+        cy.get('a > div').first().invoke('text')
+            .then (text => {
+                cy.log(text)
+            expect(text).to.eq(idProduct)
         })
+    })
 
-it(' AUT / Витрати з НЗ / Створення нового Ремонту та відображення створеного дока в AUT', ()=>{
+it(' AUT / Витрати з НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
     cy.get('.styles-m__logo---2zDPJ').click()
     cy.contains('Швидка навігація').click({force: true})
     cy.get('h1').should('have.text','Швидка навігація')
@@ -75,6 +75,9 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
     cy.wait(2000);
     cy.get('.ant-dropdown-menu-item').contains('Завершено').first().click({force: true})
     cy.wait(2000); 
+    if(cy.get('.ant-modal > .ant-modal-content > .ant-modal-body').should('exist')){
+        cy.get('.ant-modal-confirm-body-wrapper').contains('OK').click({force: true})
+    }
     cy.get('.sc-bxivhb > .ant-checkbox > .ant-checkbox-inner').first().click({force: true})  ///модалка оплати ч/з Завершено
     cy.get('.ant-btn-primary').contains('Так').click({force: true})
     cy.wait(3000); 
@@ -100,7 +103,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
     cy.wait(2000);
 })
 
-    it('AUT / Завантаження документа .pdf', () => {
+    it('AUT / Завантаження документа .pdf', function(){
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -128,7 +131,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         })
     })
 
-    it('AUT / Завантаження документа .xlsx', () => {
+    it('AUT / Завантаження документа .xlsx', function() {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -156,7 +159,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         })
     })
 
-  it(' ORD / Замовлення Постачальнику через + / Сторінка Швидка навігація ', ()=>{
+  it(' ORD / Замовлення Постачальнику через + / Сторінка Швидка навігація ', function(){
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -180,7 +183,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })
 
-    it('ORD / Додавання ЗЧ в Замовлення постачальнику / Модалка +', () => {
+    it('ORD / Додавання ЗЧ в Замовлення постачальнику / Модалка +', function() {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -199,7 +202,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.wait(2000);
     })
 
-   it('ORD / Відображення модалки ШК )', () => {
+   it('ORD / Відображення модалки ШК )', function() {
       cy.get('.styles-m__logo---2zDPJ').click()
       cy.contains('Швидка навігація').click({force: true})
       cy.get('h1').should('have.text','Швидка навігація')
@@ -215,7 +218,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
 
    })
 
-    it('ORD / Перевід документа Замовлення постачальнику в статус Враховано ', () => {
+    it('ORD / Перевід документа Замовлення постачальнику в статус Враховано ', function() {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -230,7 +233,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
     })
 
-    it('ORD / Завантаження документа .pdf', () => {
+    it('ORD / Завантаження документа .pdf', function(){
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -258,7 +261,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         })
     })
 
-    it('ORD / Завантаження документа .xlsx', () => {
+    it('ORD / Завантаження документа .xlsx',function() {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -286,7 +289,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         })
     })
    
-    it('ORD / Відображення документа в списку Замовлення постачальнику', () => {
+    it('ORD / Відображення документа в списку Замовлення постачальнику', function(){
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -302,7 +305,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         })
    })
 
-it('ORD / Створення документа Замовлення Постачальнику через кнопку Додати', () => {
+it('ORD / Створення документа Замовлення Постачальнику через кнопку Додати', function() {
     cy.get('.styles-m__logo---2zDPJ').click()
     cy.contains('Швидка навігація').click({force: true})
     cy.get('h1').should('have.text','Швидка навігація')
@@ -313,7 +316,7 @@ it('ORD / Створення документа Замовлення Поста�
     cy.get(':nth-child(2) > .ant-select > .ant-select-selection > .ant-select-selection__rendered > .ant-select-selection-selected-value > span').should('have.text','Замовлення постачальнику')
 })
 
-     it(' BOR / Коригування Замовлення через +', ()=>{
+     it(' BOR / Коригування Замовлення через +', function(){
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -337,7 +340,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
     })     
         
-    it('BOR / Вибір коригуючого Товару з модалки Каталог. Перевід у статус Враховано', () => {
+    it('BOR / Вибір коригуючого Товару з модалки Каталог. Перевід у статус Враховано', function(){
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -365,7 +368,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.wait(2000);
     })
 
-    it('BOR / Завантаження документа .pdf', () => {
+    it('BOR / Завантаження документа .pdf', function() {
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
@@ -393,7 +396,7 @@ it('ORD / Створення документа Замовлення Поста�
         })
     })
 
-    it('BOR / Завантаження документа .xlsx', () => {
+    it('BOR / Завантаження документа .xlsx', function(){
         cy.get('.styles-m__logo---2zDPJ').click()
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')

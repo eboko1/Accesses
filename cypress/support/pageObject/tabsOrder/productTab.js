@@ -116,10 +116,14 @@ class ProductTab {
         cy.get('[title="Інфо по автомобілю"] > .anticon').click()
         cy.wait(5000);
         cy.get('[data-row-key] > :nth-child(6) > .ant-btn').first().click({force: true})
-        cy.wait(3000);
+        cy.wait(1000);
+        cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > [data-row-key] > .ant-table-row-cell-break-word > .ant-btn').first().click({force: true})
+        cy.wait(3000);  
+        cy.get('.ant-modal-header').should('have.text','Масла і рідини')
+        cy.wait(1000);  
         cy.get('[data-row-key] > :nth-child(10) > .ant-btn').first().click({force: true})
-        cy.wait(2000);  
-        cy.get('.ant-modal-footer > div > .ant-btn-primary').last().click({force: true}) //ok
+        cy.wait(1000);  
+        cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true}) //ok
         cy.wait(3000);
     }
     

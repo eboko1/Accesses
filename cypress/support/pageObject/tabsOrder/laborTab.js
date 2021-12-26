@@ -171,7 +171,7 @@ class LaborTab {
         cy.get('.ant-tabs-nav').contains('Роботи').click()
         cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
         cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(4) > .ant-select > .ant-select-selection').type('Діагностика')
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
         cy.wait(1000);
         cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(7) > div > .ant-btn').first().click({force: true});

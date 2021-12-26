@@ -284,54 +284,54 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
       })
   });
   
-  it('Меню / Швидка навігація + Ремонт', () => {
+  it('Меню / Швидка навігація + Ремонт', function() {
     cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
     cy.get(':nth-child(1) > .styles-m__folderLink---2Myrv > .anticon > svg').first().click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Додати Ремонт')
   })
 
-  it('Меню / Швидка навігація / Кнопка Ремонти', () => {
+  it('Меню / Швидка навігація / Кнопка Ремонти', function(){
     cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
     cy.get(':nth-child(1) > .styles-m__buttonLink---1D7wr > .ant-btn').first().click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Нові')
   })
 
-  it('Меню / Швидка навігація / Кнопка Запис', () => {
+  it('Меню / Швидка навігація / Кнопка Запис', function() {
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Запис').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Записи')
   })
 
-  it('Меню / Швидка навігація / Кнопка Ремонт', () => {
+  it('Меню / Швидка навігація / Кнопка Ремонт', function(){
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Ремонт').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Ремонти')
   })
-  it('Меню / Швидка навігація / Кнопка Виконано', () => {
+  it('Меню / Швидка навігація / Кнопка Виконано', function(){
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Виконано').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Виконані')
   })
 
-  it('Меню / Швидка навігація / Кнопка Відмова', () => {
+  it('Меню / Швидка навігація / Кнопка Відмова', function(){
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Відмова').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Відмови')
   })
 
-  it('Меню / Швидка навігація / Кнопка Запрошення', () => {
+  it('Меню / Швидка навігація / Кнопка Запрошення', function(){
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Запрошення').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Запрошення')
   })
 
-  it('Меню / Швидка навігація / Кнопка Відгук', () => {
+  it('Меню / Швидка навігація / Кнопка Відгук', function(){
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Відгук').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Відгуки')
   })
 
-  it('Меню / Ремонти', () => {
+  it('Меню / Ремонти', function() {
     cy.get('.ant-menu-item').contains('Ремонти').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Нові')
     cy.get('.ant-table-content').should('exist')
@@ -342,28 +342,28 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Новий')
   })
 
-  it('Меню / Довідник', () => {
+  it('Меню / Довідник', function(){
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Довідники').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Довідники та налаштування')
     cy.get('.styles-m__paper---3d-H1').should('exist')
   })
 
-  it('Меню / Товари', () => {
+  it('Меню / Товари', function(){
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Товари').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Товари')
     cy.get('.sc-gzVnrw').should('exist')
   })
 
-  it('Меню / Автомобілі', () => {
+  it('Меню / Автомобілі', function() {
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Автомобілі').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Автомобілі')
     cy.get('.styles-m__paper---3d-H1').should('exist')
   })
 
-  it('Меню / Клієнти', () => {
+  it('Меню / Клієнти', function(){
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Клієнти').click({force: true})
     cy.wait(2000);
@@ -371,7 +371,7 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
     cy.get('.ant-table-body').should('exist')
   })
 
-  it('Меню / Працівники', () => {
+  it('Меню / Працівники', function(){
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Працівники').click({force: true})
     cy.wait(2000);

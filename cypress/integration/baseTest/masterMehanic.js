@@ -212,7 +212,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
   });
 
 
-  it('Меню / Ремонти/ Список Ремонтів', () => {
+  it('Меню / Ремонти/ Список Ремонтів', function(){
     cy.get('.ant-menu-item').contains('Ремонти').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Нові')
     cy.get('.ant-table-content').should('exist')
@@ -223,28 +223,28 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Новий')
   })
 
-  it('Меню / Довідник', () => {
+  it('Меню / Довідник', function() {
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Довідники').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Довідники та налаштування')
     cy.get('.styles-m__paper---3d-H1').should('exist')
   })
 
-  it('Меню / Товари / Список Товарів', () => {
+  it('Меню / Товари / Список Товарів',   function(){
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Товари').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Товари')
     cy.get('.sc-gzVnrw').should('exist')
   })
 
-  it('Меню / Автомобілі / Список а/м', () => {
+  it('Меню / Автомобілі / Список а/м',   function(){
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Автомобілі').click({force: true})
     cy.get('.styles-m__title---Nwr2X > span').should('have.text','Автомобілі')
     cy.get('.styles-m__paper---3d-H1').should('exist')
   })
 
-  it('Меню / Клієнти / Список клієнтів', () => {
+  it('Меню / Клієнти / Список клієнтів',   function(){
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Клієнти').click({force: true})
     cy.wait(2000);
@@ -252,7 +252,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
     cy.get('.ant-table-body').should('exist')
   })
 
-  it('Меню / Працівники / Список Працівників', () => {
+  it('Меню / Працівники / Список Працівників',   function(){
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Працівники').click({force: true})
     cy.wait(2000);

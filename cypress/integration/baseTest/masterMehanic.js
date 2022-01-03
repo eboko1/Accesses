@@ -46,7 +46,6 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
       orderPage.getInfoAuto()
   });
 
- 
   it('Редагування ціни для Роботи в НЗ', function(){
     cy.visit(approve);
     cy.get('.styles-m__logo---2zDPJ').click()

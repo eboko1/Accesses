@@ -14,8 +14,8 @@ const profilePage = new ProfilePage();
 const laborTab = new LaborTab();
 const productTab = new ProductTab();
 
-const username = Cypress.env('LoginMaster')
-const password = Cypress.env('pw')
+const username = Cypress.env('LoginMaster');
+const password = Cypress.env('pw');
 
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 const appointments = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/appointments';
@@ -27,8 +27,8 @@ const cancel = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/cancel';
 var date = new Date();
 //const idClient ='91140'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
-var second = parseInt(date.getSeconds())+10
-var minute = parseInt(date.getMinutes())+10
+var second = parseInt(date.getSeconds())+10;
+var minute = parseInt(date.getMinutes())+10;
 const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Find|Master|UA|Desktop|', function(){

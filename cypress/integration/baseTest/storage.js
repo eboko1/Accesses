@@ -7,7 +7,7 @@ const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 const textServise = 'Доставка Запчастин'
 var date = new Date();
 const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
-//const idProduct ='TEST'+'111116'
+//const idProduct ='TEST'+'5057'
 
 const username = Cypress.env('LoginMaster')
 const password = Cypress.env('pw')
@@ -75,9 +75,7 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
     cy.wait(2000);
     cy.get('.ant-dropdown-menu-item').contains('Завершено').first().click({force: true})
     cy.wait(2000); 
-    if(cy.get('.ant-modal > .ant-modal-content > .ant-modal-body').should('exist')){
-        cy.get('.ant-modal-confirm-body-wrapper').contains('OK').click({force: true})
-    }
+    cy.get('.ant-modal').contains('OK').click({force: true})/////////////
     cy.get('.sc-bxivhb > .ant-checkbox > .ant-checkbox-inner').first().click({force: true})  ///модалка оплати ч/з Завершено
     cy.get('.ant-btn-primary').contains('Так').click({force: true})
     cy.wait(3000); 
@@ -191,7 +189,8 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})///////////
+        //////cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})///////////
+        cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct) 
@@ -348,7 +347,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})///////////
+        cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct) 
@@ -483,7 +482,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})
+        cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct) 
@@ -626,7 +625,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})
+        cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct)
@@ -954,7 +953,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})
+        cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct) 
@@ -1100,7 +1099,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})///////////
+        cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct) 
@@ -1258,7 +1257,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})///////////
+        cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct) 
@@ -1415,7 +1414,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})///////////
+        cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct) 
@@ -1549,7 +1548,7 @@ it('ORD / Створення документа Замовлення Поста�
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})///////////
+        cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(0).should('have.text','')
         cy.get('.ant-modal-body').find('.ant-input').first().type(idProduct) 

@@ -91,7 +91,7 @@ class OrderPage {
         cy.get('.ant-input.styles-m__comment---3QjTs').should('not.have.text','Коментарі клієнта');
         cy.get(':nth-child(3) > .styles-m__commentInput---2Ptrr').should('not.have.text','Рекомендації для клієнта');
         cy.get(':nth-child(4) > .styles-m__commentInput---2Ptrr').should('have.text','Замінити повітряні фільтри мотора'); 
-    cy.get(':nth-child(5) > .styles-m__commentInput---2Ptrr').contains('Пройти повторно діагностику')   
+        cy.get(':nth-child(5) > .styles-m__commentInput---2Ptrr').contains('Пройти повторно діагностику')   
  }
 
    createProgress = (idClient) =>{

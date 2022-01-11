@@ -11,7 +11,8 @@
     "pw":"123456",
 
     "LoginFree":"free@admin.com",
-
+    "Kasur":"test@kasur.com",
+    "DevKasur":"dev@kasur.com",
     "LoginStart":"start@admin.com",
     "LoginSpec":"specialist@admin.com",
     "LoginMaster":"master@admin.com",

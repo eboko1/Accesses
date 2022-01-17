@@ -1,50 +1,33 @@
 /// <reference types="cypress" />
-import LoginPage from '../../support/pageObject/loginPage';
-import OrderPage from '../../support/pageObject/orderPage';
-import ProfilePage from '../../support/pageObject/profilePage';
 import PPO from '../../support/pageObject/ppo';
 
-const loginPage = new LoginPage();
-const orderPage = new OrderPage();
-const profilePage = new ProfilePage();
 const ppoPage = new PPO();
-
-const username = Cypress.env('Kasur')
-const password = Cypress.env('pw')
-
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
-const appointments = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/appointments';
-const success = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/success';
-
-const addNZ = 'https://'+Cypress.env('url')+'my.carbook.pro/add';
-const listPPO = 'https://'+Cypress.env('url')+'my.carbook.pro/report/cash_orders_logs';
-const cashBank = 'https://'+Cypress.env('url')+'my.carbook.pro/cash/bank';
-
 
 describe ('PPO|Kasur|UA|Desktop|', function(){
   beforeEach('User LogIn ', function(){
-    cy.visit(baseUrl)
-    loginPage.enterLogin(username,password)
+    cy.login(baseUrl, Cypress.env('Kasur'), Cypress.env('pw'))
+    cy.get('img').eq(0).click({ force: true })
   });
 
   it('0. Відкриття каси РРО', function(){
-    cy.visit(cashBank)  
+    cy.visit(baseUrl+'/cash/bank')  
     ppoPage.openCashPPO()
   })
 
   it('1. Перевірка відкритої каси РРО', function(){
-    cy.visit(listPPO)  
+    cy.visit(baseUrl+'/report/cash_orders_logs')  
     ppoPage.checkOpenCashPPO()
   })
 
   it('2. Створення НЗ', function(){
-    cy.visit(appointments)
+    cy.visit(baseUrl+'/orders/appointments')
     cy.get('h1').should('have.text','Нові')
-    cy.get('.ant-btn').last().click()
+    cy.get('.ant-btn').last().click({ force: true })
   })
 
   it('3. Заповнення картки по НЗ', function(){
-    cy.visit(addNZ)
+    cy.visit(baseUrl+'/add')
     cy.get('h1').should('have.text','Додати Ремонт')
     cy.get('#searchClientQuery').type('Vika')
     cy.wait(2000)
@@ -57,7 +40,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
   })
 
   it('4. Додавання роботи в НЗ', function(){
-    cy.visit(appointments) 
+    cy.visit(baseUrl+'/orders/appointments')
     cy.wait(5000)  
     cy.get('tr > td > a')
       .first()
@@ -73,7 +56,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
   })
 
   it('5. Часткова оплата ч/з статус Завершено в НЗ', function(){
-    cy.visit(appointments)  
+    cy.visit(baseUrl+'/orders/appointments')
     cy.get('tr > td > a')
       .first()
       .click({ force: true }) // Open NZ first in list
@@ -92,7 +75,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
   })
 
   it('5.1. Перевірка в НЗ поле Сплачено', function(){
-    cy.visit(success)  
+    cy.visit(baseUrl+'/orders/success') 
     cy.get('tr > td > a')
       .first()
       .click({ force: true }) // Open NZ first in list
@@ -106,111 +89,280 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
   })
 
   it('5.3. Перевірка Авансової оплати в Журналі РРО', function(){
+    cy.visit(baseUrl+'/report/cash_orders_logs')  
     const type = 'Z_SALE'
-    cy.visit(listPPO)  
     ppoPage.checkAvansListPPO(type)
   })
 
-  // it('6. Повна оплата НЗ ч/з ордер (іконка долара)', function(){
-  //   cy.visit(success)  
-  //   cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
-  //   cy.get('.anticon-dollar').last().click() // повна оплата суми 
-  //   cy.wait(2000)
-  //   cy.get('.ant-modal-body > .ant-tabs').find('.ant-select').contains('Каса').click({ force: true }) // вибір select каси
-  //   cy.get('.ant-modal-body > .ant-tabs').find('.ant-col').contains('ГотівкаРРО372').click({ force: true }) // каса ГотівкаРРО372
-  //   cy.wait(2000)
-  //   cy.get('.ant-modal-footer').find('button').contains('Додати').first().click({ force: true }) //9***************
-  //   cy.wait(3000)
-  // })
+  it('6. Повна оплата НЗ ч/з ордер (іконка долара)', function(){
+    cy.visit(baseUrl+'/orders/success')  
+    cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
+    cy.get('.anticon-dollar').last().click() // повна оплата суми 
+    cy.wait(2000)
+    cy.get('.ant-modal-body > .ant-tabs').find('.ant-select').contains('Каса').click({ force: true }) // вибір select каси
+    cy.get('.ant-modal-body > .ant-tabs').find('.ant-col').contains('ГотівкаРРО372').click({ force: true }) // каса ГотівкаРРО372
+    cy.wait(2000)
+    cy.get('.ant-modal-footer').find('button').contains('Додати').first().click({ force: true }) //9***************
+    cy.wait(3000)
+  })
 
  it('7.1 Перевірка Залишку 0 після повної оплати', function(){
-    cy.visit(success)  
+  cy.visit(baseUrl+'/orders/success')   
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.styles-m__totalSum---uPrf- > span').should('have.text', '0'+' грн.')
     cy.wait(10000)
   })
 
-  // it('8. Корегуючий ч/з ордер (іконка долара)', function(){
-  //   cy.visit(success)  
-  //   cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
-  //   cy.get('.anticon-dollar').last().click() // корегуючий 100 грн 
-  //   cy.get('.ant-modal-body > .ant-tabs').find('.ant-select').contains('Прихідний').click({ force: true }) // вибір типу ордера
-  //   cy.get('.ant-modal-body > .ant-tabs').find('.ant-col').contains('Коригуючий витратний').click({ force: true }) // Коригуючий витратний
-  //   cy.wait(2000)
-  //   cy.get('.ant-modal-body > .ant-tabs').find('.ant-select').contains('Каса').click({ force: true }) // вибір select каси
-  //   cy.get('.ant-modal-body > .ant-tabs').find('.ant-col').contains('ГотівкаРРО372').click({ force: true }) // каса ГотівкаРРО372
-  //   cy.wait(2000)
-  //   cy.get('.ant-modal-body > .ant-tabs').find('.ant-input-number-input').clear().type('100')
+  it('8. Корегуючий ч/з ордер (іконка долара)', function(){
+    cy.visit(baseUrl+'/orders/success')   
+    cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
+    cy.get('.anticon-dollar').last().click() // корегуючий 100 грн 
+    cy.get('.ant-modal-body > .ant-tabs').find('.ant-select').contains('Прихідний').click({ force: true }) // вибір типу ордера
+    cy.get('.ant-modal-body > .ant-tabs').find('.ant-col').contains('Коригуючий витратний').click({ force: true }) // Коригуючий витратний
+    cy.wait(2000)
+    cy.get('.ant-modal-body > .ant-tabs').find('.ant-select').contains('Каса').click({ force: true }) // вибір select каси
+    cy.get('.ant-modal-body > .ant-tabs').find('.ant-col').contains('ГотівкаРРО372').click({ force: true }) // каса ГотівкаРРО372
+    cy.wait(2000)
+    cy.get('.ant-modal-body > .ant-tabs').find('.ant-input-number-input').clear().type('100')
    
-  //   cy.get('.ant-modal-footer').last().find('.ant-btn').click({ multiple: true }) //9***************
-  //   cy.wait(3000)
-  // })
+    cy.get('.ant-modal-footer').last().find('.ant-btn').click({ multiple: true }) //9***************
+    cy.wait(3000)
+  })
 
  it('8.1 Перевірка Залишку після корегуючої оплати 100', function(){
-    cy.visit(success)  
+  cy.visit(baseUrl+'/orders/success')  
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.styles-m__totalSum---uPrf- > span').should('have.text', '100,00'+' грн.')
     cy.wait(10000)
   })
 
-it('10. Сервісне внесення', function(){
-  cy.visit(cashBank)  
-  ppoPage.serviseInputCashPPO()
-})
+  it('10. Сервісне внесення', function(){
+    cy.visit(baseUrl+'/cash/bank')  
+    ppoPage.serviseInputCashPPO()
+  })
 
   it('8.1. Перевірка Сервісного внесення в Журналі РРО', function(){
     const type = 'SERVICE_INPUT'
-    cy.visit(listPPO)  
+    cy.visit(baseUrl+'/report/cash_orders_logs')  
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
   it('9. Сервісна видача', function(){
-    cy.visit(cashBank)  
+    cy.visit(baseUrl+'/cash/bank')  
     ppoPage.serviseOutputCashPPO()
   })
 
   it('9.1. Перевірка Сервісної видачі в Журналі РРО', function(){
     const type = 'SERVICE_OUTPUT'
-    cy.visit(listPPO)  
+    cy.visit(baseUrl+'/report/cash_orders_logs')  
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
-
-  it('. Завантаження Х_REPORT для каси  РРО Готівка ', function(){
-    cy.visit(cashBank)  
+  it('10. Завантаження Х_REPORT для каси  РРО Готівка ', function(){
+    cy.visit(baseUrl+'/cash/bank')  
     cy.get('tbody > tr').eq(8).find('button').eq(3).click({ force: true }) 
     cy.wait(3000)
   })
 
-  it('.1. Перевірка X_Звіту в Журналі РРО', function(){
+  it('10.1. Перевірка X_Звіту в Журналі РРО', function(){
     const type = 'X_REPORT'
-    cy.visit(listPPO)  
+    cy.visit(baseUrl+'/report/cash_orders_logs')  
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
-   it('.1. Перевірка завантаження файлу по X_Звіту', function(){
+   it('10.2. Перевірка завантаження файлу по X_Звіту', function(){
     const nameFile ='x-report'
     const numberFile =''
     ppoPage.checkDownloadSale(nameFile,numberFile)
   })
 
-///////**********************Картка РРО********************** */
+  it('Створення документа / Продаж Клієнту OUT /',  function(){
+    cy.visit(baseUrl+'/new-document') 
+    cy.get(':nth-child(11) > .styles-m__folderLink---2Myrv').click({force: true})
+    cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Продаж')
+    cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
+    cy.wait(2000);
+    cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.ant-input').eq(3).clear().type('Коментарій Продаж Клієнту').should('have.text','Коментарій Продаж Клієнту')
+    cy.get(':nth-child(3) > .ant-input').type('OUT'+'v8989')
+    cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
+    cy.wait(2000);
+    cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
+    cy.wait(2000);
+    cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
+  })
+
+  it('Додавання ЗЧ  / Продаж Клієнту OUT / ', function(){
+    cy.visit(baseUrl+'/new-document') 
+    cy.get(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+    cy.wait(2000)
+    cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.ant-input').eq(0).should('have.text','')
+    cy.get('.ant-modal-body').find('.ant-input').first().type('v8989') 
+    cy.get('.ant-modal-body').find('.ant-input-number').first().type('111.11') 
+    cy.get('.ant-modal-body').find('.ant-input').eq(2).click({force: true})           ///комірка
+    cy.get('[data-row-key] > :nth-child(8) > .ant-btn').first().click({force: true}) ///комірка
+    cy.wait(2000);
+    cy.get('.ant-modal-body').find('.ant-input-number-input').eq(1).clear().type('1.22')
+    cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true})
+    cy.wait(2000);
+  })
+
+  it('Часткова Оплата / Продаж Клієнту OUT /',  function() {
+    cy.visit(baseUrl+'/new-document') 
+    cy.get(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+    cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+    cy.wait(2000);
+    cy.get('div.ant-dropdown-trigger > span').click() /////////
+    cy.wait(2000);
+    cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
+    cy.wait(2000);
+    cy.get(':nth-child(1) > .ant-radio > .ant-radio-inner').first().click({force: true})
+    cy.wait(2000);
+    cy.get('#cashBoxId > .ant-select-selection').click({ force: true });  // Вибір Каси
+    cy.get('.ant-select-dropdown-menu  > :nth-child(9)').click({ force: true });  //////////////каса Готівка
+    cy.get('.sc-bxivhb > .ant-checkbox > .ant-checkbox-inner').click({ force: true })
+    cy.get('#paymentSum').clear().type(55)
+    cy.get('.ant-modal-body').contains('Так').click({force: true})
+    cy.wait(4000);
+    cy.get('h1').contains('Врах.').should('exist')
+    cy.wait(1000);
+  })
+
+  it('Перевірка поля сплаченого авансу /Продаж Клієнту OUT/',  function() {
+    cy.visit(baseUrl+'/new-document') 
+    cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+    cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+    cy.wait(2000);
+    cy.get('nobr').eq(2).should('have.text','55,00 грн.')
+    cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
+  })
+
+  it('Повна оплата / Продаж Клієнту OUT /',  function() {
+    cy.visit(baseUrl+'/new-document') 
+    cy.get(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+    cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+    cy.wait(2000);
+    cy.get('div.ant-dropdown-trigger > span').click() /////////
+    cy.wait(2000);
+    cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
+    cy.wait(2000);
+    cy.get(':nth-child(1) > .ant-radio > .ant-radio-inner').first().click({force: true})
+    cy.wait(2000);
+    cy.get('#cashBoxId > .ant-select-selection').click({ force: true });  // Вибір Каси
+    cy.get('.ant-select-dropdown-menu  > :nth-child(9)').click({ force: true });  //////////////каса Готівка
+    cy.get('.ant-modal-body').contains('Так').click({force: true})
+    cy.wait(4000);
+    cy.get('h1').contains('Врах.').should('exist')
+    cy.wait(1000);
+  })
+
+  it('Перевірка нульового Залишка після повної оплати',  function() {
+    cy.visit(baseUrl+'/new-document') 
+    cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+    cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.styles-m__sumNumeral---KAUvr > span').should('have.text','0 грн.')
+    cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
+  })
+
+  it('Повернення від Клієнта /Прихід Товару CRT/',  function(){
+    cy.visit(baseUrl+'/new-document') 
+    cy.get(':nth-child(13) > .styles-m__folderLink---2Myrv').click({force: true})
+    cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Повернення від клієнта')
+    cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
+    cy.wait(2000);
+    cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.ant-input').eq(3).clear().type('Коментарій Повернення від клієнта').should('have.text','Коментарій Повернення від клієнта')
+    cy.get(':nth-child(3) > .ant-input').type('CRT'+'v8989')
+    cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
+    cy.wait(2000);
+    cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+    cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
+    cy.wait(2000);
+    cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
+})
+
+it('Додавання ЗЧ /Прихід Товару CRT/',  function() {
+    cy.visit(baseUrl+'/new-document') 
+    cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+    cy.wait(2000)
+    cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.styles-m__headerActions---2KdHm > :nth-child(2)').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.ant-input').eq(0).should('have.text','')
+    cy.get('.ant-modal-body').find('.ant-input').first().type('v8989') 
+    cy.get('.ant-modal-body').find('.ant-input-number').first().type('111.11') 
+    cy.get('.ant-modal-body').find('.ant-input-number-input').eq(1).clear().type('1.22')
+    cy.get('.ant-modal-footer > div > .ant-btn-primary').first().click({force: true})
+    cy.wait(2000);
+})
+
+it('Перевід в статус враховано /Прихід Товару CRT /  ',  function() {
+  cy.visit(baseUrl+'/new-document') 
+  cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+  cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+  cy.wait(2000);
+  cy.get('div.ant-dropdown-trigger > span').click() /////////
+  cy.wait(2000);
+  cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
+  cy.wait(2000);
+  cy.get('.styles-m__title---Nwr2X').contains('Врах.').should('exist')
+})
+
+  it('Повна оплата /Прихід Товару CRT/',  function() {
+    cy.visit(baseUrl+'/new-document') 
+    cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+    cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+    cy.wait(2000);
+    cy.get('div.ant-dropdown-trigger > span').click() /////////
+    cy.wait(2000);
+    cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
+    cy.wait(2000);
+    cy.get(':nth-child(1) > .ant-radio > .ant-radio-inner').first().click({force: true})
+    cy.wait(2000);
+    cy.get('#cashBoxId > .ant-select-selection').click({ force: true });  // Вибір Каси
+    cy.get('.ant-select-dropdown-menu  > :nth-child(9)').click({ force: true });  //////////////каса Готівка
+    cy.get('.ant-modal-body').contains('Так').click({force: true})
+    cy.wait(4000);
+    cy.get('h1').contains('Врах.').should('exist')
+    cy.wait(1000);
+  })
+
+  it('Перевірка нульового Залишка після повної оплати CRT',  function() {
+    cy.visit(baseUrl+'/new-document') 
+    cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+    cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
+    cy.wait(2000);
+    cy.get('.styles-m__sumNumeral---KAUvr > span').should('have.text','0 грн.')
+    cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
+  })
+
+//////////**********************Картка РРО********************** *
 
 
 
-////****************** */
 
-//////////////закриття каси Z звіт
+
+////////////закриття каси Z звіт
 
   it('. Закриття каси / Z_REPORT для каси РРО Готівка ', function(){
-    cy.visit(cashBank)  
+    cy.visit(baseUrl+'/cash/bank')  
     cy.get('tbody > tr').eq(8).find('button').eq(4).click({ force: true }) 
     cy.wait(3000)
   })
 
   it('.1. Перевірка Z_Звіту в Журналі РРО', function(){
     const type = 'Z_REPORT'
-    cy.visit(listPPO)  
+    cy.visit(baseUrl+'/report/cash_orders_logs')  
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 

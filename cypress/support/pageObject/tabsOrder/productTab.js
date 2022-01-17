@@ -1,13 +1,9 @@
 class ProductTab {
 
     addProduct = (idClient) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        .then(()=>{
-            cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
-            cy.wait(2000);
-            cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-            cy.log('Вибір Запису');
-        })
+        cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
+        cy.wait(2000);
+        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true})
         .then(()=>{
             cy.log('Вкладка Запчастин');
             cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click()
@@ -38,8 +34,6 @@ class ProductTab {
     }
 
     editProduct = (idClient) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(3000);
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
@@ -73,8 +67,6 @@ class ProductTab {
     }
 
     addProductVIN = (idClient) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(3000);
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
@@ -103,8 +95,6 @@ class ProductTab {
     }
 
     addProductInfoAuto = (idClient) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(3000);
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
@@ -127,8 +117,6 @@ class ProductTab {
     }
     
     editProductIcon = (idClient) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(3000);
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
@@ -155,8 +143,6 @@ class ProductTab {
     }
 
     addProductPlus = () => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(4000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
         .then (text => { var codeNZ = text;
           cy.log(codeNZ)

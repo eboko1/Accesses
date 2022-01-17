@@ -1,7 +1,6 @@
 class LaborTab {
 
     editLaborDiagnostic = (idClient) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
         cy.wait(3000);
         cy.get('.ant-input-search > .ant-input').type(idClient)
         cy.wait(2000);
@@ -30,8 +29,7 @@ class LaborTab {
     }
 
     addLaborGroupProduct = (idClient) => {
-        cy.wait(2000);
-        cy.get('.styles-m__logo---2zDPJ').click()
+        cy.wait(2000)
         .then(()=>{
             cy.get('.ant-input-search > .ant-input').type(idClient)
             cy.wait(2000);
@@ -77,13 +75,9 @@ class LaborTab {
     }
 
     addLaborFieldLabor = (idClient) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        .then(()=>{
-            cy.get('.ant-input-search > .ant-input').type(idClient)
-            cy.wait(2000);
-            cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-            cy.log('Вибір Запису');
-        })
+        cy.get('.ant-input-search > .ant-input').type(idClient)
+        cy.wait(2000);
+        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true})
         .then(()=>{
             cy.log('Вкладка Роботи');
             cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
@@ -105,13 +99,9 @@ class LaborTab {
     }
 
     addLaborComplexes = (idClient) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        .then(()=>{
-            cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
-            cy.wait(2000);
-            cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-            cy.log('Вибір Запису');
-        })
+        cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
+        cy.wait(2000);
+        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true})
         .then(()=>{
             cy.log('Вкладка Роботи');
             cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
@@ -130,13 +120,10 @@ class LaborTab {
     }
 
     showMehanicLabor = (idClient) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        .then(()=>{
-            cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
-            cy.wait(2000);
-            cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-            cy.log('Вибір Запису');
-        })
+        cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
+        cy.wait(2000);
+        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true})
+            
         .then(()=>{
             cy.log('Вкладка Роботи');
             cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
@@ -158,8 +145,6 @@ class LaborTab {
 
     }
     addCommentsToLabor = () => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(4000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
         .then (text => {var codeNZ = text;
           cy.log(codeNZ)

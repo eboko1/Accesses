@@ -1,17 +1,13 @@
 class OrderPage {
     
    createOrder = (idClient) =>{
-        cy.contains('Ремонти').click()
-        .then(()=>{
-            cy.log('Вибір Меню ремонти');
-            cy.get('a > .ant-btn').click(); // add н/з
-        })
-        .then(()=>{
+
+        cy.get('a > .ant-btn').click(); // add н/з
+
         cy.wait(3000)
         cy.get('#searchClientQuery').clear().type('Клієнт'+idClient)
-        })
         .then(()=>{
-            cy.get('.styles-m__clientBlock---1yPc8 > .ant-table-wrapper > .ant-spin-nested-loading > .ant-spin-container > .ant-table > .ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(1)').first().click();
+            cy.get('.styles-m__clientBlock---1yPc8 > .ant-table-wrapper > .ant-spin-nested-loading > .ant-spin-container > .ant-table > .ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(1)').first().click({force: true});
         })
         .then(()=>{
         cy.get('.ant-btn').first().click();
@@ -23,8 +19,6 @@ class OrderPage {
    }
 
    deleteOrder = (idClient) =>{
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(4000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
         .then (text => {var codeNZ = text;
             cy.log(codeNZ)
@@ -44,8 +38,6 @@ class OrderPage {
     }
 
    copyOrder = (idClient) =>{
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(4000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
         .then (text => {var codeNZ = text;
             cy.log(codeNZ)
@@ -60,14 +52,13 @@ class OrderPage {
         cy.get('.ant-modal-confirm-body-wrapper').should('be.visible')
         cy.wait(1000); 
         cy.get('.ant-modal-confirm-btns > .ant-btn-primary').first().click({force: true})
-        cy.wait(4000); 
+        cy.wait(5000); 
         cy.get('.styles-m__title---Nwr2X > span').should('have.text','Новий')  
         cy.get('.ant-modal-close-x').last().click({force: true})
         cy.wait(1000); 
     }
 
    addComments = (idClient) =>{
-        cy.get('.styles-m__logo---2zDPJ').click()
         cy.wait(4000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
         .then (text => { var codeNZ = text;
@@ -95,7 +86,6 @@ class OrderPage {
  }
 
    createProgress = (idClient) =>{
-        cy.get('.styles-m__logo---2zDPJ').click()
         cy.wait(3000);
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
@@ -110,8 +100,6 @@ class OrderPage {
     }
 
    payOrder = (idClient) =>{
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(4000);
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
@@ -153,13 +141,9 @@ class OrderPage {
     }
 
    checkOrder = (idClient) =>{ 
-    cy.log('Вибір Меню ремонти');
-    cy.contains('Ремонти').click()
-      .then(()=>{
-          cy.get('.ant-input-search > .ant-input').type(idClient)
-          cy.wait(2000);
-          cy.get('.styles-m__ordernLink---T-qWz').first().click({ force: true });//Нові н/з
-      })
+    cy.get('.ant-input-search > .ant-input').type(idClient)
+    cy.wait(2000);
+    cy.get('.styles-m__ordernLink---T-qWz').first().click({ force: true })
       .then(()=>{
           cy.get('.styles-m__headerColumns---2oOX2 > :nth-child(1)').find('.ant-select-selection').contains('Оберіть пост').should('not.have.text','') 
           cy.get('.ant-form').find('.ant-select-selection-selected-value').eq(0).should('not.have.text','')
@@ -192,32 +176,28 @@ class OrderPage {
    }
 
    editOrder = (idClient) =>{
-    cy.log('Вибір Меню ремонти');
-    cy.contains('Ремонти').click()
-      .then(()=>{
-          cy.get('.ant-input-search > .ant-input').type(idClient)
-          cy.wait(2000);
-          cy.get('.styles-m__ordernLink---T-qWz').first().click({ force: true });//Нові н/з
-          cy.wait(2000);
-      })
-      .then(()=>{
-          cy.log('Відкриття модалки Планувальника');
-          cy.get(':nth-child(2) > .ant-form-item-label > .ant-form-item-no-colon > span > .anticon').first().click({ force: true })
-          cy.wait(2000);
-          cy.get('.timeColumn > :nth-child(2)').should('exist')
-          ///Вибір поста
-          cy.get(':nth-child(1) > .sc-jtRfpW > .sc-gxMtzJ > :nth-child(9)').trigger('mousedown')
-          //cy.get(':nth-child(1) > .sc-jtRfpW > .sc-kTUwUJ > :nth-child(9) > .sc-gGBfsJ').click()
-          cy.get(':nth-child(1) > .sc-jtRfpW > .sc-gxMtzJ > :nth-child(9)').invoke('show').click()
-          cy.wait(2000);
-          cy.log('Закриття модалки Планувальника');
-          cy.get('.ant-modal-close').last().click({ force: true })
-          cy.wait(2000);
-          cy.log('Вибір Механіка');
-          cy.get('#employee').type('Механік').first().click({ force: true })
-          cy.wait(1000);
-          ///////cy.get('.ant-select-dropdown-menu-item-active').click();
-      })
+        cy.get('.ant-input-search > .ant-input').type(idClient)
+        cy.wait(2000);
+        cy.get('.styles-m__ordernLink---T-qWz').first().click({ force: true });//Нові н/з
+        cy.wait(2000)
+            .then(()=>{
+            cy.log('Відкриття модалки Планувальника');
+            cy.get(':nth-child(2) > .ant-form-item-label > .ant-form-item-no-colon > span > .anticon').first().click({ force: true })
+            cy.wait(2000);
+            cy.get('.timeColumn > :nth-child(2)').should('exist')
+            ///Вибір поста
+            cy.get(':nth-child(1) > .sc-jtRfpW > .sc-gxMtzJ > :nth-child(9)').trigger('mousedown')
+            //cy.get(':nth-child(1) > .sc-jtRfpW > .sc-kTUwUJ > :nth-child(9) > .sc-gGBfsJ').click()
+            cy.get(':nth-child(1) > .sc-jtRfpW > .sc-gxMtzJ > :nth-child(9)').invoke('show').click()
+            cy.wait(2000);
+            cy.log('Закриття модалки Планувальника');
+            cy.get('.ant-modal-close').last().click({ force: true })
+            cy.wait(2000);
+            cy.log('Вибір Механіка');
+            cy.get('#employee').type('Механік').first().click({ force: true })
+            cy.wait(1000);
+            ///////cy.get('.ant-select-dropdown-menu-item-active').click();
+        })
       .then(()=>{
           cy.log('Вибір Готівка');
           cy.get('#paymentMethod').click();
@@ -256,8 +236,6 @@ class OrderPage {
     }
 
    getInfoAuto = () => {
-        cy.wait(2000);
-        cy.get('.styles-m__logo---2zDPJ').click()
         cy.wait(4000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
         .then (text => {var codeNZ = text;
@@ -281,8 +259,6 @@ class OrderPage {
     }
 
     getStatisticOrder = () =>{
-        cy.wait(2000);
-        cy.get('.styles-m__logo---2zDPJ').click()
         cy.wait(4000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
         .then (text => {var codeNZ = text;
@@ -308,9 +284,6 @@ class OrderPage {
     }
 
     downloadOrder = () =>{ 
-        cy.wait(2000);
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(3000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
           .then (text => {var codeNZ = text;
             cy.log(codeNZ)
@@ -328,8 +301,6 @@ class OrderPage {
     }
 
    checkDownloadOrder = () =>{ 
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(3000);
         cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
         .then (text => {var codeNZ = text;
             cy.log(codeNZ)
@@ -350,17 +321,13 @@ class OrderPage {
     }
 
      createAppointments = (idClient) =>{ 
-        cy.contains('Ремонти').first().click({ force: true })
-        .then(()=>{
-        // cy.get('.styles-m__ordernLink---T-qWz').invoke('attr', 'href').then( href => {cy.visit(baseUrl+href); });
         cy.get('.ant-input-search > .ant-input').type(idClient)
         cy.wait(2000);
         cy.get('.styles-m__ordernLink---T-qWz').first().click({ force: true });
         cy.url().should('include', '/order/')
-        })
-        .then(()=>{
-        cy.wait(5000);
-        cy.get('.styles-m__dropdownTitle---3Vlog > :nth-child(2) > span').click(); // Статус Запис
+          .then(()=>{
+            cy.wait(5000);
+            cy.get('.styles-m__dropdownTitle---3Vlog > :nth-child(2) > span').click(); // Статус Запис
         })
         .then(()=>{
             cy.get('.ant-dropdown-menu-item').contains('Запис').first().click({ force: true });
@@ -370,13 +337,10 @@ class OrderPage {
     }
 
     createDiagnostic = (idClient) =>{ 
-        cy.get('.styles-m__logo---2zDPJ').click()
-        .then(()=>{
-            cy.get('.ant-input-search > .ant-input').type(idClient)
-            cy.wait(2000);
-            cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-            cy.log('Вибір Запису');
-        })
+    
+        cy.get('.ant-input-search > .ant-input').type(idClient)
+        cy.wait(2000);
+        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true})
         .then(()=>{
             cy.wait(2000)
             cy.log('Перехід до діагностики');

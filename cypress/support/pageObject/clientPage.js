@@ -1,25 +1,12 @@
 class ClientPage {
 
-    createClient = (idClient,tel) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(1000)
-        cy.contains('Ремонти').click({force: true})
-        .then(()=>{
-            cy.log('Вибір Меню ремонти');
-            cy.get('a > .ant-btn').click(); // add н/з
-        })
-        .then(()=>{
-            cy.wait(3000)
-            cy.log('Додати клієнта через +');
-            cy.get('.anticon-plus > svg').click()
-
-        })
+    createClient = (idClient,tel) => {   
+        cy.get('.anticon-plus > svg').click()      // Додати клієнта через + 
         .then(()=>{
             cy.log('Модалка Додати Клієнта')
             cy.get('#name').type('БазовийКлієнт' + idClient)
             cy.wait(2000)
             cy.get('#patronymic').type('Побатькові')
-        /// cy.get('.ant-modal-body').find('.ant-input').eq(0).should('have.text','БазовийКлієнт'+ idClient)
             cy.get('#surname').type('Прізвище')
 
             .then(()=>{
@@ -120,11 +107,7 @@ class ClientPage {
             })
     }
 
-    createClientPageClient = (idClient,tel) => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.wait(1000)
-        cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-        cy.get('.ant-menu-item').contains('Клієнти').click({force: true})
+    createClientPageClient = (idClient,tel) => {    
         cy.wait(2000);
         cy.get('.styles-m__title---Nwr2X').should('have.text','Клієнти')
         cy.get('.ant-table-body').should('exist')
@@ -139,7 +122,6 @@ class ClientPage {
             cy.get('#name').type('БазовийКлієнт' + idClient)
             cy.wait(2000)
             cy.get('#patronymic').type('Побатькові')
-        /// cy.get('.ant-modal-body').find('.ant-input').eq(0).should('have.text','БазовийКлієнт'+ idClient)
             cy.get('#surname').type('Прізвище')
 
             .then(()=>{
@@ -171,9 +153,7 @@ class ClientPage {
                 cy.get(':nth-child(3) > :nth-child(3) > .ant-row > .ant-form-item-control-wrapper > .ant-form-item-control > .ant-form-item-children > #comment').click({ force: true }).type('Комент Постійний Клієнт)))')
             })
             .then(()=>{
-               
                 cy.get('.ant-modal-body').find('.ant-input-number-input').first().clear().type(tel)
-                ///////cy.get('.ant-form > :nth-child(4) > :nth-child(1)').find('.ant-input-number-input').contains('+380'+tel).should('have.value','+380'+tel)
             })
             .then(()=>{
                 cy.get('.ant-modal-body').find('.ant-input').last().clear().type('eboko1@gmail.com')
@@ -214,19 +194,19 @@ class ClientPage {
             .then(()=>{
                 cy.get(':nth-child(6) > .ant-col-12').click().type('1.4 16V')  //Модифікація авто
                 cy.wait(2000)
-                cy.get('.ant-select-dropdown-menu-item-active').click()
+                cy.get('.ant-select-dropdown-menu-item-active').click({force: true})
                 cy.wait(2000)
 
             })
             .then(()=>{
-                cy.get(':nth-child(7) > .ant-col-12').click().type('Чорний') //Колір
+                cy.get(':nth-child(7) > .ant-col-12').click({force: true}).type('Чорний') //Колір
                 cy.wait(2000)
-                cy.get('.ant-select-dropdown-menu-item-active').click()
+                cy.get('.ant-select-dropdown-menu-item-active').click({force: true})
             })
             .then(()=>{
                 cy.wait(2000)
                 cy.log('Кнопка ОК');
-                cy.get('.ant-btn-primary').eq(5).click()  // first()      .first().click({ force: true })
+                cy.get('.ant-btn-primary').eq(5).click({force: true})  // first()      .first().click({ force: true })
             })
             })
             .then(()=>{
@@ -234,40 +214,33 @@ class ClientPage {
                 cy.wait(3000)
             })
             .then(()=>{
-            cy.get('.ant-btn-primary').eq(4).click();
-            cy.get('.ant-btn-primary').contains('Додати').click({force: true} )
+            cy.get('.ant-btn-primary').eq(4).click({force: true});
+            cy.get('.ant-btn-primary').contains('Додати').click({force: true})
             cy.wait(3000)
             })
     }
 
     checkClient = (idClient,tel) => {
-        cy.get(':nth-child(2) > .ant-menu-submenu-title').click()
-        cy.contains('Клієнти').click()
+        cy.wait(5000)
+        cy.log('Пошук клієнта');
+        cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)  //
+        cy.wait(5000)
         .then(()=>{
-            cy.wait(5000)
-            cy.log('Пошук клієнта');
-            cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)  //
-            cy.wait(5000)
-        })
-        .then(()=>{
-            cy.get('.styles-m__clientLink---1JZdU').first().click()
+            cy.get('.styles-m__clientLink---1JZdU').first().click({force: true})
         })
         cy.wait(5000)
         cy.get('#source').should('have.text','CarBook') 
     }
 
     editClientNumber = (idClient,tel) => {
-        cy.wait(2000)
-        cy.get(':nth-child(2) > .ant-menu-submenu-title').click()
-        cy.contains('Клієнти').click()
+             
+        cy.wait(6000)
+        cy.log('Пошук клієнта');
+        cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)  //
+        cy.wait(6000)
+     
         .then(()=>{
-            cy.wait(6000)
-            cy.log('Пошук клієнта');
-            cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)  //
-            cy.wait(6000)
-        })
-        .then(()=>{
-            cy.get('.styles-m__clientLink---1JZdU').first().click()
+            cy.get('.styles-m__clientLink---1JZdU').first().click({force: true})
             cy.wait(2000)
         })
         .then(()=>{
@@ -276,9 +249,9 @@ class ClientPage {
         })
         .then(()=>{
             cy.get('.ant-modal-confirm-title').should('exist');
-            cy.get('.ant-modal-confirm-btns > .ant-btn').click()
+            cy.get('.ant-modal-confirm-btns > .ant-btn').click({force: true})
             cy.wait(2000)
-            cy.get('.styles-m__editClientForm---2hdWi > .ant-btn').click()
+            cy.get('.styles-m__editClientForm---2hdWi > .ant-btn').click({force: true})
             cy.wait(2000)
         })
     }

@@ -2,11 +2,10 @@ class ProfilePage {
 
 
     selectUA = () => {
-        cy.get('.styles-m__logo---2zDPJ').click()
-        cy.get('.styles-m__userName---h3mg1').click()
+        cy.get('img').eq(0).click({force: true})
         .then (()=>{
-            cy.get('#language').click()
-            cy.contains('Українська').click();
+            cy.get('#language').click({force: true})
+            cy.contains('Українська').click({force: true});
             cy.wait(1000)
         })
         .then (()=>{

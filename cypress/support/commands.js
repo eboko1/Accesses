@@ -13,7 +13,16 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add("login", (email, password) => { ... })
-//
+
+Cypress.Commands.add('login', (baseUrl, username, password) => {
+    // cy.session([baseUrl,username, password], () => {
+         cy.visit(baseUrl)
+         cy.get('#login.ant-input').type(username)
+         cy.get('#password').type(password)
+         cy.get('button').click()
+         cy.url().should('contain', '/dashboard')
+     ///})
+ })
 //
 // -- This is a child command --
 // Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })

@@ -10,6 +10,7 @@ class PPO {
         cy.get('[data-row-key] > :nth-child(6)').first().should('have.text','100.00')  // загальнв сума авансу
         cy.get('[data-row-key] > .ant-table-row-expand-icon-cell > .ant-table-row-expand-icon').first().click({force: true})
         cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(2)').should('have.text','Авансова оплата за товар/послугу')
+        
     }
 
     openCashPPO =() => {
@@ -32,7 +33,7 @@ class PPO {
         cy.get('.ant-modal-header').contains('Касовий ордер')
         cy.get('.ant-input-number-input').clear().type('1234')
         cy.get('.ant-btn').contains('Додати').click({ force: true }) 
-        cy.wait(500)
+        cy.wait(2000)
     }
 
     serviseOutputCashPPO =() => {
@@ -40,7 +41,7 @@ class PPO {
         cy.get('.ant-modal-header').contains('Касовий ордер')
         cy.get('.ant-input-number-input').clear().type('100')
         cy.get('.ant-btn').contains('Додати').click({ force: true }) 
-        cy.wait(500)
+        cy.wait(2000)
     }
     
     checkServiseInputOutputCashPPO =(type) => {

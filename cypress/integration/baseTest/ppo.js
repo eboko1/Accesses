@@ -68,7 +68,8 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
     cy.wait(1000)  
     cy.get('.ant-select-selection').contains('Робота').type('Заміна')
     cy.get('.ant-select-dropdown-menu-item').first().click({force: true});
-    cy.get('.ant-modal-footer > div > .ant-btn-primary').contains('Гаразд').click({force: true}).wait(3000) 
+    cy.get('.ant-modal-footer > div > .ant-btn-primary').contains('Гаразд').click({force: true})
+    cy.wait(2000)
   })
 
   it('5. Часткова оплата ч/з статус Завершено в НЗ', function(){
@@ -152,12 +153,10 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
     cy.wait(10000)
   })
 
- 
-
-  it('10. Сервісне внесення', function(){
-    cy.visit(cashBank)  
-    ppoPage.serviseInputCashPPO()
-  })
+it('10. Сервісне внесення', function(){
+  cy.visit(cashBank)  
+  ppoPage.serviseInputCashPPO()
+})
 
   it('8.1. Перевірка Сервісного внесення в Журналі РРО', function(){
     const type = 'SERVICE_INPUT'
@@ -195,13 +194,13 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
     ppoPage.checkDownloadSale(nameFile,numberFile)
   })
 
-/////////**********************Картка РРО********************** */
+///////**********************Картка РРО********************** */
 
 
 
-//////****************** */
+////****************** */
 
-//закриття каси Z звіт
+закриття каси Z звіт
 
   it('. Закриття каси / Z_REPORT для каси РРО Готівка ', function(){
     cy.visit(cashBank)  

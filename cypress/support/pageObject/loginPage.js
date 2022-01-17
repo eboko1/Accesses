@@ -11,12 +11,9 @@ class LoginPage {
         this.getPassword().type(password,{log: false});
         this.getLoginButton();
         cy.wait(5000)
-        if(cy.get('h1').should('exist')){
-            cy.get('h1').contains('Календар Завантаження');
-        } else{
-            cy.wait(5000)
-            cy.get('h1').contains('Календар Завантаження');
-        }
+        cy.get('img').first().click({ force: true })
+        cy.get('h1').contains('Календар Завантаження');
+     
     }
 
     checkMessageUsername = (message) => {

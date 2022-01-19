@@ -1,44 +1,18 @@
 /// <reference types="cypress" />
-import LoginPage from '../../support/pageObject/loginPage';
-import OrderPage from '../../support/pageObject/orderPage';
-import ClientPage from '../../support/pageObject/clientPage';
 import ProfilePage from '../../support/pageObject/profilePage';
 
-import LaborTab from '../../support/pageObject/tabsOrder/laborTab';
-import ProductTab from '../../support/pageObject/tabsOrder/productTab';
-
-const loginPage = new LoginPage();
-const orderPage = new OrderPage();
-const clientPage = new ClientPage();
 const profilePage = new ProfilePage();
-const laborTab = new LaborTab();
-const productTab = new ProductTab();
-
-const username = Cypress.env('LoginMaster');
-const password = Cypress.env('pw');
-
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
-const appointments = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/appointments';
-const approve = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/approve';
-const progress = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/progress';
-const success = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/success';
-const cancel = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/cancel';
-
-var date = new Date();
-//const idClient ='91140'
-const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
-var second = parseInt(date.getSeconds())+10;
-var minute = parseInt(date.getMinutes())+10;
-const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Find|Master|UA|Desktop|', function(){
 
   beforeEach('User LogIn ', function(){
-    cy.visit(baseUrl)
-    loginPage.enterLogin(username,password)
+    cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw'))
+    cy.get('img').eq(0).click({ force: true })
   });
 
   it('Профіль вибір українського інтерфейсу', function(){
+    cy.visit(baseUrl+'/profile')
     profilePage.selectUA()
   })
  
@@ -48,11 +22,11 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__title---Nwr2X').should('have.text','Клієнти')
     cy.wait(6000)
     cy.get('[data-row-key] > :nth-child(2) > .styles-m__clientLink---1JZdU').eq(2).invoke('text')
-        .then (text => {var clientName = text;
-            cy.get('.ant-select-search__field > .ant-input').type(clientName)
-            cy.get('.ant-select-dropdown-menu').contains('Клієнт').click();
-            cy.get('.styles-m__clientLink---1JZdU').should('have.text',clientName) 
-        })
+      .then (text => {var clientName = text;
+      cy.get('.ant-select-search__field > .ant-input').type(clientName)
+      cy.get('.ant-select-dropdown-menu').contains('Клієнт').click();
+      cy.get('.styles-m__clientLink---1JZdU').should('have.text',clientName) 
+    })
   })
 
   it('Пошук по мобільному номеру Клієнта', function(){
@@ -61,11 +35,11 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__title---Nwr2X').should('have.text','Клієнти')
     cy.wait(5000)
     cy.get('[data-row-key] > :nth-child(4) > .styles-m__clientPhone---2q-uc').eq(3).invoke('text')
-        .then (text => {var clientName = text;
-          cy.get('.ant-select-search__field > .ant-input').type(clientName)
-          cy.get('.ant-select-dropdown-menu').contains('Клієнт').click();
-          cy.get('[data-row-key] > :nth-child(4) > .styles-m__clientPhone---2q-uc').first().should('have.text',clientName) 
-        })
+      .then (text => {var clientName = text;
+        cy.get('.ant-select-search__field > .ant-input').type(clientName)
+        cy.get('.ant-select-dropdown-menu').contains('Клієнт').click();
+        cy.get('[data-row-key] > :nth-child(4) > .styles-m__clientPhone---2q-uc').first().should('have.text',clientName) 
+      })
   })
 
   it('Пошук за повною назвою НЗ', function(){
@@ -101,11 +75,11 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__title---Nwr2X').should('have.text','Автомобілі')
     cy.wait(5000)
     cy.get('[data-row-key] > :nth-child(4)').eq(2).invoke('text')
-      .then (text => {
-          cy.get('.ant-select-search__field > .ant-input').type(text)
-          cy.get('.ant-select-dropdown-menu').contains('Автомобілі').click();
-          cy.get('[data-row-key] > :nth-child(4)').should('have.text',text) 
-        })
+    .then (text => {
+      cy.get('.ant-select-search__field > .ant-input').type(text)
+      cy.get('.ant-select-dropdown-menu').contains('Автомобілі').click();
+      cy.get('[data-row-key] > :nth-child(4)').should('have.text',text) 
+    })
   })
 
   it('Пошук по Державному Номеру а/м ', function(){
@@ -114,11 +88,11 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__title---Nwr2X').should('have.text','Автомобілі')
     cy.wait(5000)
     cy.get('[data-row-key] > [style="text-align: center;"]').eq(2).invoke('text')
-      .then (text => {
-          cy.get('.ant-select-search__field > .ant-input').type(text)
-          cy.get('.ant-select-dropdown-menu').contains('Автомобілі').click();
-          cy.get('[data-row-key] > [style="text-align: center;"]').should('have.text',text) 
-        })
+    .then (text => {
+      cy.get('.ant-select-search__field > .ant-input').type(text)
+      cy.get('.ant-select-dropdown-menu').contains('Автомобілі').click();
+      cy.get('[data-row-key] > [style="text-align: center;"]').should('have.text',text) 
+    })
   })
 
   it('Пошук по коду Товара ', function(){
@@ -127,11 +101,11 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__title---Nwr2X').should('have.text','Товари')
     cy.wait(5000)
     cy.get('[data-row-key] > :nth-child(1) > :nth-child(1) > a').eq(2).invoke('text')
-      .then (text => {
-        cy.get('.ant-select-search__field > .ant-input').type(text)
-        cy.get('.ant-select-dropdown-menu').contains('Товари').click();
-        cy.get('[data-row-key] > :nth-child(1) > :nth-child(1) > a').should('have.text',text) 
-      })
+    .then (text => {
+      cy.get('.ant-select-search__field > .ant-input').type(text)
+      cy.get('.ant-select-dropdown-menu').contains('Товари').click();
+      cy.get('[data-row-key] > :nth-child(1) > :nth-child(1) > a').should('have.text',text) 
+    })
   })
 
   it('Пошук по назві Товара ', function(){
@@ -140,62 +114,62 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__title---Nwr2X').should('have.text','Товари')
     cy.wait(5000)
     cy.get('[data-row-key] > :nth-child(1) > :nth-child(1) > :nth-child(2)').eq(2).invoke('text')
-      .then (text => {
-        const nameProduct = text.split(' ')
-        cy.get('.ant-select-search__field > .ant-input').type(nameProduct[0])
-        cy.get('.ant-select-dropdown-menu').contains('Товари').click();
-        cy.get('[data-row-key] > :nth-child(1) > :nth-child(1) > :nth-child(2)').first().should('have.text',text) 
-      })
+    .then (text => {
+      const nameProduct = text.split(' ')
+      cy.get('.ant-select-search__field > .ant-input').type(nameProduct[0])
+      cy.get('.ant-select-dropdown-menu').contains('Товари').click();
+      cy.get('[data-row-key] > :nth-child(1) > :nth-child(1) > :nth-child(2)').first().should('have.text',text) 
+    })
   })
 
   it('Пошук по короткій назві / Замовлення постачальнику / ORD' , function(){
     const typeDoc ='Замовлення постачальнику'
-      cy.contains('Швидка навігація').click({force: true})
-      cy.get('.styles-m__title---Nwr2X').should('have.text','Швидка навігація')
-      cy.wait(5000)
-      cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
-     
-      cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
-        .then (text => {
-          const nameDoc = text.split('-')
-          cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
-          cy.get('.ant-select-dropdown-menu').contains(typeDoc).click();
-          cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
-          cy.get('.ant-table-row > :nth-child(5)').first().contains(typeDoc)
-        })  
+    cy.contains('Швидка навігація').click({force: true})
+    cy.get('.styles-m__title---Nwr2X').should('have.text','Швидка навігація')
+    cy.wait(5000)
+    cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
+    
+    cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
+    .then (text => {
+      const nameDoc = text.split('-')
+      cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
+      cy.get('.ant-select-dropdown-menu').contains(typeDoc).click();
+      cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
+      cy.get('.ant-table-row > :nth-child(5)').first().contains(typeDoc)
+    })  
   })
 
   it('Пошук за повною назвою / Прихід за замовленням / COM' , function(){
     const typeDoc ='Прихід за замовленням'
-      cy.contains('Швидка навігація').click({force: true})
-      cy.get('.styles-m__title---Nwr2X').should('have.text','Швидка навігація')
-      cy.wait(5000)
-      cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
-      
-      cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
-        .then (text => {
-          cy.get('.ant-select-search__field > .ant-input').type(text)
-          cy.get('.ant-select-dropdown-menu').contains('Замовлення постачальнику').click();
-          cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
-          cy.get('.ant-table-row > :nth-child(5)').first().contains(typeDoc)
-        }) 
+    cy.contains('Швидка навігація').click({force: true})
+    cy.get('.styles-m__title---Nwr2X').should('have.text','Швидка навігація')
+    cy.wait(5000)
+    cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
+    
+    cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
+    .then (text => {
+      cy.get('.ant-select-search__field > .ant-input').type(text)
+      cy.get('.ant-select-dropdown-menu').contains('Замовлення постачальнику').click();
+      cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
+      cy.get('.ant-table-row > :nth-child(5)').first().contains(typeDoc)
+    }) 
   })
 
   it('Пошук по короткій назві / Коригування замовлення / BOR' , function(){
     const typeDoc ='Коригування замовлення'
-      cy.contains('Швидка навігація').click({force: true})
-      cy.get('.styles-m__title---Nwr2X').should('have.text','Швидка навігація')
-      cy.wait(2000)
-      cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
-     
-      cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
-        .then (text => {
-          const nameDoc = text.split('-')
-          cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
-          cy.get('.ant-select-dropdown-menu').contains('Замовлення постачальнику').click();
-          cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
-          cy.get('.ant-table-row > :nth-child(5)').first().contains(typeDoc)
-        })
+    cy.contains('Швидка навігація').click({force: true})
+    cy.get('.styles-m__title---Nwr2X').should('have.text','Швидка навігація')
+    cy.wait(2000)
+    cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
+    
+    cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
+    .then (text => {
+      const nameDoc = text.split('-')
+      cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
+      cy.get('.ant-select-dropdown-menu').contains('Замовлення постачальнику').click();
+      cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
+      cy.get('.ant-table-row > :nth-child(5)').first().contains(typeDoc)
+    })
   })
 
   it('Пошук за повною назвою / Прихід Товару / INC' , function(){
@@ -206,12 +180,12 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
     
     cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
-      .then (text => {
-        cy.get('.ant-select-search__field > .ant-input').type(text)
-        cy.get('.ant-select-dropdown-menu').contains('Приходи на склад').click();
-        cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
-        cy.get('.ant-table-row > :nth-child(7)').first().contains('Прихід від постачальника')
-      })
+    .then (text => {
+      cy.get('.ant-select-search__field > .ant-input').type(text)
+      cy.get('.ant-select-dropdown-menu').contains('Приходи на склад').click();
+      cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
+      cy.get('.ant-table-row > :nth-child(7)').first().contains('Прихід від постачальника')
+    })
   })
 
   it('Пошук по короткій назві / Повернення постачальнику / SRT' , function(){
@@ -222,12 +196,12 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
     
     cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
-      .then (text => {
-        const nameDoc = text.split('-')
-        cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
-        cy.get('.ant-select-dropdown-menu').contains('Витрати зі складу').click();
-        cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
-        cy.get('.ant-table-row > :nth-child(7)').first().contains(typeDoc)
+    .then (text => {
+      const nameDoc = text.split('-')
+      cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
+      cy.get('.ant-select-dropdown-menu').contains('Витрати зі складу').click();
+      cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
+      cy.get('.ant-table-row > :nth-child(7)').first().contains(typeDoc)
     })
   })
 
@@ -255,12 +229,12 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
     
     cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
-      .then (text => {
-        const nameDoc = text.split('-')
-        cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
-        cy.get('.ant-select-dropdown-menu').contains('Витрати зі складу').click();
-        cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
-        cy.get('.ant-table-row > :nth-child(7)').first().contains('Продаж')
+    .then (text => {
+      const nameDoc = text.split('-')
+      cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
+      cy.get('.ant-select-dropdown-menu').contains('Витрати зі складу').click();
+      cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
+      cy.get('.ant-table-row > :nth-child(7)').first().contains('Продаж')
     })
   })
 
@@ -272,29 +246,29 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
     
     cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
-      .then (text => {
-        cy.get('.ant-select-search__field > .ant-input').type(text)
-        cy.get('.ant-select-dropdown-menu').contains('Витрати зі складу').click();
-        cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
-        cy.get('.ant-table-row > :nth-child(7)').first().contains('Продаж')
+    .then (text => {
+      cy.get('.ant-select-search__field > .ant-input').type(text)
+      cy.get('.ant-select-dropdown-menu').contains('Витрати зі складу').click();
+      cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
+      cy.get('.ant-table-row > :nth-child(7)').first().contains('Продаж')
     })
   })
 
   it('Пошук по короткій назві / Витрати із н/з / AUT' , function(){
     const typeDoc ='Витрати із н/з'
-      cy.contains('Швидка навігація').click({force: true})
-      cy.get('.styles-m__title---Nwr2X').should('have.text','Швидка навігація')
-      cy.wait(2000)
-      cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
-     
-      cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
-        .then (text => {
-          const nameDoc = text.split('-')
-          cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
-          cy.get('.ant-select-dropdown-menu').contains('Витрати зі складу').click();
-          cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
-          cy.get('.ant-table-row > :nth-child(7)').first().contains('Продаж')
-        })
+    cy.contains('Швидка навігація').click({force: true})
+    cy.get('.styles-m__title---Nwr2X').should('have.text','Швидка навігація')
+    cy.wait(2000)
+    cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
+    
+    cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
+    .then (text => {
+      const nameDoc = text.split('-')
+      cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
+      cy.get('.ant-select-dropdown-menu').contains('Витрати зі складу').click();
+      cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
+      cy.get('.ant-table-row > :nth-child(7)').first().contains('Продаж')
+    })
   })
 
   it('Пошук по короткій назві / Повернення від клієнта / CRT ' , function(){
@@ -305,13 +279,12 @@ describe ('Find|Master|UA|Desktop|', function(){
     cy.get('.styles-m__paper---3d-H1 > :nth-child(2)').contains(typeDoc).click({force: true})
     
     cy.get('[data-row-key] > :nth-child(1) > a').eq(2).invoke('text')
-      .then (text => {
-        const nameDoc = text.split('-')
-        cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
-        cy.get('.ant-select-dropdown-menu').contains('Приходи на склад').click();
-        cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
-        cy.get('.ant-table-row > :nth-child(7)').first().contains(typeDoc)
+    .then (text => {
+      const nameDoc = text.split('-')
+      cy.get('.ant-select-search__field > .ant-input').type(nameDoc[nameDoc.length-1])
+      cy.get('.ant-select-dropdown-menu').contains('Приходи на склад').click();
+      cy.get('[data-row-key] > :nth-child(1) > a').first().should('have.text',text) 
+      cy.get('.ant-table-row > :nth-child(7)').first().contains(typeDoc)
     })   
   })
-
 })

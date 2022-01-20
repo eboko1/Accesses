@@ -18,9 +18,8 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
   })
 
   it('1. Перевірка відкритої каси РРО', function(){
-    const row = 8
     cy.visit(baseUrl+'/report/cash_orders_logs')  
-    ppoPage.checkOpenCashPPO(row)
+    ppoPage.checkOpenCashPPO()
   })
 
   it('2. Створення НЗ', function(){
@@ -150,6 +149,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
   it('14. Перевірка Сервісного внесення в Журналі РРО', function(){
     const type = 'SERVICE_INPUT'
     cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
@@ -162,6 +162,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
   it('16. Перевірка Сервісної видачі в Журналі РРО', function(){
     const type = 'SERVICE_OUTPUT'
     cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
@@ -174,6 +175,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
   it('18. Перевірка X_Звіту в Журналі РРО', function(){
     const type = 'X_REPORT'
     cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
@@ -357,17 +359,6 @@ it('30. Перевірка нульового Залишка після повн
 
 ////////**********************Картка РРО********************** *
 
-it('0. Відкриття каси КарткаРРО372', function(){
-    const row = 9
-    cy.visit(baseUrl+'/cash/bank')  
-    ppoPage.openCashPPO(row)
-  })
-
-  it('1. Перевірка відкритої каси РРО', function(){
-    const row = 9
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
-    ppoPage.checkOpenCashPPO(row)
-  })
 
   it('2. Створення НЗ', function(){
     cy.visit(baseUrl+'/orders/appointments')
@@ -438,8 +429,9 @@ it('0. Відкриття каси КарткаРРО372', function(){
   })
 
   it('8. Перевірка Авансової оплати в Журналі РРО', function(){
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
     const type = 'Z_SALE'
+    cy.visit(baseUrl+'/report/cash_orders_logs') 
+    cy.wait(3000) 
     ppoPage.checkAvansListPPO(type)
   })
 
@@ -495,6 +487,7 @@ it('0. Відкриття каси КарткаРРО372', function(){
   it('14. Перевірка Сервісного внесення в Журналі РРО', function(){
     const type = 'SERVICE_INPUT'
     cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
@@ -507,13 +500,15 @@ it('0. Відкриття каси КарткаРРО372', function(){
   it('16. Перевірка Сервісної видачі в Журналі РРО', function(){
     const type = 'SERVICE_OUTPUT'
     cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
   it('17. Завантаження Х_REPORT для каси  РРО Готівка ', function(){
     cy.visit(baseUrl+'/cash/bank')  
-    cy.get('tbody > tr').eq(9).find('button').eq(3).click({ force: true }) 
     cy.wait(3000)
+    cy.get('tbody > tr').eq(9).find('button').eq(3).click({ force: true }) 
+    cy.wait(2000)
   })
 
   it('18. Перевірка X_Звіту в Журналі РРО', function(){
@@ -709,6 +704,7 @@ it('30. Перевірка нульового Залишка після повн
 
   it('61. Закриття каси / Z_REPORT для каси РРО Готівка ', function(){
     cy.visit(baseUrl+'/cash/bank')  
+    cy.wait(3000)
     cy.get('tbody > tr').eq(8).find('button').eq(4).click({ force: true }) 
     cy.wait(5000)
   })
@@ -716,6 +712,7 @@ it('30. Перевірка нульового Залишка після повн
   it('62. Перевірка Z_Звіту в Журналі РРО', function(){
     const type = 'Z_REPORT'
     cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 

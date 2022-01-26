@@ -15,6 +15,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
     const row = 8
     cy.visit(baseUrl+'/cash/bank')  
     ppoPage.openCashPPO(row)
+    cy.wait(5000)
   })
 
   it('1. Перевірка відкритої каси РРО', function(){
@@ -24,6 +25,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
 
   it('2. Створення НЗ', function(){
     cy.visit(baseUrl+'/orders/appointments')
+    cy.wait(3000)
     cy.get('h1').should('have.text','Нові')
     cy.get('.ant-btn').last().click({ force: true })
   })
@@ -108,6 +110,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
     cy.get('.ant-modal-footer').find('button').contains('Додати').first().click({ force: true })
     cy.wait(1200)
     cy.get('.ant-notification-notice-message').should('not.have.text','Invalid request payload input')
+    cy.wait(12000)
   })
 
  it('10. Перевірка Залишку 0 після повної оплати', function(){
@@ -706,6 +709,17 @@ it('30. Перевірка нульового Залишка після повн
     cy.visit(baseUrl+'/cash/bank')  
     cy.wait(3000)
     cy.get('tbody > tr').eq(8).find('button').eq(4).click({ force: true }) 
+    cy.get('.ant-btn-primary').contains('Так').click({ force: true }) 
+    // // // cy.get('.ant-input-number-input').first().invoke('text')
+    // // // .then (text => { var summ = text;
+    // // //     cy.log(summ)
+    // // //     if (summ>0) {
+    // // //       cy.log(">0")
+    // // //     } else {
+    // // //       cy.log("error")
+    // // //     }
+    // // // })
+    cy.get('.ant-modal-footer > .ant-btn-primary').contains('Гаразд').click({ force: true })
     cy.wait(5000)
   })
 

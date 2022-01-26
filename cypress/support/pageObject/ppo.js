@@ -19,10 +19,14 @@ class PPO {
         cy.get('tbody > tr').eq(row).find('button').first().click({ force: true })
         cy.wait(2000)
         cy.get('[data-row-key] > :nth-child(5) > .anticon > svg > [d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z"]')
+        cy.get('.ant-input-number-input').clear().type(1999.99)
+        cy.get('.ant-btn-primary').contains('Гаразд').click({ force: true })
+        cy.wait(2000)
+
     }
 
     checkOpenCashPPO =() => {
-        cy.get('[data-row-key] > :nth-child(3)').first().should('have.text','OPEN_SHIFT')  // тип операції
+        cy.get('[data-row-key] > :nth-child(3)').eq(1).should('have.text','OPEN_SHIFT')  // тип операції
     }
 
     checkCloseCashPPO =() => {

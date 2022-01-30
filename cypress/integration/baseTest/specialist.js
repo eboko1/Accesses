@@ -27,11 +27,18 @@ var minute = parseInt(date.getMinutes())+10
 const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Specialist|Admin|UA|Desktop|', function(){
-  beforeEach('User LogIn ', function(){
-    cy.login(baseUrl, Cypress.env('LoginSpec'), Cypress.env('pw')) //LoginMaster pw
-    cy.get('img').eq(0).click({force: true}) //menu
+  beforeEach('User Login ', function(){
+    cy.login(baseUrl, Cypress.env('LoginSpec'), Cypress.env('pw'))
+      .then(()=>{
+        cy.url().should('contain', '/dashboard')
+        cy.get('img').eq(0).click({force: true}) //menu
+      })
   });
 
+  afterEach(() => {
+    cy.logout(baseUrl)
+  })
+  
     it('Профіль вибір українського інтерфейсу', function(){
       cy.visit(baseUrl+'/profile')
       profilePage.selectUA()

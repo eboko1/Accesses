@@ -16,7 +16,7 @@ class LoginPage {
      
     }
 
-    checkMessageUsername = (message) => {
+    logout = (message) => {
   
     }
 

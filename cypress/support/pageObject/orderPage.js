@@ -368,9 +368,11 @@ class OrderPage {
             cy.get('[data-row-key] > :nth-child(5) > .styles-m__diagnostic_status_button_wrap---ucmHY > .ant-btn').first().click({force: true}); //редагувати
         })
         .then(()=>{
+            cy.wait(2000)
             cy.get('[data-row-key] > :nth-child(5) > .styles-m__diagnostic_status_button_wrap---ucmHY > .ant-btn-danger').click({force: true}); // Клік на Критично;
         })
         .then(()=>{
+            cy.wait(2000)
             cy.get('tr > td > button').first().click({force: true}); // габургер 
             cy.wait(2000)
             cy.get('.styles-m__actionBlock---1BgjR > :nth-child(2) > .ant-btn').first().click({force: true}); 

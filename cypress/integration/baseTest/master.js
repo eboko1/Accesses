@@ -20,7 +20,7 @@ const laborDetails = new LaborDetails();
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 var date = new Date();
-////const idClient ='29041'
+////const idClient ='3007'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -28,10 +28,17 @@ const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Master|Admin|UA|Desktop|', function(){
   beforeEach('User Login ', function(){
-    cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw')) //LoginMaster pw
-    cy.get('img').eq(0).click({force: true}) //menu
+    cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw'))
+      .then(()=>{
+        cy.url().should('contain', '/dashboard')
+        cy.get('img').eq(0).click({force: true}) //menu
+      })
   });
 
+  afterEach(() => {
+    cy.logout(baseUrl)
+  })
+  
   it('1. Профіль вибір українського інтерфейсу', function(){
     cy.visit(baseUrl+'/profile')
     profilePage.selectUA()

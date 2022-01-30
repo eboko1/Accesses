@@ -161,6 +161,7 @@ class ProductTab {
         cy.get('.styles-m__brandColumn---3m8NH > .ant-select > .ant-select-selection').type('ABEX')
         cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
         cy.get('[style="display: flex;"] > .ant-select > .ant-select-selection').type('АНД')
+        cy.wait(2000);
         cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
         cy.get(':nth-child(10) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('123.45')
         cy.get(':nth-child(12) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('102.8')

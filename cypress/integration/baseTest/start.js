@@ -29,11 +29,18 @@ const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Start|Admin|UA|Desktop', function(){
-  beforeEach('User LogIn ', function(){
+  beforeEach('User Login ', function(){
     cy.login(baseUrl, Cypress.env('LoginStart'), Cypress.env('pw'))
-    cy.get('img').eq(0).click({force: true}) //menu
+      .then(()=>{
+        cy.url().should('contain', '/dashboard')
+        cy.get('img').eq(0).click({force: true}) //menu
+      })
   });
 
+  afterEach(() => {
+    cy.logout(baseUrl)
+  })
+  
   it('1. Профіль вибір українського інтерфейсу', function(){
     cy.visit(baseUrl+'/profile')
     profilePage.selectUA()

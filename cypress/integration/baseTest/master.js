@@ -5,6 +5,8 @@ import ClientPage from '../../support/pageObject/clientPage';
 import ProfilePage from '../../support/pageObject/profilePage';
 import LaborTab from '../../support/pageObject/tabsOrder/laborTab';
 import ProductTab from '../../support/pageObject/tabsOrder/productTab';
+import EmploeePage from '../../support/pageObject/emploeePage';
+import LaborDetails from '../../support/pageObject/laborDetails';
 
 const loginPage = new LoginPage();
 const orderPage = new OrderPage();
@@ -12,14 +14,13 @@ const clientPage = new ClientPage();
 const profilePage = new ProfilePage();
 const laborTab = new LaborTab();
 const productTab = new ProductTab();
-
-const username = Cypress.env('LoginMaster')
-const password = Cypress.env('pw')
+const emploeePage = new EmploeePage();
+const laborDetails = new LaborDetails();
 
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 var date = new Date();
-//const idClient ='17054'
+////const idClient ='29041'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -27,7 +28,7 @@ const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Master|Admin|UA|Desktop|', function(){
   beforeEach('User Login ', function(){
-    cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw'))
+    cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw')) //LoginMaster pw
     cy.get('img').eq(0).click({force: true}) //menu
   });
 
@@ -36,22 +37,22 @@ describe ('Master|Admin|UA|Desktop|', function(){
     profilePage.selectUA()
   })
 
-  it('2. Додавання Клієнта та а/м ч/з '+idClient, function(){
+  it(`2. Додавання Клієнта та а/м ч/з ${idClient}`, function(){
     cy.visit(baseUrl+'/add')
     clientPage.createClient(idClient,tel)
   });
 
-  it('3. Перевірка заповнених полів Картка клієнта '+idClient, function(){
+  it(`3. Перевірка заповнених полів Картка клієнта ${idClient}`, function(){
     cy.visit(baseUrl+'/client-hot-operations')
     clientPage.checkClient(idClient,tel)
   })
 
-  it('4. Редагування мобільного номера Клієнта:'+idClient, function(){
+  it(`4. Редагування мобільного номера Клієнта: ${idClient}`, function(){
     cy.visit(baseUrl+'/client-hot-operations')
     clientPage.editClientNumber(idClient,tel)
   })
 
-  it('5. Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
+  it(`5. Додати Н/З, підтягування клієнта через пошук, клієнт:${idClient}`, function(){
     cy.visit(baseUrl+'/orders/appointments')
     orderPage.createOrder(idClient)
   });
@@ -126,10 +127,10 @@ describe ('Master|Admin|UA|Desktop|', function(){
     productTab.editProduct(idClient)
   });
 
-  it('19. Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
-    cy.visit(baseUrl+'/orders/approve')
-    productTab.addProductVIN(idClient)
-  });
+  // it('19. Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
+  //   cy.visit(baseUrl+'/orders/approve')
+  //   productTab.addProductVIN(idClient)
+  // });
 
   it('20. Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){
     cy.visit(baseUrl+'/orders/approve')
@@ -178,15 +179,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   it('29. Відсутність $ в НЗ', function(){
     cy.visit(baseUrl+'/orders/success');
-    cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {var codeNZ = text;
-        cy.log(codeNZ)
-        const numArr = text.split('-')  //[MDR, 594, 12345]
-        cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-    })
-    cy.get('.styles-m__title---Nwr2X > span').should('have.text','Виконані')
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.get('.anticon-dollar').should('not.exist')// ел не має на в DOM
+    orderPage.checkDollar()
   });
 
   it('30. Копія НЗ', function(){
@@ -201,77 +194,26 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   it('32. Вкладка Історія в н/з', function(){
     cy.visit(baseUrl+'/orders/success');
-    cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => {var codeNZ = text;
-        cy.log(codeNZ)
-        const numArr = text.split('-')  //[MDR, 594, 12345]
-        cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-    })
-    cy.get('.styles-m__title---Nwr2X > span').should('have.text','Виконані')
-    cy.wait(2000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.log('Вибір Запису');
-    cy.wait(4000);
-    cy.log('Для нового клієнта історія містить 1 елемент');
-    cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(7)').click();
-    cy.get('.ant-table-row > :nth-child(2) > a').should('exist');
-  });
+    orderPage.checkHistory();
+ });
 
   it('33. Вкладка Пост в н/з', function(){
     cy.visit(baseUrl+'/orders/success');
-    cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
-    .then (text => { var codeNZ = text;
-        cy.log(codeNZ)
-        const numArr = text.split('-')  //[MDR, 594, 12345]
-        cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
-    })
-    cy.get('.styles-m__title---Nwr2X > span').should('have.text','Виконані')
-    cy.wait(2000);
-    cy.wait(2000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.log('Вибір Запису');
-    cy.wait(4000);
-    cy.log('Вкладка Пост');
-    cy.get('.ant-tabs-nav').contains('Пост').click({force: true});
-    cy.get('.styles-m__staticStationLoadsRow---MnLCJ > :nth-child(1)').should('exist');
+    orderPage.checkTabPost();
   });
 
   it('34. Відкриття форми створення Працівника', function(){
     cy.visit(baseUrl+'/employees');
-    cy.get('.ant-btn').click({force: true})
-    cy.wait(2000)
-    cy.get('.ant-form').should('exist');
-    cy.get('#jobTitle').type('Test').should('exist');
+    orderPage.checkTabPost();
   });
 
   it('35. Відкриття картки існуючого Працівника', function(){
     cy.visit(baseUrl+'/employees');
-    cy.get('.styles-m__employeeName---2QyjT').first().click({force: true})
-    cy.wait(2000)
-    cy.get('.ant-tabs').should('exist');
-    cy.wait(2000)
-    cy.get(':nth-child(1) > .ant-row > .ant-col-18').contains('Менеджерський доступ');
-  });
+    emploeePage.openEmploeeCard();
+   });
 
   it('36. Відкриття сторінки Деталі в Роботі', function(){
     cy.visit(baseUrl+'/spare-parts-workplace');
-    cy.get(':nth-child(5) > a').first().click({force: true})
-      .then(()=>{
-        cy.get('.styles-m__minimized---2nM6M > .ant-btn').click() // фільтр дата /spare-parts-workplace
-        cy.wait(2000)
-        cy.get('.styles-m__filterDateButtons---QBBQy > :nth-child(5)').click({force: true}) // фільтр Рік
-        cy.wait(5000)
-        cy.get('.ant-dropdown-menu > :nth-child(1) > span').first().click({force: true}) // Фільтри поточний рік
-        cy.get('.styles-m__headerContorls---2pU_V > .ant-radio-group > :nth-child(2)').click()
-        cy.get('.anticon-sort-ascending').first().click({force: true})
-        cy.wait(2000)
-        cy.get('.ant-dropdown-menu > :nth-child(2) > div').first().click({force: true})
-        cy.wait(2000)
-        cy.get('.ant-tabs-tabpane-active > .ant-table-wrapper').should('exist');
-        cy.wait(2000)
-        cy.get('.anticon-sort-ascending').click() //Сортування за постачальником
-        cy.get('.ant-dropdown-menu > :nth-child(2) > div > span').click({force: true})
-        cy.get('[data-row-key] > :nth-child(2)').should('exist');
-      })
-  });
+    laborDetails.openPage();
+  })  
 })

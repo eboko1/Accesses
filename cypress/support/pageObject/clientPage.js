@@ -109,7 +109,7 @@ class ClientPage {
 
     createClientPageClient = (idClient,tel) => {    
         cy.wait(2000);
-        cy.get('.styles-m__title---Nwr2X').should('have.text','Клієнти')
+        cy.get('h1').should('have.text','Клієнти')
         cy.get('.ant-table-body').should('exist')
         .then(()=>{
             cy.wait(3000)
@@ -223,24 +223,22 @@ class ClientPage {
     checkClient = (idClient,tel) => {
         cy.wait(5000)
         cy.log('Пошук клієнта');
-        cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)  //
+        cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)
         cy.wait(5000)
         .then(()=>{
-            cy.get('.styles-m__clientLink---1JZdU').first().click({force: true})
+            cy.get('tr > td > a').first().click({force: true})
         })
         cy.wait(5000)
         cy.get('#source').should('have.text','CarBook') 
     }
 
-    editClientNumber = (idClient,tel) => {
-             
+    editClientNumber = (idClient,tel) => {      
         cy.wait(6000)
         cy.log('Пошук клієнта');
         cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)  //
         cy.wait(6000)
-     
         .then(()=>{
-            cy.get('.styles-m__clientLink---1JZdU').first().click({force: true})
+            cy.get('tr > td > a').first().click({force: true})
             cy.wait(2000)
         })
         .then(()=>{

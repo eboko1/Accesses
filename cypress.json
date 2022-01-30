@@ -9,6 +9,8 @@
   "env": {
     "url":"test-",
     "pw":"123456",
+    "pwD":"456789",
+    
 
     "LoginFree":"free@admin.com",
     "Kasur":"test@kasur.com",
@@ -16,6 +18,8 @@
     "LoginStart":"start@admin.com",
     "LoginSpec":"specialist@admin.com",
     "LoginMaster":"master@admin.com",
-    "LoginMasterMehanic":"master@mehanic.com"
+    "LoginMasterMehanic":"master@mehanic.com",
+    "LoginDev":"my@admin.com"
+
   }
 }

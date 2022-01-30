@@ -4,7 +4,7 @@ class LaborTab {
         cy.wait(3000);
         cy.get('.ant-input-search > .ant-input').type(idClient)
         cy.wait(2000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.get('tr > td > a').first().click({force: true});
         cy.log('Вибір Запису');
         cy.wait(4000);
         cy.log('Вкладка Роботи');
@@ -14,7 +14,7 @@ class LaborTab {
         cy.get(':nth-child(1) > [title="Швидке редагування"] > div').first().click({force: true})
         cy.wait(1000);
         cy.log('Закупочна ціна');
-        cy.get(':nth-child(4) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('111');
+        cy.get('.ant-table-row > :nth-child(4) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').first().clear().type('111');
         cy.wait(1000);
         cy.get('.ant-btn-primary').last().click({force: true})
         cy.wait(1000);
@@ -33,7 +33,7 @@ class LaborTab {
         .then(()=>{
             cy.get('.ant-input-search > .ant-input').type(idClient)
             cy.wait(2000);
-            cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+            cy.get('tr > td > a').first().click({force: true});
             cy.log('Вибір Запису');
         })
         .then(()=>{
@@ -65,7 +65,6 @@ class LaborTab {
             cy.get(':nth-child(8) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('222')
             cy.wait(1000)
             cy.get(':nth-child(10) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('2')
-            //додати механіка
         })
         .then(()=>{
             cy.wait(3000);
@@ -77,7 +76,7 @@ class LaborTab {
     addLaborFieldLabor = (idClient) => {
         cy.get('.ant-input-search > .ant-input').type(idClient)
         cy.wait(2000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true})
+        cy.get('tr > td > a').first().click({force: true})
         .then(()=>{
             cy.log('Вкладка Роботи');
             cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
@@ -101,7 +100,7 @@ class LaborTab {
     addLaborComplexes = (idClient) => {
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true})
+        cy.get('tr > td > a').first().click({force: true})
         .then(()=>{
             cy.log('Вкладка Роботи');
             cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
@@ -122,7 +121,7 @@ class LaborTab {
     showMehanicLabor = (idClient) => {
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true})
+        cy.get('tr > td > a').first().click({force: true})
             
         .then(()=>{
             cy.log('Вкладка Роботи');
@@ -145,14 +144,14 @@ class LaborTab {
 
     }
     addCommentsToLabor = () => {
-        cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
+        cy.get('tr > td > a').first().invoke('text')
         .then (text => {var codeNZ = text;
           cy.log(codeNZ)
           const numArr = text.split('-')  //[MDR, 594, 12345]
           cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
         })
-        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Записи')
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.get('h1').should('have.text','Записи')
+        cy.get('tr > td > a').first().click({force: true});
         cy.get('.ant-tabs-nav').contains('Роботи').click()
         cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
         cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(4) > .ant-select > .ant-select-selection').type('Діагностика')

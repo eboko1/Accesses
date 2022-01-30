@@ -3,7 +3,7 @@ class ProductTab {
     addProduct = (idClient) => {
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true})
+        cy.get('tr > td > a').first().click({force: true})
         .then(()=>{
             cy.log('Вкладка Запчастин');
             cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click()
@@ -36,7 +36,7 @@ class ProductTab {
     editProduct = (idClient) => {
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.get('tr > td > a').first().click({force: true});
         cy.log('Вибір Запису');
         cy.wait(10000);
         cy.log('Вкладка Запчастини');
@@ -69,7 +69,7 @@ class ProductTab {
     addProductVIN = (idClient) => {
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.get('tr > td > a').first().click({force: true});
         cy.log('Вкладка Запчастини');
         cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click();
         cy.wait(2000);
@@ -80,8 +80,10 @@ class ProductTab {
         cy.get('.ant-table-row > :nth-child(3) > .ant-btn').click();
         cy.wait(5000);
         cy.get('[style="display: flex; justify-content: space-between; margin: -16px 0px 8px;"] > .ant-radio-group > :nth-child(2)').click();
-        cy.wait(1000);
-        cy.get('.styles-m__categoryList---3A9pG').should('exist')
+        cy.get('.ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body').contains('ДВИГАТЕЛЬ').click({force: true});
+        ////cy.wait(1000);
+        /////cy.get('.styles-m__categoryList').should('exist')
+       ////
         cy.wait(1000);
         cy.get('[style="display: flex; justify-content: space-between; margin: -16px 0px 8px;"] > .ant-radio-group > :nth-child(1)').click()
         cy.get('.styles-m__previewBLock---q-AEd > :nth-child(1) > img').click()
@@ -97,7 +99,7 @@ class ProductTab {
     addProductInfoAuto = (idClient) => {
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.get('tr > td > a').first().click({force: true});
         cy.log('Вибір Запису');
         cy.wait(10000);
         cy.log('Вкладка Запчастини');
@@ -119,7 +121,7 @@ class ProductTab {
     editProductIcon = (idClient) => {
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.get('tr > td > a').first().click({force: true});
         cy.log('Вибір Запису');
         cy.wait(10000);
         cy.log('Вкладка Запчастини');
@@ -143,30 +145,27 @@ class ProductTab {
     }
 
     addProductPlus = () => {
-        cy.get('a.styles-m__ordernLink---T-qWz').first().invoke('text')
+        cy.get('tr > td > a').first().invoke('text')
         .then (text => { var codeNZ = text;
           cy.log(codeNZ)
           const numArr = text.split('-')  //[MDR, 594, 12345]
           cy.get('.ant-input-search > .ant-input').last().type(numArr[numArr.length-1])//пошук
         })
-        cy.get('.styles-m__title---Nwr2X > span').should('have.text','Записи')
-        cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+        cy.get('h1').should('have.text','Записи')
+        cy.get('tr > td > a').first().click({force: true});
         cy.get('.ant-tabs-nav').contains('Запчастини').click()
         cy.get('.styles-m__headerActions---29OlS > [title="Додати"]').click()
         cy.get(':nth-child(2) > .ant-radio > .ant-radio-inner').click({force: true});
-    
         cy.get('.ant-table-row > :nth-child(4) > .ant-input').should('have.text','')
         cy.get('.ant-table-row > :nth-child(4) > .ant-input').clear().type('Моторне мастило')
         cy.get('.styles-m__brandColumn---3m8NH > .ant-select > .ant-select-selection').type('ABEX')
         cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
-    
         cy.get('[style="display: flex;"] > .ant-select > .ant-select-selection').type('АНД')
         cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
         cy.get(':nth-child(10) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('123.45')
         cy.get(':nth-child(12) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('102.8')
         cy.wait(1000);
         cy.get('.ant-modal-footer > div > .ant-btn-primary').last().click({force: true}) /// кнопка Гаразд
-    
         cy.get('.ant-tabs-tabpane-active > .ant-table-wrapper > .ant-spin-nested-loading > .ant-spin-container > .ant-table > .ant-table-content').contains('Моторне мастило')
      
     }

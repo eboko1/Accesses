@@ -246,7 +246,7 @@ class OrderPage {
         cy.get('[title="Інфо по автомобілю"] > .anticon > svg').click({force: true})
         cy.wait(4000);
         cy.get('.ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body').should('exist');
-        cy.wait(5000);
+        cy.wait(6000);
         cy.get('.styles-m__tableHeader---1i3oL').should('have.text','Спецификации масел и технических жидкостей')
         cy.get('.ant-modal-close-x').last().click({force: true})
         cy.wait(1000);
@@ -293,7 +293,7 @@ class OrderPage {
         cy.get('.anticon-printer > svg').click();
         cy.log('Завантаження Наряд замовлення для Клієнта');
         cy.get('.ant-dropdown-menu-item').eq(5).click({force: true});
-        cy.wait(2000); 
+        cy.wait(4000); 
     }
 
    checkDownloadOrder = () =>{ 

@@ -206,7 +206,9 @@ describe ('Start|Admin|UA|Desktop', function(){
   it('Меню / Швидка навігація + Ремонт', function(){
     cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
     cy.get(':nth-child(1) > .styles-m__folderLink---2Myrv > .anticon > svg').first().click({force: true})
-    cy.get('h1 > span').should('have.text','Додати Ремонт')
+      .then(()=> {
+        cy.get('h1 > span').should('have.text','Додати Ремонт')
+    }) 
   })
 
   it('Меню / Швидка навігація / Кнопка Ремонти', function(){
@@ -255,9 +257,11 @@ describe ('Start|Admin|UA|Desktop', function(){
     cy.get('h1 > span').should('have.text','Нові')
     cy.get('.ant-table-content').should('exist')
     cy.get('a > .ant-btn').contains('Додати').click({force: true})
+    cy.wait(3000)
     cy.get('h1 > span').should('have.text','Додати Ремонт')
     cy.get('.styles-m__headerContorls---2pU_V > .anticon > svg').click({force: true})
     cy.get('tr > td > a').first().click({force: true});
+    cy.wait(2000)
     cy.get('h1 > span').should('have.text','Новий')
   })
 

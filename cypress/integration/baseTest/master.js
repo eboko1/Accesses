@@ -207,6 +207,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   it('34. Відкриття форми створення Працівника', function(){
     cy.visit(baseUrl+'/employees');
+    cy.wait(3000)
     orderPage.checkTabPost();
   });
 

@@ -21,7 +21,7 @@ Cypress.Commands.add('login', (baseUrl, username, password) => {
     cy.get('button').click() 
 })
 
- Cypress.Commands.add('logout', (baseUrl, username, password) => {
+ Cypress.Commands.add('logout', (baseUrl) => {
     cy.visit(baseUrl)
     cy.get('.anticon-appstore > svg').click() 
     cy.get('.ant-dropdown-menu > :nth-child(2)').click() 

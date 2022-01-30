@@ -35,10 +35,6 @@ describe ('Master|Admin|UA|Desktop|', function(){
       })
   });
 
-  afterEach(() => {
-    cy.logout(baseUrl)
-  })
-  
   it('1. Профіль вибір українського інтерфейсу', function(){
     cy.visit(baseUrl+'/profile')
     profilePage.selectUA()

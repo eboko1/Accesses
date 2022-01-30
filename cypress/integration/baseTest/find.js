@@ -5,12 +5,18 @@ const profilePage = new ProfilePage();
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 describe ('Find|Master|UA|Desktop|', function(){
-
-  beforeEach('User LogIn ', function(){
+  beforeEach('User Login ', function(){
     cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw'))
-    cy.get('img').eq(0).click({ force: true })
+      .then(()=>{
+        cy.url().should('contain', '/dashboard')
+        cy.get('img').eq(0).click({force: true}) //menu
+      })
   });
 
+  afterEach(() => {
+    cy.logout(baseUrl)
+  })
+  
   it('Профіль вибір українського інтерфейсу', function(){
     cy.visit(baseUrl+'/profile')
     profilePage.selectUA()

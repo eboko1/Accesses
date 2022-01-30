@@ -7,18 +7,19 @@ const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 const textServise = 'Доставка Запчастин'
 var date = new Date();
 const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
-//const idProduct ='TEST'+'5057'
-
-const username = Cypress.env('LoginMaster')
-const password = Cypress.env('pw')
+//const idProduct ='TEST'+'30044'
 
 describe ('Складські документи ', function(){
-        beforeEach('User LogIn ',function(){
-          cy.visit(baseUrl)
-          loginPage.enterLogin(username,password)
-        });
-
+    beforeEach('User Login ', function(){
+        cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw'))
+          .then(()=>{
+            cy.url().should('contain', '/dashboard')
+            cy.get('img').eq(0).click({force: true}) //menu
+        })
+    });
+   
     it('Створення нового Товару через картку Товару / id= '+idProduct ,function(){
+        cy.get('.styles-m__logo---2zDPJ').click()
         cy.get('.ant-menu-submenu-title').contains('Довідник').click()
         cy.wait(2000);
         cy.get('.ant-menu-submenu').contains('Товари').click()

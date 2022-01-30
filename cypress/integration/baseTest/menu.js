@@ -12,10 +12,6 @@ describe ('Menu|Master|UA|Desktop|', function(){
         cy.get('img').eq(0).click({force: true}) //menu
       })
   });
-
-  afterEach(() => {
-    cy.logout(baseUrl)
-  })
   
   it('Профіль вибір українського інтерфейсу', function(){
     cy.visit(baseUrl+'/profile')

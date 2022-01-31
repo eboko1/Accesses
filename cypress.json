@@ -7,7 +7,7 @@
   "chromeWebSecurity": false,
   
   "env": {
-    "url":"test-",
+    "url":"",
     "pw":"123456",
     "pwD":"456789",
     

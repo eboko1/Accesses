@@ -18,7 +18,6 @@ const productTab = new ProductTab();
 const emploeePage = new EmploeePage();
 const laborDetails = new LaborDetails();
 
-
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 var date = new Date();

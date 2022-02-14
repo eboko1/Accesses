@@ -2,23 +2,22 @@ class LaborDetails {
 
     openPage = () =>{
         cy.wait(3000)
-        cy.get(':nth-child(5) > a').first().click({force: true})
+        cy.get('h1').should('have.text','Деталі в роботі')
+        cy.get('.anticon-calendar').first().click({force: true}) // фільтр дата
           .then(()=>{
-            cy.get('.styles-m__minimized---2nM6M > .ant-btn').click() // фільтр дата /spare-parts-workplace
             cy.wait(2000)
-            cy.get('.styles-m__filterDateButtons---QBBQy > :nth-child(5)').click({force: true}) // фільтр Рік
-            cy.wait(5000)
+            cy.get('.ant-btn').contains('Рік').trigger('mouseover')  /// Рік
             cy.get('.ant-dropdown-menu > :nth-child(1) > span').first().click({force: true}) // Фільтри поточний рік
+            cy.wait(2000)
+            cy.get('tr > td').should('not.have.text','')
             cy.get('.styles-m__headerContorls---2pU_V > .ant-radio-group > :nth-child(2)').click()
+            cy.get('tr > td').should('not.have.text','')
             cy.get('.anticon-sort-ascending').first().click({force: true})
-            cy.wait(2000)
-            cy.get('.ant-dropdown-menu > :nth-child(2) > div').first().click({force: true})
-            cy.wait(2000)
+            cy.wait(1000)
             cy.get('.ant-tabs-tabpane-active > .ant-table-wrapper').should('exist');
-            cy.wait(2000)
-            cy.get('.anticon-sort-ascending').click() //Сортування за постачальником
-            cy.get('.ant-dropdown-menu > :nth-child(2) > div > span').click({force: true})
-            cy.get('[data-row-key] > :nth-child(2)').should('exist');
+            cy.wait(1000)
+            cy.get('.ant-dropdown-menu-item').eq(5).click()  //Сортування за постачальником  //ant-dropdown-menu-title-content
+            cy.get('tr > td').should('not.have.text','')
           })
     }
 }

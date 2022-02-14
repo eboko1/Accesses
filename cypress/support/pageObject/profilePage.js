@@ -2,7 +2,7 @@ class ProfilePage {
 
 
     selectUA = () => {
-        cy.get('#language').click({force: true})
+        cy.get('.ant-select-selector').last().click({force: true})
         cy.contains('Українська').click({force: true});
         cy.wait(1000)
         .then (()=>{

@@ -15,10 +15,12 @@
 // Cypress.Commands.add("login", (email, password) => { ... })
 
 Cypress.Commands.add('login', (baseUrl, username, password) => {
-    cy.visit(baseUrl)
-    cy.get('#login.ant-input').type(username)
-    cy.get('#password').type(password)
-    cy.get('button').click() 
+    cy.visit(baseUrl).then(()=>{
+        cy.get('#loginForm_login').type(username)
+        cy.get('#loginForm_password').type(password)
+        cy.get('button').click() 
+    })
+    
 })
 
  Cypress.Commands.add('logout', (baseUrl) => {

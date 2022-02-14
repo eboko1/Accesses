@@ -6,15 +6,14 @@ const path = require("path");
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 const textServise = 'Доставка Запчастин'
 var date = new Date();
-const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
-//const idProduct ='TEST'+'31012'
+//const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
+const idProduct ='TEST'+'11154'
 
 describe ('Складські документи ', function(){
     beforeEach('User Login ', function(){
-        cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw'))
-          .then(()=>{
-            cy.url().should('contain', '/dashboard')
-        })
+        cy.login(baseUrl+'/login', Cypress.env('LoginMaster'), Cypress.env('pw')).as('login')
+        ///cy.wait('@login')
+        cy.url().should('contain', '/dashboard')
     });
    
     it('Створення нового Товару через картку Товару / id= '+idProduct ,function(){
@@ -22,17 +21,17 @@ describe ('Складські документи ', function(){
         cy.wait(2000);
         cy.get('.ant-menu-submenu').contains('Товари').click()
         cy.get('.ant-btn').contains('Додати').click({force: true})
-        cy.get('#code').type(idProduct)
-        cy.get('.ant-form').find('.ant-select-selection').eq(0).type('100 Plus')
+        cy.get('#StoreProductForm_code').type(idProduct)
+        cy.get('.ant-modal').find('.ant-select').eq(0).type('100 Plus')
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item').click({force: true})
+        cy.get('.ant-select-item').click({force: true})
         cy.wait(2000);
-        cy.get('.ant-form').find('.ant-select-selection').eq(1).type('1020201')
+        cy.get('.ant-modal').find('.ant-select').eq(1).type('1020201')
         cy.wait(2000);
-        cy.get(':nth-child(3) > :nth-child(1) > :nth-child(3) > .ant-select-tree-treenode-switcher-open > .ant-select-tree-child-tree > li > .ant-select-tree-node-content-wrapper').click({force: true})
+        cy.get('.ant-select-tree-title').first().click({force: true})
         cy.get('#tradeCode').type('0000000000')
         cy.get('#certificate').type('00000000000000000')
-        cy.get('.ant-form').find('button').click()   //.contains('Застосувати')
+        cy.get('.ant-modal').find('button').contains('Застосувати').click({force: true})   //.contains('Застосувати')
         cy.wait(2000);
         cy.get(':nth-child(1) > :nth-child(1) > div > .ant-input').first().type(idProduct)
         cy.wait(3000);
@@ -45,60 +44,58 @@ describe ('Складські документи ', function(){
         })
     })
 
-it(' AUT / Витрати з НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
-   
-    cy.contains('Швидка навігація').click({force: true})
-    cy.get('h1').should('have.text','Швидка навігація')
-    cy.get(':nth-child(1) > .styles-m__blockItems---2q9Ea > :nth-child(1) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
-    cy.get('h1 > span').should('have.text','Нові')
-    cy.get('.styles-m__description---1eHYb > span').should('have.text','Керування Вашими замовленнями')
-    cy.get('.styles-m__header---2z2EP').find('.ant-btn').contains('Додати').first().click({force: true})
-    cy.wait(2000);
-    cy.get('#searchClientQuery').type('Vika')
-    cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
-    cy.get('.ant-select-dropdown-menu-item').last().click({force: true})
-    cy.wait(2000);
-    cy.get('.ant-table-row > :nth-child(1)').first().click({force: true})
-    cy.get('.styles-m__header---2z2EP').find('.ant-btn').contains('Додати').first().click({force: true})
-    cy.wait(2000);
-    cy.get('.ant-tabs-nav').contains('Запчастини').first().click({force: true})
-    cy.get('.styles-m__headerActions---29OlS > [title="Додати"]').first().click({force: true})
-    cy.get('.ant-radio-group').contains('Склад').first().click({force: true})
-    cy.get(':nth-child(7) > :nth-child(1) > [style="display: flex;"] > .ant-btn').first().click({force: true})
-    cy.wait(1000);
-    cy.get('[data-row-key="0"] > :nth-child(8) > .ant-btn').first().click({force: true})
-    cy.wait(1000);
-    cy.get('.ant-modal-footer > div > .ant-btn-primary').last().click({force: true}) //ok
-    cy.wait(1000);
-    cy.get('.styles-m__dropdownTitle---3Vlog > :nth-child(2) > span').first().click({force: true}) /// перевести
-    cy.wait(2000);
-    cy.get('.ant-dropdown-menu-item').contains('Завершено').first().click({force: true})
-    cy.wait(2000); 
-    cy.get('.ant-modal').contains('OK').click({force: true})/////////////
-    cy.get('.sc-bxivhb > .ant-checkbox > .ant-checkbox-inner').first().click({force: true})  ///модалка оплати ч/з Завершено
-    cy.get('.ant-btn-primary').contains('Так').click({force: true})
-    cy.wait(3000); 
-
-    cy.get('.styles-m__title---Nwr2X').first().invoke('text').then(text =>{
-        cy.log(text)
-        const numArr = text.split('-') 
-        cy.log(numArr[numArr.length-1])
-        const newNmArr = numArr[numArr.length-1].split('З') 
-        cy.log(newNmArr[0])
-       //// cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
-
-         ////перехід швидка навігація
+    it(' AUT / Витрати з НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
         cy.contains('Швидка навігація').click({force: true})
-        cy.get('h1').should('have.text','Швидка навігація')  
-        cy.get(':nth-child(12) > .styles-m__buttonLink---1D7wr > .ant-btn').first().click({force: true})///витрати з НЗ AUT
+        cy.get('h1').should('have.text','Швидка навігація')
+        cy.get(':nth-child(1) > .styles-m__blockItems---2q9Ea > :nth-child(1) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
+        cy.get('h1').should('have.text','Нові')
+        cy.get('.ant-btn').contains('Додати Ремонт').first().click({force: true})
         cy.wait(2000);
-        cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})// вибір першого AUT в списку
-        cy.get(':nth-child(5) > :nth-child(1) > div > a').first().invoke('text').then( textFind =>{
-            expect('MRD-'+'4835-'+newNmArr[0]).to.eq(textFind)
+        cy.get('#searchClientQuery').type('Vika')
+        cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
+        cy.get('.ant-select-item').last().click({force: true})
+        cy.wait(2000);
+        cy.get('.ant-table-row > :nth-child(1)').first().click({force: true})
+        cy.get('.styles-m__header---2z2EP').find('.ant-btn').contains('Додати').first().click({force: true})
+        cy.wait(2000);
+        cy.get('.ant-tabs-nav').contains('Запчастини').first().click({force: true})
+        cy.get('.styles-m__headerActions---29OlS > [title="Додати"]').first().click({force: true})
+        cy.get('.ant-radio-group').contains('Склад').first().click({force: true})
+        cy.get(':nth-child(7) > :nth-child(1) > [style="display: flex;"] > .ant-btn').first().click({force: true})
+        cy.wait(1000);
+        cy.get('[data-row-key="0"] > :nth-child(8) > .ant-btn').first().click({force: true})
+        cy.wait(1000);
+        cy.get('.ant-modal-footer > div > .ant-btn-primary').last().click({force: true}) //ok
+        cy.wait(1000);
+        cy.get('.styles-m__dropdownTitle---3Vlog > :nth-child(2) > span').first().click({force: true}) /// перевести
+        cy.wait(2000);
+        cy.get('.ant-dropdown-menu-item').contains('Завершено').first().click({force: true})
+        cy.wait(2000); 
+        cy.get('.ant-modal').contains('OK').click({force: true})/////////////
+        cy.get('.sc-bxivhb > .ant-checkbox > .ant-checkbox-inner').first().click({force: true})  ///модалка оплати ч/з Завершено
+        cy.get('.ant-btn-primary').contains('Так').click({force: true})
+        cy.wait(3000); 
+
+        cy.get('.styles-m__title---Nwr2X').first().invoke('text').then(text =>{
+            cy.log(text)
+            const numArr = text.split('-') 
+            cy.log(numArr[numArr.length-1])
+            const newNmArr = numArr[numArr.length-1].split('З') 
+            cy.log(newNmArr[0])
+        //// cy.get('.styles-m__paper---3d-H1').find('.ant-input').type(numArr[numArr.length-1])
+
+            ////перехід швидка навігація
+            cy.contains('Швидка навігація').click({force: true})
+            cy.get('h1').should('have.text','Швидка навігація')  
+            cy.get(':nth-child(12) > .styles-m__buttonLink---1D7wr > .ant-btn').first().click({force: true})///витрати з НЗ AUT
+            cy.wait(2000);
+            cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})// вибір першого AUT в списку
+            cy.get(':nth-child(5) > :nth-child(1) > div > a').first().invoke('text').then( textFind =>{
+                expect('MRD-'+'4835-'+newNmArr[0]).to.eq(textFind)
+            })
         })
+        cy.wait(2000);
     })
-    cy.wait(2000);
-})
 
     it('AUT / Завантаження документа .pdf', function(){
        
@@ -151,17 +148,17 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Замовлення постачальнику')
         cy.get('.ant-select > .ant-select-selection').eq(3).type('Exist')
         cy.wait(2000);//
-        cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+        cy.get('.ant-select-item').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(3).clear().type('Коментарій Замовлення постачальнику').should('have.text','Коментарій Замовлення постачальнику')
         cy.get(':nth-child(3) > .ant-input').type('ORD'+idProduct)
         cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.wait(2000);
         cy.get(':nth-child(3) > :nth-child(2) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(2000);
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
@@ -289,17 +286,17 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Коригування замовлення')
         cy.get('.ant-select > .ant-select-selection').eq(3).type('Exist')
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+        cy.get('.ant-select-item').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(3).clear().type('Коментарій Коригування Замовлення').should('have.text','Коментарій Коригування Замовлення')
         cy.get(':nth-child(3) > .ant-input').type('BOR'+idProduct)
         cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.wait(2000);
         cy.get(':nth-child(3) > :nth-child(2) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(1000);
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
@@ -406,17 +403,17 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Прихід за замовленням')
         cy.get('.ant-select > .ant-select-selection').eq(3).type('Exist')
         cy.wait(3000);
-        cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+        cy.get('.ant-select-item').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(3).clear().type('Коментарій Прихід за замовленням').should('have.text','Коментарій Прихід за замовленням')
         cy.get(':nth-child(3) > .ant-input').type('COM'+idProduct)
         cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.wait(2000);
         cy.get(':nth-child(3) > :nth-child(2) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(2000);
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
@@ -528,18 +525,18 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Прихід від постачальника')
         cy.get('.ant-select > .ant-select-selection').eq(3).type('Exist')
         cy.wait(1000);
-        cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+        cy.get('.ant-select-item').first().click({force: true})
         cy.wait(1000);
         cy.get('.ant-input').eq(3).clear().type('Коментарій Прихід від постачальника').should('have.text','Коментарій Прихід від постачальника')
         cy.get(':nth-child(3) > .ant-input').type('INC'+idProduct)
         cy.wait(2000);
         cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
         cy.wait(1000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.wait(2000);
         cy.get(':nth-child(3) > :nth-child(2) > .ant-select > .ant-select-selection').click()
         cy.wait(1000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(1000);
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
@@ -674,17 +671,17 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Послуги')
         cy.get('.ant-select > .ant-select-selection').eq(3).type('Exist')
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+        cy.get('.ant-select-item').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(3).clear().type('Коментарій Прихід Послуги').should('have.text','Коментарій Прихід Послуги')
         cy.get(':nth-child(3) > .ant-input').type('SRV'+idProduct)
         cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.wait(2000);
         cy.get(':nth-child(3) > :nth-child(2) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(2000);
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
@@ -817,17 +814,17 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Повернення постачальнику')
         cy.get('.ant-select > .ant-select-selection').eq(3).type('Exist')
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+        cy.get('.ant-select-item').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(3).clear().type('Коментарій Повернення постачальнику').should('have.text','Коментарій Повернення постачальнику')
         cy.get(':nth-child(3) > .ant-input').type('SRT'+idProduct)
         cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.wait(2000);
         cy.get(':nth-child(3) > :nth-child(2) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(3000);
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
@@ -944,17 +941,17 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Продаж')
         cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+        cy.get('.ant-select-item').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(3).clear().type('Коментарій Продаж Клієнту').should('have.text','Коментарій Продаж Клієнту')
         cy.get(':nth-child(3) > .ant-input').type('OUT'+idProduct)
         cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.wait(2000);
         cy.get(':nth-child(3) > :nth-child(2) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(2000);
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')
@@ -1082,17 +1079,17 @@ it(' AUT / Витрати з НЗ / Створення нового Ремонт
         cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Повернення від клієнта')
         cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item').first().click({force: true})
+        cy.get('.ant-select-item').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(3).clear().type('Коментарій Повернення від клієнта').should('have.text','Коментарій Повернення від клієнта')
         cy.get(':nth-child(3) > .ant-input').type('CRT'+idProduct)
         cy.get(':nth-child(3) > :nth-child(1) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.wait(2000);
         cy.get(':nth-child(3) > :nth-child(2) > .ant-select > .ant-select-selection').click()
         cy.wait(2000);
-        cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true})
+        cy.get('.ant-select-item-active').first().click({force: true})
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(2000);
         cy.get('.styles-m__title---Nwr2X > :nth-child(1) > span').should('have.text','Нов.')

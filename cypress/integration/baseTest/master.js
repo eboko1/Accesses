@@ -20,15 +20,15 @@ const laborDetails = new LaborDetails();
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 var date = new Date();
-////const idClient ='3007'
+///const idClient ='14141'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
-const tel =second+'0'+minute+''+second+''+minute;
+const tel = minute+minute+second+minute+second+minute;
 
 describe ('Master|Admin|UA|Desktop|', function(){
   beforeEach('User Login ', function(){
-    cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw'))
+    cy.login(baseUrl+'/login', Cypress.env('LoginMaster'), Cypress.env('pw'))
       .then(()=>{
         cy.url().should('contain', '/dashboard')
         cy.get('img').eq(0).click({force: true}) //menu
@@ -42,6 +42,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   it(`2. Додавання Клієнта та а/м ч/з ${idClient}`, function(){
     cy.visit(baseUrl+'/add')
+    cy.wait(5000)
     clientPage.createClient(idClient,tel)
   });
 
@@ -60,12 +61,12 @@ describe ('Master|Admin|UA|Desktop|', function(){
     orderPage.createOrder(idClient)
   });
 
-  it('6. Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
+  it('6. Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Націнка, Пробіг', function(){
     cy.visit(baseUrl+'/orders/appointments')
     orderPage.editOrder(idClient)
   });
 
-  it('7. Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Пробіг, Знижка', function(){
+  it('7. Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Націнка, Пробіг', function(){
     cy.visit(baseUrl+'/orders/appointments')
     orderPage.checkOrder(idClient)
   });
@@ -87,7 +88,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   it('11. Додавання Робіт через групи Товарів', function(){
     cy.visit(baseUrl+'/orders/approve')
-    laborTab.addLaborGroupProduct(idClient)
+    laborTab.addLaborGroupProduct(idClient) 
   })
 
   it('12. Додавання Робіт через поле Робіт', function(){
@@ -110,15 +111,15 @@ describe ('Master|Admin|UA|Desktop|', function(){
     laborTab.addCommentsToLabor()
   });
 
-  it('15. Додавання Запчастин ч/з +', function(){
+  it('15. Відображення механіка в табці Роботи  ', function(){
+    cy.visit(baseUrl+'/orders/approve')
+    laborTab.showMehanicLabor(idClient)
+  }) 
+
+  it('16. Додавання Запчастин ч/з +', function(){
     cy.visit(baseUrl+'/orders/approve')
     productTab.addProductPlus()
   });
-
-  it('16. Відображення механіка в табці Роботи  ', function(){
-    cy.visit(baseUrl+'/orders/approve')
-    laborTab.showMehanicLabor(idClient)
-  })
 
   it('17. Додавання Запчастин ч/з Групу ЗЧ', function(){
     cy.visit(baseUrl+'/orders/approve')
@@ -130,12 +131,12 @@ describe ('Master|Admin|UA|Desktop|', function(){
     productTab.editProduct(idClient)
   });
 
-  // it('19. Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
-  //   cy.visit(baseUrl+'/orders/approve')
-  //   productTab.addProductVIN(idClient)
-  // });
+  it('19. Вкладка Запчастини > Відкриття модалки VIN', function(){
+    cy.visit(baseUrl+'/orders/approve')
+    productTab.checkModalVIN(idClient)
+  });
 
-  it('20. Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){
+  it('20. Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){ ///не підтягує дані 
     cy.visit(baseUrl+'/orders/approve')
     productTab.addProductInfoAuto(idClient)
   });
@@ -198,7 +199,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
   it('32. Вкладка Історія в н/з', function(){
     cy.visit(baseUrl+'/orders/success');
     orderPage.checkHistory();
- });
+  });
 
   it('33. Вкладка Пост в н/з', function(){
     cy.visit(baseUrl+'/orders/success');
@@ -208,13 +209,13 @@ describe ('Master|Admin|UA|Desktop|', function(){
   it('34. Відкриття форми створення Працівника', function(){
     cy.visit(baseUrl+'/employees');
     cy.wait(3000)
-    orderPage.checkTabPost();
+    emploeePage.openEmploeeCardForCreate();
   });
 
   it('35. Відкриття картки існуючого Працівника', function(){
     cy.visit(baseUrl+'/employees');
     emploeePage.openEmploeeCard();
-   });
+  });
 
   it('36. Відкриття сторінки Деталі в Роботі', function(){
     cy.visit(baseUrl+'/spare-parts-workplace');

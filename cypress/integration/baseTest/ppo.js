@@ -7,7 +7,7 @@ const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 describe ('PPO|Kasur|UA|Desktop|', function(){
   beforeEach('User LogIn ', function(){
-    cy.login(baseUrl, Cypress.env('Kasur'), Cypress.env('pw'))
+    cy.login(baseUrl+'/login', Cypress.env('Kasur'), Cypress.env('pw'))
     cy.get('img').eq(0).click({ force: true })
   });
 

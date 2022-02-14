@@ -6,7 +6,7 @@ const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 describe ('Menu|Master|UA|Desktop|', function(){
 
   beforeEach('User Login ', function(){
-    cy.login(baseUrl, Cypress.env('LoginMaster'), Cypress.env('pw'))
+    cy.login(baseUrl+'/login', Cypress.env('LoginMaster'), Cypress.env('pw'))
       .then(()=>{
         cy.url().should('contain', '/dashboard')
         cy.get('img').eq(0).click({force: true}) //menu

@@ -28,7 +28,7 @@ const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Specialist|Admin|UA|Desktop|', function(){
   beforeEach('User Login ', function(){
-    cy.login(baseUrl, Cypress.env('LoginSpec'), Cypress.env('pw'))
+    cy.login(baseUrl+'/login', Cypress.env('LoginSpec'), Cypress.env('pw'))
       .then(()=>{
         cy.url().should('contain', '/dashboard')
         cy.get('img').eq(0).click({force: true}) //menu

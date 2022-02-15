@@ -48,12 +48,9 @@ describe ('Складські документи ', function(){
         })
     })
 
-    it(' AUT / Витрати з НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
-        cy.contains('Швидка навігація').click({force: true})
-        cy.get('h1').should('have.text','Швидка навігація')
-        cy.get('button').eq(0).click({force: true})
+    it(' AUT / Витрати із НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
+        baseStorage.openDocsPlus(16);
         cy.get('h1').should('have.text','Нові')
-
         orderPage.createOrder('') // Клієнт
 
         cy.get('.ant-tabs-nav').contains('Запчастини').first().click({force: true})

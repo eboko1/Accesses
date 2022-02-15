@@ -189,7 +189,7 @@ class OrderPage {
    getInfoAuto = () => {
         cy.wait(4000);
         cy.get('tr > td > a').first().invoke('text')
-        .then (text => {var codeNZ = text;
+          .then (text => {var codeNZ = text;
             cy.log(codeNZ)
             const numArr = text.split('-')  //[MDR, 594, 12345]
             cy.get('.ant-input-wrapper > .ant-input').last().type(numArr[numArr.length-1])//пошук

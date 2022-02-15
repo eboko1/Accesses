@@ -18,7 +18,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/start.js
+          spec: cypress/integration/baseTest/start.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -39,7 +39,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/specialist.js
+          spec: cypress/integration/baseTest/specialist.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -60,7 +60,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/master.js
+          spec: cypress/integration/baseTest/master.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -102,7 +102,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/storage.js
+          spec: cypress/integration/baseTest/storage.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable

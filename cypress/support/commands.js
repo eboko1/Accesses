@@ -15,6 +15,16 @@
 // Cypress.Commands.add("login", (email, password) => { ... })
 
 Cypress.Commands.add('login', (baseUrl, username, password) => {
+    // // cy.request({
+    // //     method: 'POST',
+    // //     url: baseUrl,
+    // //     body: {
+
+    // //         login: username,
+    // //         password: password
+    // //     }
+
+    // // })
     cy.visit(baseUrl).then(()=>{
         cy.get('#loginForm_login').type(username)
         cy.get('#loginForm_password').type(password)

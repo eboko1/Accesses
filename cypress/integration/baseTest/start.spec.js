@@ -23,7 +23,7 @@ const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 var date = new Date();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
-//const idClient ='30050'
+//const idClient ='14120'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 const tel =second+'0'+minute+''+second+''+minute;
 

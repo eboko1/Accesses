@@ -70,7 +70,7 @@ class ClientPage {
                 cy.get(':nth-child(5) > .ant-col-12').click().type('MICRA IV (K13){downarrow}{enter}') //Модель авто
             })
             .then(()=>{
-                cy.get(':nth-child(6) > .ant-col-12').click().type('1.4 16V{downarrow}{enter}') //Модифікація авто
+                cy.get(':nth-child(6) > .ant-col-12').click().type('1.2{enter}') //Модифікація авто
             })
             .then(()=>{
                 cy.get(':nth-child(7) > .ant-col-12').click().type('Чорний{enter}') //Колір

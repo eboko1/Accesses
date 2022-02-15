@@ -77,7 +77,7 @@ class LaborTab {
 
     addLaborFieldLabor = (idClient) => {
         cy.get('.ant-input-wrapper > .ant-input').type(idClient)
-        cy.wait(2000);
+        cy.wait(3000);
         cy.get('tr > td > a').first().click({force: true})
         .then(()=>{
             cy.log('Вкладка Роботи');

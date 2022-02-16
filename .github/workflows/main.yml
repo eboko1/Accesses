@@ -207,7 +207,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/directoriesMasterAdmin.spec  js
+          spec: cypress/integration/baseTest/directoriesMasterAdmin.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable

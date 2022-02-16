@@ -10,6 +10,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
       .then(()=>{
         cy.wait(3000)
       })
+     
   });
   
   it('Профіль вибір українського інтерфейсу', function(){

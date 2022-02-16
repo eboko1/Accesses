@@ -8,40 +8,46 @@ const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 describe ('PPO|Kasur|UA|Desktop|', function(){
   beforeEach('User LogIn ', function(){
     cy.login(baseUrl+'/login', Cypress.env('Kasur'), Cypress.env('pw'))
+    cy.wait(7000)
     cy.get('img').eq(0).click({ force: true })
   });
 
-  it('0. Відкриття каси ГотівкаРРО', function(){
-    const row = 8
-    cy.visit(baseUrl+'/cash/bank')  
-    ppoPage.openCashPPO(row)
-    cy.wait(5000)
-  })
+  // it('0. Відкриття каси ГотівкаРРО', function(){
+  //   const row = 8
+  //   cy.visit(baseUrl+'/cash/bank')  
+  //   ppoPage.openCashPPO(row)
+  //   cy.wait(5000)
+  // })
 
-  it('1. Перевірка відкритої каси РРО', function(){
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
-    ppoPage.checkOpenCashPPO()
-  })
+  // it('1. Перевірка відкритої каси РРО', function(){
+  //   cy.visit(baseUrl+'/report/cash_orders_logs')  
+  //   ppoPage.checkOpenCashPPO()
+  // })
 
-  it('2. Створення НЗ', function(){
-    cy.visit(baseUrl+'/orders/appointments')
-    cy.wait(3000)
-    cy.get('h1').should('have.text','Нові')
-    cy.get('.ant-btn').last().click({ force: true })
-  })
+  // it('2. Створення НЗ', function(){
+  //   cy.visit(baseUrl+'/orders/appointments')
+  //   cy.wait(3000)
+  //   cy.get('h1').should('have.text','Нові')
+  //   cy.get('.ant-btn').last().click({ force: true })
+  // })
 
-  it('3. Заповнення картки по НЗ', function(){
-    cy.visit(baseUrl+'/add')
-    cy.get('h1').should('have.text','Додати Ремонт')
-    cy.get('#searchClientQuery').type('Vika')
-    cy.wait(2000)
-    cy.get('tr').eq(1).click()
-    cy.get('input').eq(5).click()
-    cy.get('.ant-calendar-date').eq(10).click()
-    cy.get('input').eq(6).click()
-    cy.get('.ant-time-picker-panel-select-option-selected').eq(0).click({ force: true });
-    cy.get('.ant-btn').click()
-  })
+  // it('3. Заповнення картки по НЗ', function(){
+  //   cy.visit(baseUrl+'/add')
+  //   cy.wait(7000)
+  //   cy.get('h1').should('have.text','Додати Ремонт')
+  //   cy.get('[data-qa="input_search_client_query_order_page"]').type('Vika')
+  //   cy.wait(2000)
+  //   cy.get('tr > td').eq(5).click()                       // вибір клієнта з таб
+  //   cy.get('input').eq(5).click()                         // дата запису 10
+  //   cy.get('tr > td ').eq(16).click()                     // вибір в календарі дати запису
+  //   cy.get('input').eq(6).type('{downarrow}{enter}')      // пост
+  //   cy.get('[data-qa="provide_time_order_page"]').click() // час
+  //   cy.get('.ant-picker-time-panel-cell').first().click() // час
+  //   cy.get('.ant-picker-footer').find('button').click()   // час OK
+  //   cy.wait(2000)
+  //   cy.get('.ant-btn').first().click({ force: true })
+  //   cy.wait(2000)   
+  // })
 
   it('4. Додавання роботи в НЗ', function(){
     cy.visit(baseUrl+'/orders/appointments')
@@ -69,8 +75,8 @@ describe ('PPO|Kasur|UA|Desktop|', function(){
     cy.get('.ant-dropdown-menu').contains('Завершено').click({ force: true }); 
     cy.wait(3000);
     cy.get('#withPayment > :nth-child(1)').click({ force: true})
-    cy.get('#cashBoxId').click({ force: true }).type('ГотівкаРРО372'); 
-    cy.get('.ant-select-dropdown-menu-item').eq(0).click({ force: true })
+    cy.get('#cashBoxId').click({ force: true }).type('ГотівкаРРО372{enter}'); 
+    ////cy.get('.ant-select-dropdown-menu-item').eq(0).click({ force: true })
     cy.get('#partialPayment').click({ force: true})                        
     cy.get('#paymentSum').clear().type('100')       // часткова сума 100
     cy.get('.styles-m__submit---2hKgG > .ant-btn-primary').click();

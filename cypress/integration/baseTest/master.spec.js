@@ -33,6 +33,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
         cy.url().should('contain', '/dashboard')
         cy.get('img').eq(0).click({force: true}) //menu
       })
+     
   });
 
   it('1. Профіль вибір українського інтерфейсу', function(){

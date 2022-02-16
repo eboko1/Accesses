@@ -13,10 +13,7 @@ describe ('Find|Master|UA|Desktop|', function(){
       .then(()=>{
         cy.wait(3000)
         cy.get('img').eq(0).click({force: true}) //menu
-    })///.then(() => {
-    //   // failure 1
-    //   throw new Error('before each hook failed')
-    // })
+    })
   });
   
   it('Профіль вибір українського інтерфейсу', function(){

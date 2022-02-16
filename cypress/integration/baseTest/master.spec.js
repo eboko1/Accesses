@@ -30,10 +30,9 @@ describe ('Master|Admin|UA|Desktop|', function(){
   beforeEach('User Login ', function(){
     cy.login(baseUrl+'/login', Cypress.env('LoginMaster'), Cypress.env('pw'))
       .then(()=>{
-        cy.url().should('contain', '/dashboard')
+        cy.wait(3000)
         cy.get('img').eq(0).click({force: true}) //menu
       })
-     
   });
 
   it('1. Профіль вибір українського інтерфейсу', function(){

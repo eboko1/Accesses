@@ -19,7 +19,7 @@ const baseStorage = new BaseStorage();
 
       beforeEach('User Login ', function(){
         cy.viewport(1240,960) 
-        login(Cypress.env('LoginMaster'), Cypress.env('pw'))
+        login(Cypress.env('Kasur'), Cypress.env('pw'))
       })
 
       it('Профіль вибір українського інтерфейсу', function(){

@@ -5,9 +5,8 @@ class LaborTab {
         cy.get('.ant-input-wrapper > .ant-input').type(idClient)
         cy.wait(2000);
         cy.get('tr > td > a').first().click({force: true});
-        cy.log('Вибір Запису');
         cy.wait(4000);
-        cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click(); // tab Роботи
+        cy.get('.ant-tabs-nav').contains('Роботи').click(); // tab Роботи
         cy.wait(1000);
         // cy.get('button').contains('btn_quick_edit_table_order_page').click({force: true}) // btn edit
         /// cy.get('button[data-qa=btn_quick_edit_table_order_page]').click({force: true}) // btn edit
@@ -31,43 +30,36 @@ class LaborTab {
 
     addLaborGroupProduct = (idClient) => {
         cy.wait(2000)
-        .then(()=>{
-            cy.get('.ant-input-wrapper > .ant-input').type(idClient)
-            cy.wait(2000);
-            cy.get('tr > td > a').first().click({force: true});
-            cy.log('Вибір Запису');
-        })
-        .then(()=>{
-            cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
+        cy.get('.ant-input-wrapper > .ant-input').type(idClient)
+        cy.wait(2000);
+        cy.get('tr > td > a').first().click({force: true});
+        cy.wait(4000);
+
+        cy.get('.ant-tabs-nav').contains('Роботи').click();
+        cy.wait(3000)
+    
+        cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
+        cy.wait(3000)
+    
+        cy.get('.ant-modal-title').contains('Додати роботу')
+        cy.wait(2000)
+    
+        cy.get('.ant-modal-body').find('.ant-select-selector').eq(0).type('Фільтри повітряні');  // група товару
+        cy.wait(2000)
+        cy.get('.ant-select-tree-title').first().click({force: true})
+
+            cy.get('.ant-modal-body').find('.ant-select-selector').eq(2).click({force: true})
             cy.wait(2000)
-        })
-        .then(()=>{
-            cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
-        })
-        .then(()=>{
-            cy.get('.ant-modal-title').contains('Додати роботу')
-            cy.wait(1000)
-        })
-        .then(()=>{
-            cy.get('.ant-modal-body').find('.ant-select-selector').eq(0).click().type('Фільтри повітряні');  // група товару
-            cy.wait(2000)
-            cy.get('.ant-select-tree-title').first().click()
-        })
-        .then(()=>{
-             cy.get('.ant-modal-body').find('.ant-select-selector').eq(2).click()
-             cy.wait(2000)
-             cy.get('.ant-select-item-option-active > .ant-select-item-option-content').click();
-            
-        })
-        .then(()=>{
-          ///  cy.get('.ant-modal-body').last().find('.ant-input-number-input').eq(0).clear()
-            cy.wait(1000)
-            cy.get('.ant-modal-body').last().find('.ant-input-number-input').eq(0).type('222')  ////{backspace}
-           //// cy.get('.ant-modal-body').last().find('.ant-input-number-input').eq(2).clear()
-           /// cy.wait(1000)
-            cy.get('.ant-modal-body').last().find('.ant-input-number-input').eq(2).type('2')
-        })
+            cy.get('.ant-select-item-option-active > .ant-select-item-option-content').click({force: true});
+        
+
+        ///  cy.get('.ant-modal-body').last().find('.ant-input-number-input').eq(0).clear()
+        cy.wait(1000)
+        cy.get('.ant-modal-body').last().find('.ant-input-number-input').eq(0).type('222')  ////{backspace}
+        //// cy.get('.ant-modal-body').last().find('.ant-input-number-input').eq(2).clear()
+        /// cy.wait(1000)
+        cy.get('.ant-modal-body').last().find('.ant-input-number-input').eq(2).type('2')
+ 
         .then(()=>{
             cy.wait(3000);
             cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
@@ -79,60 +71,50 @@ class LaborTab {
         cy.get('.ant-input-wrapper > .ant-input').type(idClient)
         cy.wait(3000);
         cy.get('tr > td > a').first().click({force: true})
-        .then(()=>{
-            cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-            cy.wait(2000)
-        })
-        .then(()=>{
-            cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
-        })
-        .then(()=>{
+        cy.wait(5000);
+        cy.get('.ant-tabs-nav').contains('Роботи').click();
+        cy.wait(2000)
 
-            cy.get('.ant-modal-body').find('.ant-select-selector').eq(2).type('Заміна')
-            cy.wait(3000)
-            cy.get('.ant-select-item-option-active > .ant-select-item-option-content').click();
-            // cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(4) > .ant-select > .ant-select-selection').type('Заміна')
-            // cy.wait(4000)
-            // cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
-        })
-        .then(()=>{
-            cy.wait(3000);
-            cy.get('.ant-modal-footer').find('button').last().click({force: true})
-            cy.wait(2000);
-        })      
-    }
+        cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
+
+        cy.get('.ant-modal-body').find('.ant-select-selector').eq(2).type('Заміна')
+        cy.wait(3000)
+        cy.get('.ant-select-item-option-active > .ant-select-item-option-content').click();
+        // cy.get('.ant-table-content > .ant-table-body > table > .ant-table-tbody > .ant-table-row > :nth-child(4) > .ant-select > .ant-select-selection').type('Заміна')
+        // cy.wait(4000)
+        // cy.get('.ant-select-dropdown-menu-item-active').first().click({force: true});
+
+    
+        cy.wait(3000);
+        cy.get('.ant-modal-footer').find('button').last().click({force: true})
+        cy.wait(2000);  
+}
 
     addLaborComplexes = (idClient) => {
         cy.get('.ant-input-wrapper > .ant-input').type(idClient)//пошук
         cy.wait(2000);
         cy.get('tr > td > a').first().click({force: true})
-        .then(()=>{
-            cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-            cy.wait(2000)
-        })
-        .then(()=>{
-            cy.get('.styles-m__ownIcon---2tsV5').click() /// btn Відкриття модалки Комплекси 
-            cy.wait(2000)
-            cy.get('.ant-modal-body').find('.ant-select-selection-search').eq(0).type('заміна мастила (оливи) в кпп')
-            cy.wait(2000)
-            cy.get(':nth-child(2) > .ant-select-tree-node-content-wrapper > .ant-select-tree-title').click({force: true}) ///:nth-child(2) > .ant-select-tree-node-content-wrapper > .ant-select-tree-title
-            cy.wait(2000)
-            cy.get('.ant-btn-primary').last().click({force: true})
-        })
+        cy.wait(5000)
+        cy.get('.ant-tabs-nav').contains('Роботи').click();
+        cy.wait(2000)
+       
+        cy.get('.styles-m__ownIcon---2tsV5').click() /// btn Відкриття модалки Комплекси 
+        cy.wait(2000)
+        cy.get('.ant-modal-body').find('.ant-select-selection-search').eq(0).type('заміна мастила (оливи) в кпп')
+        cy.wait(2000)
+        cy.get(':nth-child(2) > .ant-select-tree-node-content-wrapper > .ant-select-tree-title').click({force: true}) ///:nth-child(2) > .ant-select-tree-node-content-wrapper > .ant-select-tree-title
+        cy.wait(2000)
+        cy.get('.ant-btn-primary').last().click({force: true})
+    
     }
 
     showMehanicLabor = (idClient) => {
         cy.get('.ant-input-wrapper > .ant-input').type(idClient)//пошук
         cy.wait(2000);
         cy.get('tr > td > a').first().click({force: true})
-            
-        .then(()=>{
-            cy.log('Вкладка Роботи');
-            cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-            cy.wait(3000)
-        })
+        cy.wait(5000)     
+        cy.get('.ant-tabs-nav').contains('Роботи').click();
+        cy.wait(3000)
         .then(()=>{
             cy.get('[data-qa=tree_select_counterparty_employee_services_table_order_page]').eq(0).contains('Механік').should('exist')  ///Механік // робота з Діагностики 
             cy.get('[data-qa=tree_select_counterparty_employee_services_table_order_page]').eq(1).contains('Механік').should('exist')  ///Механік // + з модалки Робота
@@ -150,6 +132,7 @@ class LaborTab {
         })
         cy.get('h1').should('have.text','Записи')
         cy.get('tr > td > a').first().click({force: true});
+        cy.wait(4000)
         cy.get('.ant-tabs-nav').contains('Роботи').click()
         cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
         cy.wait(2000)

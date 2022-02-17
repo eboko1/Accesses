@@ -274,7 +274,7 @@ class OrderPage {
            cy.wait(2000);
         }).then(()=>{
             cy.get('.ant-dropdown-menu-item').contains('Запис').first().click({ force: true });
-            cy.wait(2000);
+            cy.wait(3000);
         })
     }
 
@@ -322,12 +322,14 @@ class OrderPage {
             cy.get('tr > td > button').first().click({force: true}); // габургер 
             cy.wait(2000)
             cy.get('.styles-m__actionBlock---1BgjR > :nth-child(2) > .ant-btn').first().click({force: true}); 
+            cy.wait(2000)
         })
         .then(()=>{
             cy.log('модалка Додати коментар!');
             cy.get(':nth-child(1) > .styles-m__blockButtonsWrap---1vfJT > :nth-child(3)').click(); // Що?
             cy.get(':nth-child(2) > .styles-m__blockButtonsWrap---1vfJT > :nth-child(1)').click(); //Де?
             cy.get('.ant-modal-footer > .ant-btn-primary').last().click();//зберегти модалка Додати коментар
+            cy.wait(3000)
         })
         .then(()=>{
             cy.log('Створити калькуляцію');

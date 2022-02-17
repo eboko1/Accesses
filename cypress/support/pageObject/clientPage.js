@@ -65,12 +65,15 @@ class ClientPage {
             })
             .then(()=>{
                 cy.get(':nth-child(4) > .ant-col-12').click().type('NISSAN{enter}') //Марка авто
+                cy.wait(2000)
             })
             .then(()=>{
                 cy.get(':nth-child(5) > .ant-col-12').click().type('MICRA IV (K13){downarrow}{enter}') //Модель авто
+                cy.wait(2000)
             })
             .then(()=>{
                 cy.get(':nth-child(6) > .ant-col-12').click().type('1.2{enter}') //Модифікація авто
+                cy.wait(2000)
             })
             .then(()=>{
                 cy.get(':nth-child(7) > .ant-col-12').click().type('Чорний{enter}') //Колір

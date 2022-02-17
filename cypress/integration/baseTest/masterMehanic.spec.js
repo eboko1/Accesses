@@ -15,28 +15,35 @@ const laborTab = new LaborTab();
 const productTab = new ProductTab();
 const laborDetails = new LaborDetails();
 
-const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
-
 var date = new Date();
-//const idClient ='91140'
-const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
+const idClient ='1818'
+//const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel =second+'0'+minute+''+second+''+minute;
 
-describe ('Master|Mehanic|UA|Desktop|', function(){  /// cy.viewport(1240,960) 
-  beforeEach('User Login ', function(){
-    cy.login('/login', Cypress.env('LoginMasterMehanic'), Cypress.env('pw'))
-      .then(()=>{
-        cy.wait(3000)
-        cy.get('img').eq(0).click({force: true}) //menu
-      })
-  });
+describe ('Master|Mehanic|UA|Desktop|', function(){ 
+  const login = (email, password) =>{
+    cy.session([email, password], () => { 
+      cy.visit('/') 
+      cy.get('#loginForm_login').type(email)
+      cy.get('#loginForm_password').type(password)
+      cy.get('button').click()
+      cy.wait(7000)
+      cy.getCookie('io')
+      cy.get('img').eq(0).click({force: true}) //menu
+    })
+  }
 
-  it('Профіль вибір українського інтерфейсу', function(){
-      cy.visit('/profile')
-      profilePage.selectUA()
+  beforeEach('User Login ', function(){
+    cy.viewport(1240,960) 
+    login(Cypress.env('LoginMasterMehanic'), Cypress.env('pw'))
   })
+
+  // it('Профіль вибір українського інтерфейсу', function(){
+  //     cy.visit('/profile')
+  //     profilePage.selectUA()
+  // })
 
   it('Інформація по а/м в НЗ', function(){
       cy.visit('/orders/approve')

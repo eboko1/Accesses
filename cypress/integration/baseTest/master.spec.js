@@ -20,7 +20,7 @@ const laborDetails = new LaborDetails();
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 var date = new Date();
-///const idClient ='14141'
+//const idClient ='18111'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10

@@ -1,6 +1,5 @@
 /// <reference types="cypress" />
 
-const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 const appointments = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/appointments';
 const approve = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/approve';
 const progress = 'https://'+Cypress.env('url')+'my.carbook.pro/orders/progress';
@@ -17,29 +16,33 @@ var mehanic=''
 
 
 
-describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
+describe ('Mobile|SH|Admin|UA', function(){ 
  
-    beforeEach('User LogIn ', function(){
-        cy.viewport('iphone-x')
-  
-        cy.login(baseUrl+'/login', Cypress.env('LoginSHTest'), Cypress.env('pwSH'))
-          .then(()=>{
-            cy.wait(3000)
-            cy.intercept('GET', baseUrl+'/dashboard')
-            .then(function(){
-                cy.get('.drawer-handle').click() // close
-                cy.wait(2000)
-            })
+    const login = (email, password) =>{
+        cy.session([email, password], () => { 
+          cy.visit('/') 
+          cy.get('#loginForm_login').type(email)
+          cy.get('#loginForm_password').type(password)
+          cy.get('button').click()
+          cy.wait(7000)
+          cy.getCookie('io')
+          cy.get('.drawer-handle').click() // close menu
         })
-    });
-
-    // it('Календар Завантажень', function(){
-    //     cy.get('.withScroll').should('exist');
-    //     cy.get('h1').should('have.text','Календар Завантаження');
-    // })
+      }
+    
+      beforeEach('User Login ', function(){
+        cy.viewport('iphone-x')
+        login(Cypress.env('LoginSHTest'), Cypress.env('pwSH'))
+      })
+    
+    it('Календар Завантажень', function(){
+        cy.visit('/') 
+        cy.get('.withScroll').should('exist');
+        cy.get('h1').should('have.text','Календар Завантаження');
+    })
 
    it('Створення Клієнта '+idClient, function(){
-        cy.viewport('iphone-x')
+        cy.visit('/') 
         cy.get('.sc-kvZOFW').first().click({ force: true })
         cy.wait(2000)
         cy.get('.ant-btn').eq(3).click({ force: true })
@@ -95,6 +98,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it('Додавання ремонту ч/з +|Планувальник', function(){
+        cy.visit('/') 
         cy.get(':nth-child(1) > .sc-jtRfpW > .sc-gxMtzJ > :nth-child(6) > span > .anticon > svg').first().click({ force: true })
         cy.wait(2000)
         cy.get('.ant-select > .ant-select-selection').eq(0).type('БазовийMobi'+idClient)
@@ -108,6 +112,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })   
 
     it('Перевірка заповнених полів в НЗ: тип Авто, Радіус, Тип Заміни, Коментар Клієнта', function(){
+        cy.visit('/') 
         cy.get('.anticon-menu-unfold > svg').click()
         cy.get('.ant-menu-item').contains('Ремонти').click()
         cy.wait(4000)
@@ -127,37 +132,38 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })  
 
     it('Додавання Механіка в НЗ', function(){
-            cy.get('.anticon-menu-unfold > svg').click()
-            cy.get('.ant-menu-item').contains('Ремонти').click()
-            cy.wait(3000)
-            cy.get('.ant-input').type(idClient)   //пошук
-            cy.wait(3000)
-            cy.get('.styles-m__ordernLink---2V9V3').first().click({ force: true })
-            cy.wait(3000)
-            cy.get('.ant-select-selection').last().invoke('text')// отримати механіка
-                .then (text => {
-                    mehanic = text;
-                    cy.log(mehanic)
-                })
-             cy.get('#employee > .ant-select-selection').click().type('Механік')
-             cy.wait(2000)
-             cy.get('.ant-select-dropdown-menu-item-active').click()
-             cy.wait(1000)
-             cy.get('#comment').type('Комент НЗ не заляпать салон)')
-             cy.wait(1000)
-             cy.get('#comment').should('have.text','Комент НЗ не заляпать салон)')
-             cy.get('.anticon-save ').first().click({ force: true })
-             cy.wait(3000)
-             cy.get('.styles-m__headerContorlsShowIcon---6gTgk > .anticon > svg').click()
-             cy.wait(2000)
-             cy.get('.styles-m__hiddenHeaderContorls---1N6ed > .styles-m__dropdownTitle---3Vlog > .anticon').click()
-             cy.wait(3000)
-             cy.get('.ant-dropdown-menu').contains('Запис').first().click({ force: true })
-             cy.wait(5000)
+    cy.visit('/') 
+    cy.get('.anticon-menu-unfold > svg').click()
+    cy.get('.ant-menu-item').contains('Ремонти').click()
+    cy.wait(3000)
+    cy.get('.ant-input').type(idClient)   //пошук
+    cy.wait(3000)
+    cy.get('.styles-m__ordernLink---2V9V3').first().click({ force: true })
+    cy.wait(3000)
+    cy.get('.ant-select-selection').last().invoke('text')// отримати механіка
+        .then (text => {
+            mehanic = text;
+            cy.log(mehanic)
+        })
+        cy.get('#employee > .ant-select-selection').click().type('Механік')
+        cy.wait(2000)
+        cy.get('.ant-select-dropdown-menu-item-active').click()
+        cy.wait(1000)
+        cy.get('#comment').type('Комент НЗ не заляпать салон)')
+        cy.wait(1000)
+        cy.get('#comment').should('have.text','Комент НЗ не заляпать салон)')
+        cy.get('.anticon-save ').first().click({ force: true })
+        cy.wait(3000)
+        cy.get('.styles-m__headerContorlsShowIcon---6gTgk > .anticon > svg').click()
+        cy.wait(2000)
+        cy.get('.styles-m__hiddenHeaderContorls---1N6ed > .styles-m__dropdownTitle---3Vlog > .anticon').click()
+        cy.wait(3000)
+        cy.get('.ant-dropdown-menu').contains('Запис').first().click({ force: true })
+        cy.wait(5000)
     })
 
     it('Перевірка НЗ в статусі Запису', function(){
-        cy.visit(appointments)
+         cy.visit('/appointments') 
         .then(function(){
             cy.get('.ant-input').type(idClient)   //пошук        
         })
@@ -174,7 +180,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it('Додавання Робіт', function(){
-        cy.visit(approve)
+         cy.visit('/approve') 
         .then(function(){
             cy.get('.ant-input').type(idClient)   //пошук
           
@@ -208,7 +214,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })  
 
     it('Додавання Робіт через Комплекси', function(){
-        cy.visit(approve)
+         cy.visit('/approve') 
         .then(function(){
             cy.get('.ant-input').type(idClient)   //пошук
             cy.get('.styles-m__ordernLink---2V9V3').first().click({ force: true })
@@ -230,7 +236,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it('Перевірка відображення працівника та найменування Роботи', function(){
-        cy.visit(approve)
+         cy.visit('/approve') 
         .then(function(){
             cy.get('.ant-input').type(idClient)   //пошук        
         })
@@ -253,7 +259,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
         it('Перевірка статуса НЗ / Ремонт', function(){
-            cy.visit(progress)
+             cy.visit('/progress') 
             .then(function(){
                 cy.get('.ant-input').type(idClient)   //пошук        
             })
@@ -265,7 +271,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
         })
 
     it('Додавання Запчастин', function(){
-        cy.visit(progress)
+         cy.visit('/progress') 
         .then(function(){
             cy.get('.ant-input').type(idClient)   //пошук
         })
@@ -286,7 +292,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it('Видалення Запчастин', function(){
-        cy.visit(progress)
+         cy.visit('/progress') 
         .then(function(){
           cy.get('.ant-input').type(idClient)   //пошук
         })
@@ -311,7 +317,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it('Відображення табки Історії ремонту', function(){
-        cy.visit(progress)
+         cy.visit('/progress') 
         .then(function(){
             cy.get('.ant-input').type(idClient)   //пошук        
         })
@@ -324,7 +330,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it('Перевірка відкриття Ордера / іконка $', function(){
-        cy.visit(progress)
+         cy.visit('/progress') 
         .then(function(){
             cy.get('.ant-input').type(idClient)   //пошук        
         })
@@ -341,7 +347,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it('Завершення ремонту, оплата', function(){
-        cy.visit(progress)
+         cy.visit('/progress') 
         .then(function(){
             cy.get('.ant-input').type(idClient)   //пошук        
         })
@@ -366,6 +372,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it(' Перевірка Відкриття модалки створення Каси', function(){
+        cy.visit('/') 
         cy.get('.anticon-menu-unfold > svg').click()
         cy.get('.ant-menu-submenu-title').contains('Довідник').click()
         cy.get('.ant-menu-item').contains('Каси').click()
@@ -378,6 +385,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it(' Перевірка Відкриття сторінки Каса і Банк та перехід на Рух Грошей, перевірка фільтра по переходу до каси', function(){
+        cy.visit('/') 
         cy.get('.anticon-menu-unfold > svg').click()
         cy.get('.ant-menu-submenu-title').contains('Бухгалтерія').click()
         cy.get('.ant-menu-item').contains('Каса і Банк').click()
@@ -394,6 +402,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
     })
 
     it('Перевірка картки Працівника', function(){
+        cy.visit('/') 
         cy.get('.anticon-menu-unfold > svg').click()
         cy.get('.ant-menu-submenu-title').contains('Довідник').click()
         cy.get('.ant-menu-item').contains('Працівники').click()
@@ -406,7 +415,7 @@ describe ('Mobile|SH|Admin|UA', function(){  // cy.viewport('iphone-x')
 
     // додати перевірка кнопок копіювання
     it('Створення копії НЗ', function(){
-        cy.visit(progress)
+         cy.visit('/progress') 
         .then(function(){
             cy.get('.ant-input').type(idClient)   //пошук        
         })

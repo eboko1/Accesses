@@ -172,7 +172,13 @@ describe ('Reports|Master|Admin|Desktop|UA|', function(){
 
     it('Бухгалтерія. Грошовий потік', function(){
         cy.visit(baseUrl+'/reports')
-        reportsPage.checkDownloadFile('Грошовий потік', 'Грошовий потік', 'cash_flow_report')
+        cy.get('.ant-btn').contains('Грошовий потік').click({force: true})
+        cy.wait(3000)
+        cy.get('h1').should('have.text', 'Звіт по руху грошей')
+        cy.get('.ant-modal-footer > .ant-btn-primary').last().click({force: true})
+        cy.wait(6000)
+        cy.readFile(path.join('cypress/downloads', 'cash_flow_report'+'.xlsx')).should("exist")    
+        cy.wait(5000)
     })
 
     it('Бухгалтерія. Звіт по продажі по товарах', function(){

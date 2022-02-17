@@ -26,23 +26,32 @@ var minute = parseInt(date.getMinutes())+10
 const tel = minute+minute+second+minute+second+minute;
 
 
-describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960) 
-    beforeEach('User LogIn ', function() {
-        cy.viewport(1240,960)  
-        cy.login(baseUrl+'/login', Cypress.env('LoginSHTest'), Cypress.env('pwSH'))
-          .then(()=>{
-            cy.wait(3000)
-            cy.get('img').eq(0).click({force: true}) //menu
-        })
-        cy.get('h1').contains('Календар Завантаження');
-    });
+describe ('SH|Desktop|Master|Admin|UA', function(){   
 
+    const login = (email, password) =>{
+        cy.session([email, password], () => { 
+          cy.visit('/') 
+          cy.get('#loginForm_login').type(email)
+          cy.get('#loginForm_password').type(password)
+          cy.get('button').click()
+          cy.wait(7000)
+          cy.getCookie('io')
+          cy.get('img').eq(0).click({force: true}) //menu
+        })
+      }
+    
+      beforeEach('User Login ', function(){
+        cy.viewport(1240,960) 
+        login(Cypress.env('LoginSHTest'), Cypress.env('pwSH'))
+      })
+    
     it('Профіль вибір українського інтерфейсу', function(){
-        cy.visit(baseUrl+'/profile')
+        cy.visit('/profile')
         profilePage.selectUA()
     })
 
     it('2.+Клієнта та а/м: '+idClient, function(){
+        cy.visit('/') 
         cy.get('.styles-m__logo---1OVEG').click()
         cy.wait(1000)
         cy.contains('Ремонти').click({force: true})
@@ -163,6 +172,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
 
 
     it('2.1 Перевірка заповнених полів Картка клієнта '+idClient, function(){
+        cy.visit('/') 
         cy.get('.styles-m__logo---1OVEG').click()
         cy.get(':nth-child(2) > .ant-menu-submenu-title').click()
         cy.contains('Клієнти').click()
@@ -180,6 +190,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         })
 
     it('Редагування мобільного номера для клієнта:'+idClient, function(){
+        cy.visit('/') 
         cy.get('.styles-m__logo---1OVEG').click()
         cy.get(':nth-child(2) > .ant-menu-submenu-title').click()
         cy.contains('Клієнти').click()
@@ -210,6 +221,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         })
 
         it('Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
+            cy.visit('/') 
             cy.get('.styles-m__logo---1OVEG').click()//menu
             cy.contains('Ремонти').click()
             .then(function(){
@@ -233,6 +245,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         });
 
     it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Тип Заміни', function(){
+        cy.visit('/') 
         cy.get('.styles-m__logo---1OVEG').click()//menu
         cy.log('Вибір Меню ремонти');
         cy.contains('Ремонти').click()
@@ -272,6 +285,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
 
 
     it('Перевід у статус Запис', function(){
+        
         cy.get('.styles-m__logo---1OVEG').click()//menu
         cy.log('Вибір Меню ремонти'+ cy.url());
         cy.contains('Ремонти').first().click({ force: true })
@@ -304,7 +318,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
     });
 
     it('Додавання Робіт', function(){
-        cy.visit(approve)
+        cy.visit('/approve')
             .then(function(){
                 cy.get('.ant-input-search > .ant-input').type(idClient)
                 cy.wait(2000);
@@ -332,7 +346,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
     });
 
         //   it('Перевірка Найменування та Ціни доданої Роботи', function(){
-        //         cy.visit(approve);
+        //         cy.visit('/approve');
         //         cy.wait(3000);
         //         cy.get('.ant-input-search > .ant-input').type(idClient)
         //         cy.wait(2000);
@@ -349,7 +363,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         //     });
 
     it('Додавання Робіт через Комплекси', function(){
-            cy.visit(approve);
+            cy.visit('/approve');
             cy.wait(3000);
             cy.get('.ant-input-search > .ant-input').type(idClient)
             cy.wait(2000);
@@ -369,7 +383,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
     })
 
     it('Видалення Роботи', function(){
-            cy.visit(approve);
+            cy.visit('/approve');
             cy.wait(3000);
             cy.get('.ant-input-search > .ant-input').type(idClient)
             cy.wait(2000);
@@ -389,7 +403,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         });
 
         it('Додавання Запчастин через Комплекси', function(){
-            cy.visit(approve);
+            cy.visit('/approve');
             cy.wait(3000);
             cy.get('.ant-input-search > .ant-input').type(idClient)
             cy.wait(2000);
@@ -407,7 +421,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         })
 
         it('Редагування ЗЧ доданої через Комплекси ', function(){
-            cy.visit(approve);
+            cy.visit('/approve');
             cy.wait(3000);
             cy.get('.ant-input-search > .ant-input').type(idClient)
             cy.wait(2000);
@@ -427,7 +441,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         })
 
         it('Перевірка табки Історія', function(){
-            cy.visit(approve);
+            cy.visit('/approve');
             cy.wait(3000);
             cy.get('.ant-input-search > .ant-input').type(idClient)
             cy.wait(2000);
@@ -441,7 +455,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         })
 
         it('Перевід НЗ в статус Ремонту', function(){
-            cy.visit(approve);
+            cy.visit('/approve');
         //  cy.get('.styles-m__logo---2zDPJ').click()
             cy.wait(3000);
             cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
@@ -457,7 +471,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         })
 
         it('Перевірка НЗ в списку Ремонтів', function(){
-        cy.visit(progress);
+        cy.visit('/progress');
         cy.wait(3000);
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
@@ -468,7 +482,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
         })
 
     it('Відкриття кaсового Ордера з НЗ', function(){
-        cy.visit(progress);
+        cy.visit('/progress');
         cy.wait(3000);
         cy.get('.ant-input-search > .ant-input').type(idClient)
         cy.wait(2000);
@@ -485,7 +499,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
     });
 
     it('Додавання Коментарів в НЗ', function(){
-        cy.visit(progress);
+        cy.visit('/progress');
         cy.wait(4000);
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
@@ -497,7 +511,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
     });
 
     it('Оплата і видача', function(){
-        cy.visit(progress);
+        cy.visit('/progress');
         cy.wait(4000);
         cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
         cy.wait(2000);
@@ -526,7 +540,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
 
 
     it('Перевірка відкриття модалки створення Працівника', function(){
-        cy.get('.styles-m__logo---1OVEG').click()//menu
+        cy.visit('/');
         cy.get(':nth-child(2) > .ant-menu-submenu-title').click().should('exist');
         cy.contains('Працівники').click()
             .then(function(){
@@ -538,6 +552,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){   // // cy.viewport(1240,960
     });
 
     it('Перевірка відкриття картки існуючого Працівника', function(){
+        cy.visit('/');
         cy.get('.styles-m__logo---1OVEG').click()//menu
         cy.get(':nth-child(2) > .ant-menu-submenu-title').click().should('exist');
         cy.contains('Працівники').click()

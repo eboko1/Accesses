@@ -26,25 +26,25 @@ const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Master|Mehanic|UA|Desktop|', function(){  /// cy.viewport(1240,960) 
   beforeEach('User Login ', function(){
-    cy.login(baseUrl+'/login', Cypress.env('LoginMasterMehanic'), Cypress.env('pw'))
+    cy.login('/login', Cypress.env('LoginMasterMehanic'), Cypress.env('pw'))
       .then(()=>{
         cy.wait(3000)
         cy.get('img').eq(0).click({force: true}) //menu
       })
   });
 
-  // it('Профіль вибір українського інтерфейсу', function(){
-  //     cy.visit(baseUrl+'/profile')
-  //     profilePage.selectUA()
-  // })
+  it('Профіль вибір українського інтерфейсу', function(){
+      cy.visit('/profile')
+      profilePage.selectUA()
+  })
 
   it('Інформація по а/м в НЗ', function(){
-      cy.visit(baseUrl+'/orders/approve')
+      cy.visit('/orders/approve')
       orderPage.getInfoAuto()
   });
 
   it('Редагування ціни для Роботи в НЗ', function(){
-    cy.visit(baseUrl+'/orders/approve')
+    cy.visit('/orders/approve')
     ///cy.get('.ant-input-search > .ant-input').type(idClient)
     cy.wait(2000);
     cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
@@ -67,7 +67,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   });
 
   it('Відкриття таб. Роботи', function(){
-    cy.visit(baseUrl+'/orders/approve')
+    cy.visit('/orders/approve')
     ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
     cy.wait(2000);
     cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
@@ -80,7 +80,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   });
   
   it('Відкриття таб. Запчастини', function(){
-    cy.visit(baseUrl+'/orders/approve')
+    cy.visit('/orders/approve')
     ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
     cy.wait(2000);
     cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
@@ -93,31 +93,31 @@ describe ('Master|Mehanic|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   });
 
   it('Статистика в НЗ', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.getStatisticOrder()
   });
 
   it('Додавання Коментарів', function(){
-    cy.visit(baseUrl+'/orders/progress');
+    cy.visit('/orders/progress');
     orderPage.addComments(idClient)});
 
 
   it('Відсутність $ в НЗ', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.checkDollar()
   });
 
   it('Вкладка Історія в н/з', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.checkHistory();
   });
 
   it('Вкладка Пост в н/з', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.checkTabPost(); });
 
   it('Відкриття сторінки Деталі в Роботі', function(){
-    cy.visit(baseUrl+'/spare-parts-workplace');
+    cy.visit('/spare-parts-workplace');
     laborDetails.openPage();
   });
 

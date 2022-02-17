@@ -44,187 +44,187 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
   })
   
   it('Профіль вибір українського інтерфейсу', function(){
-    cy.visit(baseUrl+'/profile')
+    cy.visit('/profile')
     profilePage.selectUA()
   })
 
   it('Додавання Клієнта та а/м: '+idClient, function(){
-    cy.visit(baseUrl+'/add');
+    cy.visit('/add');
     clientPage.createClient(idClient,tel);
   });
 
   it('Перевірка заповнених полів Картка клієнта '+idClient, function(){
-    cy.visit(baseUrl+'/client-hot-operations');
+    cy.visit('/client-hot-operations');
     clientPage.checkClient(idClient,tel);
   })
 
   it('Редагування мобільного номера Клієнта:'+idClient, function(){
-    cy.visit(baseUrl+'/client-hot-operations');
+    cy.visit('/client-hot-operations');
     clientPage.editClientNumber(idClient,tel);
   })
 
   it('Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
-    cy.visit(baseUrl+'/orders/appointments');
+    cy.visit('/orders/appointments');
     orderPage.createOrder(idClient);
   });
 
   it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
-    cy.visit(baseUrl+'/orders/appointments');
+    cy.visit('/orders/appointments');
     orderPage.editOrder(idClient);
   });
 
   it('Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Пробіг, Знижка', function(){
-    cy.visit(baseUrl+'/orders/appointments')
+    cy.visit('/orders/appointments')
     orderPage.checkOrder(idClient)
   });
 
   it('Перевід у статус Запис', function(){
-    cy.visit(baseUrl+'/orders/appointments');
+    cy.visit('/orders/appointments');
     orderPage.createAppointments(idClient);
   });
 
   it('Створення Діагностики', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     orderPage.createDiagnostic(idClient);
   });
 
   it('Редагування ціни для доданої Роботи з діагностики', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     laborTab.editLaborDiagnostic(idClient);
   });
 
   it('Додавання Робіт через групи Товарів', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     laborTab.addLaborGroupProduct(idClient);
   })
 
   it('Додавання Робіт через поле Робіт', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     laborTab.addLaborFieldLabor(idClient);
   })
 
   it('Додавання Робіт повторно', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     laborTab.addLaborFieldLabor(idClient);
   })
 
   it('Вкладка Роботи > Додавання Роботи ч/з Комплекси', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     laborTab.addLaborComplexes(idClient);
   });
 
   it('Додавання коментарів до Роботи ч/з +', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     laborTab.addCommentsToLabor();
   });
 
   it('Додавання Запчастин ч/з +', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     productTab.addProductPlus();
   });
 
   it('Відображення механіка в табці Роботи  ', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     laborTab.showMehanicLabor(idClient);
   })
 
   it('Додавання Запчастин ч/з Групу ЗЧ', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     productTab.addProduct(idClient);
   })
 
   it('Вкладка Запчастини > Пряме редагування', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     productTab.editProduct(idClient)
   });
 
   it('Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     productTab.addProductVIN(idClient);
   });
 
   it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     productTab.addProductInfoAuto(idClient);
   });
 
   it('Вкладка Запчастини > Швидке редагування запчастин', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     productTab.editProductIcon(idClient)
   });
 
   it('Інформація по а/м в НЗ', function(){
-      cy.visit(baseUrl+'/orders/approve');
+      cy.visit('/orders/approve');
       orderPage.getInfoAuto()
   });
 
   it('Перевід у статус Ремонту', function(){
-    cy.visit(baseUrl+'/orders/approve');
+    cy.visit('/orders/approve');
     orderPage.createProgress(idClient)
   })
 
   it('Додавання Коментарів', function(){
-    cy.visit(baseUrl+'/orders/progress');
+    cy.visit('/orders/progress');
     orderPage.addComments(idClient);
   });
 
   it('Оплата і видача (ОВ)', function(){
-    cy.visit(baseUrl+'/orders/progress');
+    cy.visit('/orders/progress');
     orderPage.payOrder(idClient);
   });
 
   it('Статистика в НЗ', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.getStatisticOrder();
   });
 
   it('Завантаження НЗ для Клієнта', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.downloadOrder();
   });
 
   it('Перевірка завантаженних файлів', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.checkDownloadOrder()
   });
 
   it('Відсутність $ в НЗ', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.checkDollar()
   });
 
   it('Копія НЗ', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.copyOrder(idClient)
   });
 
   it('Видалення НЗ', function(){
-    cy.visit(baseUrl+'/orders/appointments')
+    cy.visit('/orders/appointments')
     orderPage.deleteOrder(idClient)
   });
 
   it('Вкладка Історія в н/з', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.checkHistory();
   });
 
   it('Вкладка Пост в н/з', function(){
-    cy.visit(baseUrl+'/orders/success');
+    cy.visit('/orders/success');
     orderPage.checkTabPost();
   });
 
   it('Відкриття форми створення Працівника', function(){
-    cy.visit(baseUrl+'/employees');
+    cy.visit('/employees');
     orderPage.checkTabPost();
   });
 
   it('Відкриття картки існуючого Працівника', function(){
-    cy.visit(baseUrl+'/employees');
+    cy.visit('/employees');
     emploeePage.openEmploeeCard();
   });
 
   it('Відкриття сторінки Деталі в Роботі', function(){
-    cy.visit(baseUrl+'/spare-parts-workplace');
+    cy.visit('/spare-parts-workplace');
     laborDetails.openPage();
   });
 })

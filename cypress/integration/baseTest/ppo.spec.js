@@ -3,54 +3,64 @@
 import PPO from '../../support/pageObject/ppo';
 
 const ppoPage = new PPO();
-const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960) 
-  beforeEach('User LogIn ', function(){
-    cy.login(baseUrl+'/login', Cypress.env('Kasur'), Cypress.env('pw'))
+  const login = (email, password) =>{
+    cy.session([email, password], () => { 
+      cy.visit('/directories') 
+      cy.get('#loginForm_login').type(email)
+      cy.get('#loginForm_password').type(password)
+      cy.get('button').click()
+      cy.wait(7000)
+      cy.getCookie('io')
+      cy.get('img').eq(0).click({force: true}) //menu
+    })
+  }
+
+  beforeEach('User Login ', function(){
+    cy.viewport(1240,960) 
+    login(Cypress.env('Kasur'), Cypress.env('pw'))
+  })
+
+  it('0. Відкриття каси ГотівкаРРО', function(){
+    const row = 8
+    cy.visit('/cash/bank')  
+    ppoPage.openCashPPO(row)
+    cy.wait(5000)
+  })
+
+  it('1. Перевірка відкритої каси РРО', function(){
+    cy.visit('/report/cash_orders_logs')  
+    ppoPage.checkOpenCashPPO()
+  })
+
+  it('2. Створення НЗ', function(){
+    cy.visit('/orders/appointments')
+    cy.wait(3000)
+    cy.get('h1').should('have.text','Нові')
+    cy.get('.ant-btn').last().click({ force: true })
+  })
+
+  it('3. Заповнення картки по НЗ', function(){
+    cy.visit('/add')
     cy.wait(7000)
-    cy.get('img').eq(0).click({ force: true })
-  });
-
-  // it('0. Відкриття каси ГотівкаРРО', function(){
-  //   const row = 8
-  //   cy.visit(baseUrl+'/cash/bank')  
-  //   ppoPage.openCashPPO(row)
-  //   cy.wait(5000)
-  // })
-
-  // it('1. Перевірка відкритої каси РРО', function(){
-  //   cy.visit(baseUrl+'/report/cash_orders_logs')  
-  //   ppoPage.checkOpenCashPPO()
-  // })
-
-  // it('2. Створення НЗ', function(){
-  //   cy.visit(baseUrl+'/orders/appointments')
-  //   cy.wait(3000)
-  //   cy.get('h1').should('have.text','Нові')
-  //   cy.get('.ant-btn').last().click({ force: true })
-  // })
-
-  // it('3. Заповнення картки по НЗ', function(){
-  //   cy.visit(baseUrl+'/add')
-  //   cy.wait(7000)
-  //   cy.get('h1').should('have.text','Додати Ремонт')
-  //   cy.get('[data-qa="input_search_client_query_order_page"]').type('Vika')
-  //   cy.wait(2000)
-  //   cy.get('tr > td').eq(5).click()                       // вибір клієнта з таб
-  //   cy.get('input').eq(5).click()                         // дата запису 10
-  //   cy.get('tr > td ').eq(16).click()                     // вибір в календарі дати запису
-  //   cy.get('input').eq(6).type('{downarrow}{enter}')      // пост
-  //   cy.get('[data-qa="provide_time_order_page"]').click() // час
-  //   cy.get('.ant-picker-time-panel-cell').first().click() // час
-  //   cy.get('.ant-picker-footer').find('button').click()   // час OK
-  //   cy.wait(2000)
-  //   cy.get('.ant-btn').first().click({ force: true })
-  //   cy.wait(2000)   
-  // })
+    cy.get('h1').should('have.text','Додати Ремонт')
+    cy.get('[data-qa="input_search_client_query_order_page"]').type('Vika')
+    cy.wait(2000)
+    cy.get('tr > td').eq(5).click()                       // вибір клієнта з таб
+    cy.get('input').eq(5).click()                         // дата запису 10
+    cy.get('tr > td ').eq(16).click()                     // вибір в календарі дати запису
+    cy.get('input').eq(6).type('{downarrow}{enter}')      // пост
+    cy.get('[data-qa="provide_time_order_page"]').click() // час
+    cy.get('.ant-picker-time-panel-cell').first().click() // час
+    cy.get('.ant-picker-footer').find('button').click()   // час OK
+    cy.wait(2000)
+    cy.get('.ant-btn').first().click({ force: true })
+    cy.wait(2000)   
+  })
 
   it('4. Додавання роботи в НЗ', function(){
-    cy.visit(baseUrl+'/orders/appointments')
+    cy.visit('/orders/appointments')
     cy.wait(5000)  
     cy.get('tr > td > a')
       .first()
@@ -67,7 +77,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('5. Часткова оплата ч/з статус Завершено в НЗ / каса ГотівкаРРО', function(){
-    cy.visit(baseUrl+'/orders/appointments')
+    cy.visit('/orders/appointments')
     cy.get('tr > td > a')
       .first()
       .click({ force: true }) // Open NZ first in list
@@ -86,7 +96,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('6. Перевірка в НЗ поле Сплачено', function(){
-    cy.visit(baseUrl+'/orders/success') 
+    cy.visit('/orders/success') 
     cy.get('tr > td > a')
       .first()
       .click({ force: true }) // Open NZ first in list
@@ -100,13 +110,13 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('8. Перевірка Авансової оплати в Журналі РРО', function(){
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.visit('/report/cash_orders_logs')  
     const type = 'Z_SALE'
     ppoPage.checkAvansListPPO(type)
   })
 
   it('9. Повна оплата НЗ ч/з ордер (іконка долара) / каса ГотівкаРРО', function(){
-    cy.visit(baseUrl+'/orders/success')  
+    cy.visit('/orders/success')  
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.anticon-dollar').last().click() // повна оплата суми 
     cy.wait(2000)
@@ -120,14 +130,14 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
  it('10. Перевірка Залишку 0 після повної оплати', function(){
-  cy.visit(baseUrl+'/orders/success')   
+  cy.visit('/orders/success')   
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.styles-m__totalSum---uPrf- > span').should('have.text', '0'+' грн.')
     cy.wait(10000)
   })
 
   it('11. Корегуючий ч/з ордер (іконка долара) / каса ГотівкаРРО', function(){
-    cy.visit(baseUrl+'/orders/success')   
+    cy.visit('/orders/success')   
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.anticon-dollar').last().click() // корегуючий 100 грн 
     cy.get('.ant-modal-body > .ant-tabs').find('.ant-select').contains('Прихідний').click({ force: true }) // вибір типу ордера
@@ -143,7 +153,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
  it('12. Перевірка Залишку після корегуючої оплати 100', function(){
-  cy.visit(baseUrl+'/orders/success')  
+  cy.visit('/orders/success')  
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.styles-m__totalSum---uPrf- > span').should('have.text', '100,00'+' грн.')
     cy.wait(10000)
@@ -151,39 +161,39 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
 
   it('13. Сервісне внесення / каса ГотівкаРРО', function(){
     const row = 8
-    cy.visit(baseUrl+'/cash/bank')  
+    cy.visit('/cash/bank')  
     ppoPage.serviseInputCashPPO(row)
   })
 
   it('14. Перевірка Сервісного внесення в Журналі РРО', function(){
     const type = 'SERVICE_INPUT'
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.visit('/report/cash_orders_logs')  
     cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
   it('15. Сервісна видача / каса ГотівкаРРО ', function(){
     const row = 8
-    cy.visit(baseUrl+'/cash/bank')  
+    cy.visit('/cash/bank')  
     ppoPage.serviseOutputCashPPO(row)
   })
 
   it('16. Перевірка Сервісної видачі в Журналі РРО', function(){
     const type = 'SERVICE_OUTPUT'
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.visit('/report/cash_orders_logs')  
     cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
   it('17. Завантаження Х_REPORT для каси  РРО Готівка ', function(){
-    cy.visit(baseUrl+'/cash/bank')  
+    cy.visit('/cash/bank')  
     cy.get('tbody > tr').eq(8).find('button').eq(3).click({ force: true }) 
     cy.wait(3000)
   })
 
   it('18. Перевірка X_Звіту в Журналі РРО', function(){
     const type = 'X_REPORT'
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.visit('/report/cash_orders_logs')  
     cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
@@ -195,7 +205,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('20. Створення документа / Продаж Клієнту OUT /',  function(){
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(11) > .styles-m__folderLink---2Myrv').click({force: true})
     cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Продаж')
     cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
@@ -214,7 +224,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('21. Додавання ЗЧ  / Продаж Клієнту OUT / ', function(){
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.wait(2000)
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
@@ -233,7 +243,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('22. Часткова Оплата / Продаж Клієнту OUT / каса ГотівкаРРО',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
     cy.wait(2000);
@@ -254,7 +264,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('23. Перевірка поля сплаченого авансу /Продаж Клієнту OUT/',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
     cy.wait(2000);
@@ -263,7 +273,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('24. Повна оплата / Продаж Клієнту OUT / каса ГотівкаРРО',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
     cy.wait(2000);
@@ -283,7 +293,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('25. Перевірка нульового Залишка після повної оплати',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
     cy.wait(2000);
@@ -292,7 +302,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
   })
 
   it('26. Повернення від Клієнта /Прихід Товару CRT/',  function(){
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(13) > .styles-m__folderLink---2Myrv').click({force: true})
     cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Повернення від клієнта')
     cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
@@ -310,7 +320,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
 })
 
 it('27. Додавання ЗЧ /Прихід Товару CRT/',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.wait(2000)
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
@@ -326,7 +336,7 @@ it('27. Додавання ЗЧ /Прихід Товару CRT/',  function() {
 })
 
 it('28. Перевід в статус враховано /Прихід Товару CRT /  ',  function() {
-  cy.visit(baseUrl+'/new-document') 
+  cy.visit('/new-document') 
   cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
   cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
   cy.wait(2000);
@@ -338,7 +348,7 @@ it('28. Перевід в статус враховано /Прихід Това
 })
 
 it('29. Повна оплата /Прихід Товару CRT / каса ГотівкаРРО',  function() {
-  cy.visit(baseUrl+'/new-document') 
+  cy.visit('/new-document') 
   cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
   cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
   cy.wait(2000);
@@ -358,7 +368,7 @@ it('29. Повна оплата /Прихід Товару CRT / каса Гот
 })
 
 it('30. Перевірка нульового Залишка після повної оплати CRT',  function() {
-  cy.visit(baseUrl+'/new-document') 
+  cy.visit('/new-document') 
   cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
   cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
   cy.wait(2000);
@@ -370,13 +380,13 @@ it('30. Перевірка нульового Залишка після повн
 
 
   it('2. Створення НЗ', function(){
-    cy.visit(baseUrl+'/orders/appointments')
+    cy.visit('/orders/appointments')
     cy.get('h1').should('have.text','Нові')
     cy.get('.ant-btn').last().click({ force: true })
   })
 
   it('3. Заповнення картки по НЗ', function(){
-    cy.visit(baseUrl+'/add')
+    cy.visit('/add')
     cy.get('h1').should('have.text','Додати Ремонт')
     cy.get('#searchClientQuery').type('Vika')
     cy.wait(2000)
@@ -389,7 +399,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('4. Додавання роботи в НЗ', function(){
-    cy.visit(baseUrl+'/orders/appointments')
+    cy.visit('/orders/appointments')
     cy.wait(5000)  
     cy.get('tr > td > a')
       .first()
@@ -406,7 +416,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('5. Часткова оплата ч/з статус Завершено в НЗ /КарткаРРО372', function(){
-    cy.visit(baseUrl+'/orders/appointments')
+    cy.visit('/orders/appointments')
     cy.get('tr > td > a')
       .first()
       .click({ force: true }) // Open NZ first in list
@@ -424,7 +434,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('6. Перевірка в НЗ поле Сплачено', function(){
-    cy.visit(baseUrl+'/orders/success') 
+    cy.visit('/orders/success') 
     cy.get('tr > td > a')
       .first()
       .click({ force: true }) // Open NZ first in list
@@ -439,13 +449,13 @@ it('30. Перевірка нульового Залишка після повн
 
   it('8. Перевірка Авансової оплати в Журналі РРО', function(){
     const type = 'Z_SALE'
-    cy.visit(baseUrl+'/report/cash_orders_logs') 
+    cy.visit('/report/cash_orders_logs') 
     cy.wait(3000) 
     ppoPage.checkAvansListPPO(type)
   })
 
   it('9. Повна оплата НЗ ч/з ордер (іконка долара) / КарткаРРО372', function(){
-    cy.visit(baseUrl+'/orders/success')  
+    cy.visit('/orders/success')  
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.anticon-dollar').last().click() // повна оплата суми 
     cy.wait(2000)
@@ -458,14 +468,14 @@ it('30. Перевірка нульового Залишка після повн
   })
 
  it('10. Перевірка Залишку 0 після повної оплати', function(){
-  cy.visit(baseUrl+'/orders/success')   
+  cy.visit('/orders/success')   
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.styles-m__totalSum---uPrf- > span').should('have.text', '0'+' грн.')
     cy.wait(10000)
   })
 
   it('11. Корегуючий ч/з ордер (іконка долара) / КарткаРРО372', function(){
-    cy.visit(baseUrl+'/orders/success')   
+    cy.visit('/orders/success')   
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.anticon-dollar').last().click() // корегуючий 100 грн 
     cy.get('.ant-modal-body > .ant-tabs').find('.ant-select').contains('Прихідний').click({ force: true }) // вибір типу ордера
@@ -481,7 +491,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
  it('12. Перевірка Залишку після корегуючої оплати 100', function(){
-  cy.visit(baseUrl+'/orders/success')  
+  cy.visit('/orders/success')  
     cy.get('tr > td > a').first().click({ force: true }) // Open NZ first in list
     cy.get('.styles-m__totalSum---uPrf- > span').should('have.text', '100,00'+' грн.')
     cy.wait(10000)
@@ -489,32 +499,32 @@ it('30. Перевірка нульового Залишка після повн
 
   it('13. Сервісне внесення', function(){
     const row = 9
-    cy.visit(baseUrl+'/cash/bank')  
+    cy.visit('/cash/bank')  
     ppoPage.serviseInputCashPPO(row)
   })
 
   it('14. Перевірка Сервісного внесення в Журналі РРО', function(){
     const type = 'SERVICE_INPUT'
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.visit('/report/cash_orders_logs')  
     cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
   it('15. Сервісна видача', function(){
     const row = 9
-    cy.visit(baseUrl+'/cash/bank')  
+    cy.visit('/cash/bank')  
     ppoPage.serviseOutputCashPPO(row)
   })
 
   it('16. Перевірка Сервісної видачі в Журналі РРО', function(){
     const type = 'SERVICE_OUTPUT'
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.visit('/report/cash_orders_logs')  
     cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
   it('17. Завантаження Х_REPORT для каси  РРО Готівка ', function(){
-    cy.visit(baseUrl+'/cash/bank')  
+    cy.visit('/cash/bank')  
     cy.wait(3000)
     cy.get('tbody > tr').eq(9).find('button').eq(3).click({ force: true }) 
     cy.wait(2000)
@@ -522,7 +532,7 @@ it('30. Перевірка нульового Залишка після повн
 
   it('18. Перевірка X_Звіту в Журналі РРО', function(){
     const type = 'X_REPORT'
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.visit('/report/cash_orders_logs')  
     ppoPage.checkServiseInputOutputCashPPO(type)
   })
 
@@ -533,7 +543,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('20. Створення документа / Продаж Клієнту OUT /',  function(){
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(11) > .styles-m__folderLink---2Myrv').click({force: true})
     cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Продаж')
     cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
@@ -552,7 +562,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('21. Додавання ЗЧ  / Продаж Клієнту OUT / ', function(){
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.wait(2000)
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
@@ -571,7 +581,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('22. Часткова Оплата / Продаж Клієнту OUT / КарткаРРО372',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
     cy.wait(2000);
@@ -594,7 +604,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('23. Перевірка поля сплаченого авансу /Продаж Клієнту OUT / КарткаРРО372',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
     cy.wait(2000);
@@ -603,7 +613,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('24. Повна оплата / Продаж Клієнту OUT /КарткаРРО372',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
     cy.wait(2000);
@@ -623,7 +633,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('25. Перевірка нульового Залишка після повної оплати',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(11) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
     cy.wait(2000);
@@ -632,7 +642,7 @@ it('30. Перевірка нульового Залишка після повн
   })
 
   it('26. Повернення від Клієнта /Прихід Товару CRT/',  function(){
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(13) > .styles-m__folderLink---2Myrv').click({force: true})
     cy.get(':nth-child(1) > :nth-child(2) > .ant-select > .ant-select-selection').should('have.text','Повернення від клієнта')
     cy.get('.ant-select > .ant-select-selection').eq(3).type('Vika')
@@ -650,7 +660,7 @@ it('30. Перевірка нульового Залишка після повн
 })
 
 it('27. Додавання ЗЧ /Прихід Товару CRT/',  function() {
-    cy.visit(baseUrl+'/new-document') 
+    cy.visit('/new-document') 
     cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
     cy.wait(2000)
     cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
@@ -666,7 +676,7 @@ it('27. Додавання ЗЧ /Прихід Товару CRT/',  function() {
 })
 
 it('28. Перевід в статус враховано /Прихід Товару CRT /  ',  function() {
-  cy.visit(baseUrl+'/new-document') 
+  cy.visit('/new-document') 
   cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
   cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
   cy.wait(2000);
@@ -678,7 +688,7 @@ it('28. Перевід в статус враховано /Прихід Това
 })
 
 it('29. Повна оплата /Прихід Товару CRT / КарткаРРО372',  function() {
-  cy.visit(baseUrl+'/new-document') 
+  cy.visit('/new-document') 
   cy.get(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
   cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
   cy.wait(2000);
@@ -698,7 +708,7 @@ it('29. Повна оплата /Прихід Товару CRT / КарткаР�
 })
 
 it('30. Перевірка нульового Залишка після повної оплати CRT',  function() {
-  cy.visit(baseUrl+'/new-document') 
+  cy.visit('/new-document') 
   cy.get('.styles-m__paper---3d-H1').children().eq(1).find(':nth-child(13) > .styles-m__buttonLink---1D7wr > .ant-btn').click({force: true})
   cy.get('[data-row-key] > :nth-child(1) > a').first().click({force: true})
   cy.wait(2000);
@@ -712,7 +722,7 @@ it('30. Перевірка нульового Залишка після повн
 //////////закриття каси Z звіт
 
   it('61. Закриття каси / Z_REPORT для каси РРО Готівка ', function(){
-    cy.visit(baseUrl+'/cash/bank')  
+    cy.visit('/cash/bank')  
     cy.wait(3000)
     cy.get('tbody > tr').eq(8).find('button').eq(4).click({ force: true }) 
     cy.get('.ant-btn-primary').contains('Так').click({ force: true }) 
@@ -731,7 +741,7 @@ it('30. Перевірка нульового Залишка після повн
 
   it('62. Перевірка Z_Звіту в Журналі РРО', function(){
     const type = 'Z_REPORT'
-    cy.visit(baseUrl+'/report/cash_orders_logs')  
+    cy.visit('/report/cash_orders_logs')  
     cy.wait(3000)
     ppoPage.checkServiseInputOutputCashPPO(type)
   })

@@ -27,7 +27,6 @@ class BaseStorage {
         cy.wait(2000);
         cy.get('.ant-select-selection-search').eq(7).type('{downarrow}{enter}')  // Реквізити Постачальника
         cy.wait(2000);
-
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(3000);
         cy.get('h1 > span').contains('Нов.').should('exist')
@@ -46,7 +45,7 @@ class BaseStorage {
         cy.get('.ant-select-selection-search').eq(7).type('{downarrow}{enter}') 
         cy.wait(2000);
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
-        cy.wait(2000);
+        cy.wait(3000);
         cy.get('h1 > span').contains('Нов.').should('exist')
     }
 
@@ -82,7 +81,7 @@ class BaseStorage {
         cy.get('tr > td > .ant-btn').first().click({force: true})                         ///комірка
         cy.wait(2000);
         cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
-        cy.wait(2000);
+        cy.wait(3000);
         cy.get('.ant-table-cell').should('not.have.text','')
     }
   
@@ -92,7 +91,7 @@ class BaseStorage {
         cy.get('div.ant-dropdown-trigger > span').click() /////////
         cy.wait(2000);
         cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
-        cy.wait(2000);
+        cy.wait(3000);
         cy.get('h1 > span').contains('Врах.').should('exist')
         cy.wait(3000);
     }
@@ -137,7 +136,7 @@ class BaseStorage {
             cy.get('tr > td > a').first().invoke('text').then( textFind =>{
                 expect(text).to.eq(textFind)
                 cy.get('tr > td > a').first().click({force: true})
-                cy.wait(2000)
+                cy.wait(3000)
                 cy.get('.anticon-printer').first().click({force: true})
                 cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
                 cy.wait(10000)
@@ -156,7 +155,7 @@ class BaseStorage {
             cy.get('tr > td > a').first().invoke('text').then( textFind =>{
             expect(text).to.eq(textFind)
             cy.get('tr > td > a').first().click({force: true})
-            cy.wait(2000)
+            cy.wait(3000)
             cy.get('.anticon-printer').first().click({force: true})
             cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
             cy.wait(10000)

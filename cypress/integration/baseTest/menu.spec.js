@@ -98,7 +98,7 @@ beforeEach('User Login ', function(){
     cy.get('h1').should('have.text','Додати Ремонт')
     cy.get('.anticon-close').first().click({force: true})            // закриття модалки додати ремонт
     cy.get('tr > td > a').first().click({force: true});
-    cy.wait(3000)
+    cy.wait(4000)
     cy.get('h1').contains('Новий').should('exist')
   })
 
@@ -145,7 +145,7 @@ beforeEach('User Login ', function(){
     cy.get('.ant-menu-item').contains('Працівники').click({force: true})
     cy.wait(2000);
     cy.get('h1').should('have.text','Працівники')
-    cy.wait(2000)
+    cy.wait(4000)
     cy.get('.ant-layout-content').should('exist')      
   })
 })

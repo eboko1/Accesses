@@ -4,21 +4,29 @@ const profilePage = new ProfilePage();
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 describe ('Menu|Master|UA|Desktop|', function(){
+  const login = (email, password) =>{
+    cy.session([email, password], () => { 
+      cy.visit('/')
+      cy.get('#loginForm_login').type(email)
+      cy.get('#loginForm_password').type(password)
+      cy.get('button').click()
+      cy.wait(7000)
+      cy.getCookie('io')
+    })
+  }
 
-  beforeEach('User Login ', function(){
-    cy.login(baseUrl+'/login', Cypress.env('LoginMaster'), Cypress.env('pw'))
-      .then(()=>{
-        cy.wait(3000)
-      })
-     
-  });
+beforeEach('User Login ', function(){
+    cy.viewport(1240,960) 
+    login(Cypress.env('LoginMaster'), Cypress.env('pw'))
+})
   
   it('Профіль вибір українського інтерфейсу', function(){
-    cy.visit(baseUrl+'/profile')
+    cy.visit('/')
     profilePage.selectUA()
   })
  
   it('Меню / Швидка навігація + Ремонт',   function(){
+    cy.visit('/')
     cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
     cy.get('.anticon-plus').eq(0).click({force: true})
     cy.wait(2000)
@@ -26,6 +34,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Швидка навігація / Кнопка Ремонти',   function(){
+    cy.visit('/')
     cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
     cy.get('.ant-btn').contains('Наряд замовлення').click({force: true})
     cy.wait(2000)
@@ -33,6 +42,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Швидка навігація / Кнопка Запис',   function(){
+    cy.visit('/')
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Запис').click({force: true})
     cy.wait(2000)
@@ -40,12 +50,14 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Швидка навігація / Кнопка Ремонт',   function(){
+    cy.visit('/')
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Ремонт').click({force: true})
     cy.wait(2000)
     cy.get('h1').should('have.text','Ремонти')
   })
   it('Меню / Швидка навігація / Кнопка Виконано',   function(){
+    cy.visit('/')
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Виконано').click({force: true})
     cy.wait(2000)
@@ -53,6 +65,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Швидка навігація / Кнопка Відмова',   function(){
+    cy.visit('/')
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Відмова').click({force: true})
     cy.wait(2000)
@@ -60,6 +73,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Швидка навігація / Кнопка Запрошення',   function(){
+    cy.visit('/')
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Запрошення').click({force: true})
     cy.wait(2000)
@@ -67,6 +81,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Швидка навігація / Кнопка Відгук',   function(){
+    cy.visit('/')
     cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
     cy.get('.ant-btn').contains('Відгук').click({force: true})
     cy.wait(2000)
@@ -74,6 +89,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Ремонти', function() {
+    cy.visit('/')
     cy.get('.ant-menu-item').contains('Ремонти').click({force: true})
     cy.get('h1').should('have.text','Нові')
     cy.get('.ant-table-content').should('exist')
@@ -87,6 +103,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Довідник', function() {
+    cy.visit('/')
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Довідники').click({force: true})
     cy.get('h1').should('have.text','Довідники та налаштування')
@@ -95,6 +112,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Товари', function() {
+    cy.visit('/')
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Товари').click({force: true})
     cy.get('h1').should('have.text','Товари')
@@ -103,6 +121,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Автомобілі', function() {
+    cy.visit('/')
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Автомобілі').click({force: true})
     cy.get('h1').should('have.text','Автомобілі')
@@ -111,6 +130,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Клієнти', function() {
+    cy.visit('/')
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Клієнти').click({force: true})
     cy.wait(2000);
@@ -120,6 +140,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
   })
 
   it('Меню / Працівники', function(){
+    cy.visit('/')
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Працівники').click({force: true})
     cy.wait(2000);

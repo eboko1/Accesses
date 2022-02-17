@@ -1,4 +1,3 @@
-
 const path = require("path");
 
 class BaseStorage {
@@ -7,14 +6,15 @@ class BaseStorage {
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
         cy.get('button').eq(numberBtn).click({force: true})
-        cy.wait(2000)
+        cy.wait(3000)
     }
 
     openDocsPlus = (numberPlus) => {  // відкриття новаго дока
         cy.contains('Швидка навігація').click({force: true})
+        cy.wait(1000)
         cy.get('h1').should('have.text','Швидка навігація')
         cy.get('.anticon-plus').eq(numberPlus).click({force: true})
-        cy.wait(2000)
+        cy.wait(3000)
     }
 
     fillingForm=(idProduct, nameDocs) => { // заповнення даними docs
@@ -29,7 +29,7 @@ class BaseStorage {
         cy.wait(2000);
 
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
-        cy.wait(2000);
+        cy.wait(3000);
         cy.get('h1 > span').contains('Нов.').should('exist')
     }
 
@@ -88,12 +88,13 @@ class BaseStorage {
   
     successDocs = () => {  // перевід в статус враховано
         cy.get('tr > td > a').first().click({force: true}) // вибір зі списку
-        cy.wait(2000);
+        cy.wait(3000);
         cy.get('div.ant-dropdown-trigger > span').click() /////////
         cy.wait(2000);
         cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
         cy.wait(2000);
         cy.get('h1 > span').contains('Врах.').should('exist')
+        cy.wait(3000);
     }
 
     showDocsInList= () => {
@@ -136,7 +137,8 @@ class BaseStorage {
             cy.get('tr > td > a').first().invoke('text').then( textFind =>{
                 expect(text).to.eq(textFind)
                 cy.get('tr > td > a').first().click({force: true})
-                cy.get('.anticon-printer > svg').first().click({force: true})
+                cy.wait(2000)
+                cy.get('.anticon-printer').first().click({force: true})
                 cy.get('.ant-dropdown-menu-item').contains('XLSX').click({force: true});
                 cy.wait(10000)
                 cy.readFile(path.join('cypress/downloads', 'Store document report for '+numArr[numArr.length-1]+'.xlsx')).should("exist")
@@ -154,7 +156,8 @@ class BaseStorage {
             cy.get('tr > td > a').first().invoke('text').then( textFind =>{
             expect(text).to.eq(textFind)
             cy.get('tr > td > a').first().click({force: true})
-            cy.get('.anticon-printer > svg').first().click({force: true})
+            cy.wait(2000)
+            cy.get('.anticon-printer').first().click({force: true})
             cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
             cy.wait(10000)
             cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")

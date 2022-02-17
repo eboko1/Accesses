@@ -11,18 +11,26 @@ const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
 var date = new Date();
 
-describe ('Reports|Master|Admin|Desktop|UA|', function(){
-  beforeEach('User LogIn ', function(){
-        cy.viewport(1240,960)  
-        cy.login(baseUrl+'/login', Cypress.env('Kasur'), Cypress.env('pw'))
-          .then(()=>{
-            cy.wait(3000)
-            cy.get('img').eq(0).click({force: true}) //menu
+describe ('Reports|Master|Admin|Desktop|UA|', function(){ 
+    const login = (email, password) =>{
+        cy.session([email, password], () => { 
+          cy.visit('/reports')
+          cy.get('#loginForm_login').type(email)
+          cy.get('#loginForm_password').type(password)
+          cy.get('button').click()
+          cy.wait(7000)
+          cy.getCookie('io')
+          cy.get('img').eq(0).click({force: true}) //menu
         })
-    });
+    }
+
+    beforeEach('User Login ', function(){
+        cy.viewport(1240,960) 
+        login(Cypress.env('Kasur'), Cypress.env('pw'))
+    }) 
 
     it('Товари. Універсальний / Звіт по НЗ', function(){
-        cy.visit(baseUrl+'/reports')
+        cy.visit('/reports')
         cy.get('.ant-btn').contains('Універсальний').click({force: true})
         cy.get('.ant-modal-body').should('exist')
         cy.get('.ant-modal-footer > .ant-btn-primary').last().click({force: true})
@@ -31,7 +39,7 @@ describe ('Reports|Master|Admin|Desktop|UA|', function(){
     })
 
     it('Товари. Залишки по товарам', function(){
-        cy.visit(baseUrl+'/reports')
+        cy.visit('/reports')
         reportsPage.checkDownloadFile('Залишки по товарам', 'Залишки по товарам', 'balance_by_products_without_detailing')
     })
 
@@ -135,7 +143,6 @@ describe ('Reports|Master|Admin|Desktop|UA|', function(){
     it('НЗ. Звіт по продажі по брендам', function(){
         cy.visit(baseUrl+'/reports')
         reportsPage.checkDownloadFile('Бренди', 'Звіт по продажі по брендам', 'orders_by_brands_without_detailing')
-        cy.pause()
     })
 
     it('НЗ. Звіт по продажі по товарах', function(){

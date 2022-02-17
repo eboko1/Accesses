@@ -2,6 +2,7 @@ class ProfilePage {
 
 
     selectUA = () => {
+        cy.get('[href="/profile"]').click()
         cy.get('.ant-select-selector').last().click({force: true})
         cy.contains('Українська').click({force: true});
         cy.wait(1000)

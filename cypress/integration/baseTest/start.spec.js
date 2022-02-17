@@ -28,13 +28,23 @@ const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Start|Admin|UA|Desktop', function(){
+
+  const login = (email, password) =>{
+    cy.session([email, password], () => { 
+      cy.visit('/') 
+      cy.get('#loginForm_login').type(email)
+      cy.get('#loginForm_password').type(password)
+      cy.get('button').click()
+      cy.wait(7000)
+      cy.getCookie('io')
+      cy.get('img').eq(0).click({force: true}) //menu
+    })
+  }
+
   beforeEach('User Login ', function(){
-    cy.login(baseUrl+'/login', Cypress.env('LoginStart'), Cypress.env('pw'))
-      .then(()=>{
-        cy.wait(3000)
-        cy.get('img').eq(0).click({force: true}) //menu
-      })
-  });
+    cy.viewport(1240,960) 
+    login(Cypress.env('LoginStart'), Cypress.env('pw'))
+  })
   
   it('1. Профіль вибір українського інтерфейсу', function(){
     cy.visit(baseUrl+'/profile')

@@ -5,7 +5,7 @@ import PPO from '../../support/pageObject/ppo';
 const ppoPage = new PPO();
 const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
 
-describe ('PPO|Kasur|UA|Desktop|', function(){
+describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960) 
   beforeEach('User LogIn ', function(){
     cy.login(baseUrl+'/login', Cypress.env('Kasur'), Cypress.env('pw'))
     cy.wait(7000)

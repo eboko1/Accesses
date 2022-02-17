@@ -340,6 +340,7 @@ class OrderPage {
         .then(()=>{
             cy.log('Звершити діагностику');
             cy.get('button').contains('Завершити діагностику').click({force: true});
+            cy.wait(3000)
         })
    }
     checkDollar = () =>{

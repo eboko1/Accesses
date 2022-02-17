@@ -24,7 +24,7 @@ var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel =second+'0'+minute+''+second+''+minute;
 
-describe ('Master|Mehanic|UA|Desktop|', function(){
+describe ('Master|Mehanic|UA|Desktop|', function(){  /// cy.viewport(1240,960) 
   beforeEach('User Login ', function(){
     cy.login(baseUrl+'/login', Cypress.env('LoginMasterMehanic'), Cypress.env('pw'))
       .then(()=>{

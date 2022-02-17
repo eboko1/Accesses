@@ -15,7 +15,7 @@
   "author": "Frantsuh",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^6.5.0"
+    "cypress": "^8.3.0"
   },
   "dependencies": {
     "cypress-commands": "^1.1.0"

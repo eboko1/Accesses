@@ -17,8 +17,6 @@ const productTab = new ProductTab();
 const emploeePage = new EmploeePage();
 const laborDetails = new LaborDetails();
 
-const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
-
 var date = new Date();
 //const idClient ='30022'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
@@ -26,14 +24,24 @@ var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel =second+'0'+minute+''+second+''+minute;
 
-describe ('Specialist|Admin|UA|Desktop|', function(){
+describe ('Specialist|Admin|UA|Desktop|', function(){  
+  
+  const login = (email, password) =>{
+    cy.session([email, password], () => { 
+      cy.visit('/') 
+      cy.get('#loginForm_login').type(email)
+      cy.get('#loginForm_password').type(password)
+      cy.get('button').click()
+      cy.wait(7000)
+      cy.getCookie('io')
+      cy.get('img').eq(0).click({force: true}) //menu
+    })
+  }
+
   beforeEach('User Login ', function(){
-    cy.login(baseUrl+'/login', Cypress.env('LoginSpec'), Cypress.env('pw'))
-      .then(()=>{
-        cy.wait(3000)
-        cy.get('img').eq(0).click({force: true}) //menu
-      })
-  });
+    cy.viewport(1240,960) 
+    login(Cypress.env('LoginSpec'), Cypress.env('pw'))
+  })
   
   it('Профіль вибір українського інтерфейсу', function(){
     cy.visit(baseUrl+'/profile')

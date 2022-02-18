@@ -22,6 +22,7 @@ const baseStorage = new BaseStorage();
         login(Cypress.env('Kasur'), Cypress.env('pw'))
       })
 
+      
       it('Профіль вибір українського інтерфейсу', function(){
         cy.visit('/')
         cy.get('img').eq(0).click({force: true}) //menu

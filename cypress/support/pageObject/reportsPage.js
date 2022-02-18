@@ -10,7 +10,7 @@ class ReportsPage {
         cy.get('.ant-modal-footer > .ant-btn-primary').last().click({force: true})
         cy.wait(6000)
         cy.readFile(path.join('cypress/downloads', nameFile+'.xlsx')).should("exist")    
-        cy.wait(5000)
+        cy.wait(6000)
     }
 }
 

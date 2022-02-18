@@ -28,12 +28,12 @@ describe ('Mobile|SH|Admin|UA', function(){
           cy.getCookie('io')
           cy.get('.drawer-handle').click() // close menu
         })
-      }
+    }
     
-      beforeEach('User Login ', function(){
+    beforeEach('User Login ', function(){
         cy.viewport('iphone-x')
         login(Cypress.env('LoginSHTest'), Cypress.env('pwSH'))
-      })
+    })
     
     it('Календар Завантажень', function(){
         cy.visit('/') 

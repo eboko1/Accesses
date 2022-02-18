@@ -16,8 +16,8 @@ const productTab = new ProductTab();
 const laborDetails = new LaborDetails();
 
 var date = new Date();
-const idClient ='1818'
-//const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
+//const idClient ='1818'
+const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel =second+'0'+minute+''+second+''+minute;
@@ -40,10 +40,10 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
     login(Cypress.env('LoginMasterMehanic'), Cypress.env('pw'))
   })
 
-  // it('Профіль вибір українського інтерфейсу', function(){
-  //     cy.visit('/profile')
-  //     profilePage.selectUA()
-  // })
+  it('Профіль вибір українського інтерфейсу', function(){
+      cy.visit('/profile')
+      profilePage.selectUA()
+  })
 
   it('Інформація по а/м в НЗ', function(){
       cy.visit('/orders/approve')
@@ -52,9 +52,8 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Редагування ціни для Роботи в НЗ', function(){
     cy.visit('/orders/approve')
-    ///cy.get('.ant-input-search > .ant-input').type(idClient)
     cy.wait(2000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+    cy.get('tr > td > a').first().click({force: true});
     cy.log('Вибір Запису');
     cy.wait(5000);
     cy.log('Вкладка Роботи');
@@ -75,9 +74,8 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Відкриття таб. Роботи', function(){
     cy.visit('/orders/approve')
-    ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
     cy.wait(2000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+    cy.get('tr > td > a').first().click({force: true});
     cy.log('Вибір Запису');
     cy.wait(5000);
     cy.log('Вкладка Запчастини');
@@ -88,9 +86,8 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
   
   it('Відкриття таб. Запчастини', function(){
     cy.visit('/orders/approve')
-    ////////cy.get('.ant-input-search > .ant-input').type(idClient)//пошук
     cy.wait(2000);
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
+    cy.get('tr > td > a').first().click({force: true});
     cy.log('Вибір Запису');
     cy.wait(10000);
     cy.log('Вкладка Запчастини');
@@ -128,8 +125,8 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
     laborDetails.openPage();
   });
 
-
   it('Меню / Ремонти/ Список Ремонтів', function(){
+    cy.visit('/');
     cy.get('.ant-menu-item').contains('Ремонти').click({force: true})
     cy.get('h1').should('have.text','Нові')
     cy.get('.ant-table-content').should('exist')
@@ -137,11 +134,13 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
     cy.wait(3000);
     cy.get('h1').should('have.text','Додати Ремонт')
     cy.get('.styles-m__headerContorls---2pU_V > .anticon > svg').click({force: true})
-    cy.get('a.styles-m__ordernLink---T-qWz').first().click({force: true});
-    cy.get('h1').should('have.text','Новий')
+    cy.get('tr > td > a').first().click({force: true});
+    cy.wait(2000)
+    cy.get('h1').contains('Новий').should('exist')
   })
 
   it('Меню / Довідник', function() {
+    cy.visit('/');
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Довідники').click({force: true})
     cy.get('h1').should('have.text','Довідники та налаштування')
@@ -149,6 +148,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
   })
 
   it('Меню / Товари / Список Товарів',   function(){
+    cy.visit('/');
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Товари').click({force: true})
     cy.get('h1').should('have.text','Товари')
@@ -156,6 +156,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
   })
 
   it('Меню / Автомобілі / Список а/м',   function(){
+    cy.visit('/');
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Автомобілі').click({force: true})
     cy.get('h1').should('have.text','Автомобілі')
@@ -163,6 +164,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
   })
 
   it('Меню / Клієнти / Список клієнтів',   function(){
+    cy.visit('/');
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Клієнти').click({force: true})
     cy.wait(2000);
@@ -171,6 +173,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
   })
 
   it('Меню / Працівники / Список Працівників',   function(){
+    cy.visit('/');
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Працівники').click({force: true})
     cy.wait(2000);
@@ -178,11 +181,10 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
     cy.get('.ant-layout-content').should('exist')
   })
 
-
   it('Загальний пошук', function(){
-    cy.get('img').eq(0).click({force: true})
+    cy.visit('/dashboard');
     cy.get('h1').should('have.text','Календар Завантаження')
-    cy.get('.ant-select-search__field > .ant-input').type('start')
+    cy.get('.ant-select-selection-search').type('start')
     cy.wait(3000)
     cy.get('h1').should('not.have.text','Помилка')
   })

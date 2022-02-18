@@ -140,7 +140,7 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
 
   it('Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
     cy.visit('/orders/approve');
-    productTab.addProductVIN(idClient);
+    productTab.checkModalVIN(idClient);
   });
 
   it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){

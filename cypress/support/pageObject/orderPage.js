@@ -125,7 +125,8 @@ class OrderPage {
         cy.get('tr > td > a').first().click({force: true});
         cy.wait(7000);
         cy.log('Переведіть н/з в статус Завершено');
-        cy.get('.styles-m__dropdownTitle---3Vlog > :nth-child(2) > span').click();
+       /////// cy.get('.styles-m__dropdownTitle---3Vlog > :nth-child(2) > span').click();
+        cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover') // Статус Запис
         cy.wait(1000);
         cy.get('.ant-dropdown-menu-item').contains('Завершено').click()
         cy.wait(1000); 
@@ -370,6 +371,7 @@ class OrderPage {
 
     }
     checkTabPost = () =>{ 
+        cy.wait(2000);
         cy.get('tr > td > a').first().invoke('text')
         .then (text => {var codeNZ = text;
             cy.log(codeNZ)
@@ -379,8 +381,7 @@ class OrderPage {
         cy.get('h1').should('have.text','Виконані')
         cy.wait(2000);
         cy.get('tr > td > a').first().click({force: true});
-        cy.log('Вибір Запису');
-        cy.wait(4000);
+        cy.wait(5000);
         cy.log('Вкладка Пост');
         cy.get('.ant-tabs-nav').contains('Пост').click();
         cy.get('.styles-m__staticStationLoadsRow---MnLCJ > :nth-child(1)').should('exist');

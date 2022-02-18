@@ -175,8 +175,6 @@ describe ('Reports|Master|Admin|Desktop|UA|', function(){
         cy.get('.ant-btn').contains('Грошовий потік').click({force: true})
         cy.wait(3000)
         cy.get('h1').should('have.text', 'Звіт по руху грошей')
-        cy.get('.ant-modal-footer > .ant-btn-primary').last().click({force: true})
-        cy.wait(6000)
         cy.readFile(path.join('cypress/downloads', 'cash_flow_report'+'.xlsx')).should("exist")    
         cy.wait(5000)
     })

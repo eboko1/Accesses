@@ -36,7 +36,7 @@ class PPO {
     serviseInputCashPPO =(row) => {
         cy.get('tbody > tr').eq(row).find('button').eq(1).click({ force: true })
         cy.get('.ant-modal-header').contains('Касовий ордер')
-        cy.get('.ant-input-number-input').clear().type('1234')
+        cy.get('[data-qa="input_sum"]').type('1234')
         cy.get('.ant-btn').contains('Додати').click({ force: true }) 
         cy.wait(3000)
     }
@@ -44,7 +44,7 @@ class PPO {
     serviseOutputCashPPO =(row) => {
         cy.get('tbody > tr').eq(row).find('button').eq(2).click({ force: true }) // 8й рядок 
         cy.get('.ant-modal-header').contains('Касовий ордер')
-        cy.get('.ant-input-number-input').clear().type('100')
+        cy.get('[data-qa="input_sum"]').clear().type('100')
         cy.get('.ant-btn').contains('Додати').click({ force: true }) 
         cy.wait(2000)
     }

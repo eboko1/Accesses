@@ -104,6 +104,7 @@ const baseStorage = new BaseStorage();
           })
       })
 
+      
       it('Пошук по Державному Номеру а/м ', function(){
         cy.visit('/')
         cy.contains('Довідник').click({force: true})

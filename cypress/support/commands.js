@@ -13,12 +13,14 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add("login", (email, password) => { ... })
-
-Cypress.Commands.add('login', (username, password) => {
-  
-
-    
-})
+Cypress.Commands.add('login', (baseUrl,username, password) => {
+    // cy.session([baseUrl,username, password], () => {
+         cy.visit(baseUrl)
+         cy.get('#loginForm_login').type(username)
+         cy.get('#loginForm_password').type(password)
+         cy.get('button').click()
+     ///})
+ })
 
 //
 // -- This is a child command --

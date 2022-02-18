@@ -282,19 +282,15 @@ class OrderPage {
         cy.get('.ant-input-wrapper > .ant-input').type(idClient)
         cy.wait(2000);
         cy.get('tr > td > a').first().click({force: true})
-        .then(()=>{
-            cy.wait(2000)
-            /////cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(2)').click(); // //клік на вкладку діагностики
-            cy.get('#rc-tabs-0-tab-diagnostic').click(); //клік на вкладку діагностики
-        })
-        .then(()=>{
-            cy.log('Клік на випливаюче меню');
-            cy.get('.ant-select-selector').eq(11).click();
-        })
-        .then(()=>{
-            cy.log('Вибір діагностики');
-            cy.get('.ant-select-item-option-content').eq(2).click();
-        })
+        cy.wait(4000)
+        /////cy.get('.ant-tabs-nav > :nth-child(1) > :nth-child(2)').click(); // //клік на вкладку діагностики
+        cy.get('#rc-tabs-0-tab-diagnostic').click(); //клік на вкладку діагностики
+
+        cy.log('Клік на випливаюче меню');
+        cy.get('.ant-select-selector').eq(11).click();
+
+        cy.log('Вибір діагностики');
+        cy.get('.ant-select-item-option-content').eq(2).click()
         .then(()=>{
             cy.log('Клік на +');
             cy.get('.styles-m__diagnosticTableHeader---1_8Bu > :nth-child(3) > :nth-child(1)').click();

@@ -100,7 +100,7 @@ const baseStorage = new BaseStorage();
             cy.get('.ant-select-selection-search').first().type(text)
             cy.wait(2000)
             cy.get('.ant-select-item').contains('Автомобілі').click();
-            cy.get('.ant-table-row > :nth-child(4)').should('have.text',text) 
+            cy.get('.ant-table-row > :nth-child(4)').first().should('have.text',text) 
           })
       })
 
@@ -116,7 +116,7 @@ const baseStorage = new BaseStorage();
             cy.wait(2000)
             cy.get('.ant-select-item').contains('Автомобілі').click();
             cy.wait(2000)
-            cy.get('.ant-table-row > :nth-child(3)').should('have.text',text) 
+            cy.get('.ant-table-row > :nth-child(3)').first().should('have.text',text) 
         })
       })
 

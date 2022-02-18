@@ -19,10 +19,9 @@ const baseStorage = new BaseStorage();
 
       beforeEach('User Login ', function(){
         cy.viewport(1240,960) 
-        login(Cypress.env('Kasur'), Cypress.env('pw'))
+        login(Cypress.env('LoginQA'), Cypress.env('pwD'))
       })
 
-      
       it('Профіль вибір українського інтерфейсу', function(){
         cy.visit('/')
         cy.get('img').eq(0).click({force: true}) //menu

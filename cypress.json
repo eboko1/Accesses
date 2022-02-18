@@ -18,6 +18,8 @@
     "LoginStart":"start@admin.com",
     "LoginSpec":"specialist@admin.com",
     "LoginMaster":"master@admin.com",
+    "LoginQA":"test@admin.com",
+  
      
     "LoginMasterMehanic":"master@mehanic.com",
     "Kasur":"test@kasur.com",

@@ -1,7 +1,7 @@
 class ClientPage {
 
     createClient = (idClient,tel) => {   
-        cy.get('.anticon-plus > svg').click()      // Додати клієнта через + 
+        cy.get('.anticon-plus').click()      // Додати клієнта через + 
         .then(()=>{
             cy.log('Модалка Додати Клієнта')
             cy.get('#name').type('БазовийКлієнт' + idClient)
@@ -102,7 +102,7 @@ class ClientPage {
         .then(()=>{
             cy.wait(3000)
             cy.log('Додати клієнта через +');
-            cy.get('.anticon-plus > svg').click()
+            cy.get('.anticon-plus').click()
 
         })
         .then(()=>{

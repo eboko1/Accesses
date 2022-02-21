@@ -66,6 +66,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Відкриття таб. Роботи', function(){
     cy.visit('/orders/approve')
+    cy.wait(2000)
     orderPage.openNZMehanic()
     cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click()
     cy.wait(2000);
@@ -74,6 +75,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
   
   it('Відкриття таб. Запчастини', function(){
     cy.visit('/orders/approve')
+    cy.wait(2000)
     orderPage.openNZMehanic()
     cy.log('Вкладка Запчастини');
     cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click()
@@ -83,12 +85,14 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Статистика в НЗ', function(){
     cy.visit('/orders/success');
+    cy.wait(2000)
     orderPage.openNZMehanic()
     orderPage.getStatisticOrder()
   });
 
   it('Додавання Коментарів', function(){
     cy.visit('/orders/progress');
+    cy.wait(2000)
     orderPage.openNZMehanic()
     orderPage.addComments();
   })
@@ -112,6 +116,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Меню / Ремонти/ Список Ремонтів', function(){   // connect for start 
     cy.visit('/');
+    cy.wait(2000)
     cy.get('.ant-menu-item').contains('Ремонти').click({force: true})
     cy.get('h1').should('have.text','Нові')
     cy.get('.ant-table-content').should('exist')

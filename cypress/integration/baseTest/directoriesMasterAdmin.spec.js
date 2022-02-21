@@ -8,7 +8,7 @@ describe ('Directories & Settings|Master|Admin|Desktop|UA|', function(){
 
   const login = (email, password) =>{
     cy.session([email, password], () => { 
-      cy.visit('/directories') 
+      cy.visit('/') 
       cy.get('#loginForm_login').type(email)
       cy.get('#loginForm_password').type(password)
       cy.get('button').click()

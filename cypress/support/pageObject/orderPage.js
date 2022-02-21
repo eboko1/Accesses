@@ -3,17 +3,17 @@
 class OrderPage {
     
     openNZ = (idClient) => {
-        cy.wait(4000); 
+        cy.wait(5000); 
         cy.get('.ant-input-wrapper > .ant-input').type(idClient)
-        cy.wait(2000);
+        cy.wait(5000);
         cy.get('h1').first().click({ force: true }).then(function(){
             cy.get('tr > td > a').first().click({ force: true })
-            cy.wait(5000);
+            cy.wait(6000);
         })   
     }
 
     openNZMehanic = () => {
-        cy.wait(4000); 
+        cy.wait(7000); 
         cy.get('tr > td > a').first().invoke('text')
         .then (text => {var codeNZ = text;
             cy.log(codeNZ)
@@ -26,7 +26,7 @@ class OrderPage {
     }
 
    createOrder = (idClient) =>{
-    cy.wait(4000); 
+        cy.wait(4000); 
         cy.get('a > .ant-btn').first().click(); // add н/з
         cy.wait(3000)
         cy.get('#orderForm_searchClientQuery').clear().type('Клієнт'+idClient)
@@ -41,7 +41,7 @@ class OrderPage {
    }
 
    deleteOrder = () =>{
-    cy.wait(4000); 
+        cy.wait(4000); 
         cy.get('.anticon-delete').first().click({force: true})
         cy.wait(1000);
         cy.get('.ant-modal').should('be.visible')
@@ -53,7 +53,7 @@ class OrderPage {
     }
 
    copyOrder = () =>{
-    cy.wait(4000); 
+        cy.wait(4000); 
         cy.get('.anticon-copy').last().click({force: true})
         cy.wait(1000);
         cy.get('.ant-modal-confirm-body-wrapper').should('be.visible')
@@ -66,7 +66,7 @@ class OrderPage {
     }
 
    addComments = () =>{
-    cy.wait(4000); 
+        cy.wait(4000); 
         cy.get('.ant-tabs-nav').contains('Коментарі').click()
         cy.get('[data-qa=comment_client_order_page]').clear().type('Не заляпать бампер мастилом');
         cy.get('[data-qa=txt_area_comment_order_form_tabs_order_page]').contains('Не заляпать бампер мастилом');
@@ -103,7 +103,7 @@ class OrderPage {
     }
 
    payOrderCredit = (nameCash) =>{
-    cy.wait(4000); 
+        cy.wait(4000); 
         cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover') // Статус Завершено
         cy.get('.ant-dropdown-menu-item').contains('Завершено').click()
         cy.wait(2000);
@@ -121,7 +121,7 @@ class OrderPage {
     }
 
    payOrderDollar = (nameCash$) =>{
-    cy.wait(4000); 
+        cy.wait(4000); 
         cy.get('.anticon-dollar').last().click() // повна оплата суми 
         cy.wait(2000)
         cy.get('[data-qa="select_credit_card"]').type(nameCash$+'{enter}');  //Вибір Каси
@@ -162,7 +162,7 @@ class OrderPage {
     }
 
    editOrder = () =>{ 
-        cy.wait(3000)   
+        cy.wait(5000)   
         cy.get('label').find('span').eq(1).click() // відкриття модалки Планувальника ч/з іконку в НЗ
         cy.wait(2000);
         cy.get('.timeColumn > :nth-child(2)').should('exist') 
@@ -185,7 +185,7 @@ class OrderPage {
     }
 
     editOrderSH = () =>{ 
-        cy.wait(4000); 
+        cy.wait(5000); 
         cy.get('.ant-select-selector').eq(1).type('{downarrow}{enter}')
         cy.get('.ant-select-selector').eq(2).type('Vika{downarrow}{enter}') // відповідальний
         cy.get('.ant-select-selector').eq(3).type('Vika{downarrow}{enter}')  // мех
@@ -203,7 +203,7 @@ class OrderPage {
     }
 
    getInfoAuto = () => {
-        cy.wait(1000);
+        cy.wait(5000);
         cy.get('[title="Інфо по автомобілю"] > .anticon').click({force: true})
         cy.wait(6000);
         cy.get('.ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body').should('exist');
@@ -325,6 +325,7 @@ class OrderPage {
     }
     
     checkTabPost = () =>{ 
+        cy.wait(2000);
         cy.log('Вкладка Пост');
         cy.get('.ant-tabs-nav').contains('Пост').click();
         cy.get('.styles-m__staticStationLoadsRow---MnLCJ > :nth-child(1)').should('exist');

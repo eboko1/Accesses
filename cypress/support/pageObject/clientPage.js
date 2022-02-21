@@ -100,7 +100,7 @@ class ClientPage {
 
         })
         .then(()=>{
-            cy.wait(3000)
+            cy.wait(5000)
             cy.log('Модалка Додати Клієнта')
             cy.get('#name').type('БазовийКлієнт' + idClient)
             cy.wait(2000)
@@ -216,7 +216,7 @@ class ClientPage {
     }
 
     editClientNumber = (idClient,tel) => {      
-        cy.wait(3000)
+        cy.wait(5000)
         cy.log('Пошук клієнта');
         cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)  //
         cy.wait(4000)

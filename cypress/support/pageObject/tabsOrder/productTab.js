@@ -62,7 +62,7 @@ class ProductTab {
         cy.wait(10000);
         ///////cy.get('.ant-tabs-tabpane').contains('Спецификации масел и технических жидкостей').should('exist')
         cy.get('tr[data-row-key="0"] > td > .ant-btn').last().click({force: true}) // btn додати
-        cy.wait(5000);
+        cy.wait(8000);
         cy.get('.ant-modal-header').contains('Масла і рідини').should('exist')  //модалка масла та рідини
         cy.get('tr[data-row-key="0"] > td  > .ant-btn').last().click({force: true})
         cy.wait(3000);   

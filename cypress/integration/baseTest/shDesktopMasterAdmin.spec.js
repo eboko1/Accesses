@@ -61,10 +61,10 @@ describe ('SH|Desktop|Master|Admin|UA', function(){
         clientPage.checkClient(idClient,tel)
     })
 
-    it(`Редагування мобільного номера Клієнта: ${idClient}`, function(){
-        cy.visit('/client-hot-operations')
-        clientPage.editClientNumber(idClient,tel)
-    })
+    // // it(`Редагування мобільного номера Клієнта: ${idClient}`, function(){
+    // //     cy.visit('/client-hot-operations')
+    // //     clientPage.editClientNumber(idClient,tel)
+    // // })
 
     it(`Додати Н/З, підтягування клієнта через пошук, клієнт:${idClient}`, function(){
         cy.visit('/orders/appointments')

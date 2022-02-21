@@ -1,6 +1,7 @@
 class LaborTab {
 
     editLaborDiagnostic = (idClient) => {
+        cy.wait(2000)
         cy.get('.ant-tabs-nav').contains('Роботи').click(); // tab Роботи
         cy.wait(1000);
 
@@ -16,6 +17,7 @@ class LaborTab {
     }
 
     editLaborSH = () => {
+        cy.wait(2000)
         cy.get('tr > td').find('button').first().click({force: true});
         cy.get('.ant-modal').find('input').eq(2).type('{downarrow}{enter}')   //вибір механіка
         cy.get('.ant-modal').find('.ant-input-number').eq(0).clear().type('123.45')   //price
@@ -26,18 +28,22 @@ class LaborTab {
     }
 
     checkMessagesModalSH = () => {
+        cy.wait(2000)
         cy.get('tr').contains('пер. міст, вгорі, важіль, по центру; test')
     }
 
     checkPriceModalSH = () => {
+        cy.wait(2000)
         cy.get('tr').contains('123')  
     }
 
     checkAddedLaborSH = () => {
+        cy.wait(2000)
         cy.get('tr').eq(4).should('not.have.text', '') 
     }
 
     addMessagesModal = () => {
+        cy.wait(2000)
         cy.get('.ant-modal').find('[aria-label="message"]').first().click({force: true});
         cy.get('.ant-modal-body').find('button').eq(1).click({force: true});
         cy.get('.ant-modal-body').find('button').eq(3).click({force: true});
@@ -49,6 +55,7 @@ class LaborTab {
     }
 
     addLaborGroupProduct = () => {
+        cy.wait(2000)
         cy.get('.ant-tabs-nav').contains('Роботи').click();
         cy.wait(3000)
     
@@ -77,6 +84,7 @@ class LaborTab {
     }
 
     addLaborPlus = () => {
+        cy.wait(2000)
         cy.get('.ant-tabs-nav').contains('Роботи').click();
         cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()  // + 
         cy.wait(2000)
@@ -87,6 +95,7 @@ class LaborTab {
     }
 
     addLaborSH = () => {
+        cy.wait(2000)
         cy.get('.ant-modal-body').find('.ant-select-selector').eq(0).type('{downarrow}{enter}')
         cy.wait(3000);
         cy.get('.ant-modal-footer').find('button').last().click({force: true})
@@ -94,6 +103,7 @@ class LaborTab {
     }
 
     addLaborComplexes = () => {
+        cy.wait(3000)
         cy.get('.ant-tabs-nav').contains('Роботи').click();
         cy.wait(2000)
         cy.get('.styles-m__ownIcon---2tsV5').click() /// btn Відкриття модалки Комплекси 
@@ -107,12 +117,14 @@ class LaborTab {
     }
 
     deleteLaborSH = (idClient) => {
+        cy.wait(2000)
         cy.get('tr').eq(5).find('[aria-label="delete"]').click({force: true})  // 5 - 3й рядок
         cy.wait(1000)
         cy.get('.ant-popover-inner-content').find('button').last().click({force: true})
     }
 
     showMehanicLabor = () => { 
+        cy.wait(2000)
         cy.get('.ant-tabs-nav').contains('Роботи').click();
         cy.wait(3000)
         cy.get('[data-qa=tree_select_counterparty_employee_services_table_order_page]').eq(0).contains('Механік').should('exist')  ///Механік // робота з Діагностики 
@@ -122,6 +134,7 @@ class LaborTab {
     }
 
     addCommentsToLabor = () => {
+        cy.wait(2000)
         cy.get('.ant-tabs-nav').contains('Роботи').click()
         cy.get('.styles-m__headerActions---2S-7g > [title="Додати"]').click()
         cy.wait(2000)

@@ -1,6 +1,7 @@
 class ClientPage {
 
-    createClient = (idClient,tel) => {   
+    createClient = (idClient,tel) => {  
+        cy.wait(3000) 
         cy.get('.anticon-plus').click()      // Додати клієнта через + 
         .then(()=>{
             cy.log('Модалка Додати Клієнта')
@@ -45,9 +46,11 @@ class ClientPage {
                 cy.get('.styles-m__addVehicleButtonCont---Y1h26 > .ant-btn').first().click({ force: true }) //{ force: true }
             })
             .then(()=>{
+                cy.wait(2000)
                 cy.get('#vehicle_add_from_number').clear().type('АО6028ВО') // Додавання Держ.номера а/м
             })
             .then(()=>{
+                cy.wait(2000)
                 cy.get('#vehicle_add_from_vin').type('MDHFBUK13U0107588'); // VIN авто
                 cy.wait(2000)
             })
@@ -87,7 +90,7 @@ class ClientPage {
     }
 
     createClientPageClient = (idClient,tel) => {    
-        cy.wait(2000);
+        cy.wait(4000);
         cy.get('h1').should('have.text','Клієнти')
         cy.get('.ant-table-body').should('exist')
         .then(()=>{
@@ -97,6 +100,7 @@ class ClientPage {
 
         })
         .then(()=>{
+            cy.wait(3000)
             cy.log('Модалка Додати Клієнта')
             cy.get('#name').type('БазовийКлієнт' + idClient)
             cy.wait(2000)

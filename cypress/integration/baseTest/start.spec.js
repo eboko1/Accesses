@@ -25,7 +25,7 @@ const navigationPage = new NavigationPage();
 var date = new Date();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
-////const idClient ='21115'
+///const idClient ='21115'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 const tel =second+'0'+minute+''+second+''+minute;
 
@@ -110,7 +110,7 @@ describe ('Start|Admin|UA|Desktop', function(){
   });
  
   it('Додавання Робіт через поле Робіт', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve').then(()=>{})
     orderPage.openNZ(idClient)
     laborTab.addLaborPlus()
   })
@@ -240,7 +240,7 @@ describe ('Start|Admin|UA|Desktop', function(){
   it('Меню / Швидка навігація + Ремонт', function(){
     cy.visit('/') 
     cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
-    cy.get(':nth-child(1) > .styles-m__folderLink---2Myrv > .anticon > svg').first().click({force: true})
+    cy.get('.anticon-plus').eq(0).click({force: true})
       .then(()=> {
         cy.get('h1').contains('Додати Ремонт').should('exist')
     }) 

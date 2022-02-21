@@ -29,7 +29,8 @@ describe ('Складські документи ', function(){
 
     beforeEach('User Login ', function(){
         cy.viewport(1240,960) 
-        login(Cypress.env('LoginMaster'), Cypress.env('pw'))
+       /// login(Cypress.env('LoginMaster'), Cypress.env('pw'))
+       login("my@admin.com", "123456")
     })
    
     it('Створення нового Товару через картку Товару / id= '+idProduct ,function(){

@@ -26,7 +26,8 @@ describe ('Reports|Master|Admin|Desktop|UA|', function(){
 
     beforeEach('User Login ', function(){
         cy.viewport(1240,960) 
-        login(Cypress.env('LoginQA'), Cypress.env('pwD'))
+        ////login(Cypress.env('LoginQA'), Cypress.env('pwD'))
+        login("my@admin.com", "123456")
     }) 
 
     it('Товари. Універсальний / Звіт по НЗ', function(){

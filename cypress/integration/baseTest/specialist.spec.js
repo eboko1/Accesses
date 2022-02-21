@@ -71,6 +71,7 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
   it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
     cy.visit('/orders/appointments');
     orderPage.openNZ(idClient)
+    cy.wait(4000)
     orderPage.editOrder(idClient);
   });
 

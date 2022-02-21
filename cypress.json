@@ -8,26 +8,20 @@
 
   
   "env": {
+
     "url":"test-",
     "pw":"123456",
     "pwD":"456789",
     "pwSH":"ACBf4W7G",
-
-   
+    
     "LoginFree":"free@admin.com",
     "LoginStart":"start@admin.com",
     "LoginSpec":"specialist@admin.com",
     "LoginMaster":"master@admin.com",
     "LoginQA":"test@admin.com",
-  
-     
     "LoginMasterMehanic":"master@mehanic.com",
     "Kasur":"test@kasur.com",
-    "LoginSHTest":"0930473717",
-
-    "LoginDev":"my@admin.com",
-    "DevKasur":"dev@kasur.com"
-
-
+    "LoginSHTest":"0930473717"
+    
   }
 }

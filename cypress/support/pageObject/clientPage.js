@@ -207,7 +207,7 @@ class ClientPage {
         cy.wait(5000)
         cy.log('Пошук клієнта');
         cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)
-        cy.wait(5000)
+        cy.wait(7000)
         .then(()=>{
             cy.get('tr > td > a').first().click({force: true})
         })

@@ -6,7 +6,7 @@ class BaseStorage {
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
         cy.get('button').eq(numberBtn).click({force: true})
-        cy.wait(3000)
+        cy.wait(4000)
     }
 
     openDocsPlus = (numberPlus) => {  // відкриття новаго дока
@@ -14,7 +14,7 @@ class BaseStorage {
         cy.wait(1000)
         cy.get('h1').should('have.text','Швидка навігація')
         cy.get('.anticon-plus').eq(numberPlus).click({force: true})
-        cy.wait(3000)
+        cy.wait(4000)
     }
 
     fillingForm=(idProduct, nameDocs) => { // заповнення даними docs
@@ -148,19 +148,21 @@ class BaseStorage {
     }
 
     downloadPDF =() => {
+        cy.wait(2000)
         cy.get('tr > td > a').first().invoke('text').then(text =>{
             cy.log(text)
             var numArr = text.split('-') 
             cy.get('.ant-input').last().type(numArr[numArr.length-1])
             cy.get('tr > td > a').first().invoke('text').then( textFind =>{
-            expect(text).to.eq(textFind)
-            cy.get('tr > td > a').first().click({force: true})
-            cy.wait(3000)
-            cy.get('.anticon-printer').first().click({force: true})
-            cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
-            cy.wait(10000)
-            cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
-            cy.log('document-'+text+'.pdf')
+                expect(text).to.eq(textFind)
+                cy.get('tr > td > a').first().click({force: true})
+                cy.wait(3000)
+                cy.get('.anticon-printer').first().click({force: true})
+                cy.get('.ant-dropdown-menu-item').contains('Документ').click({force: true});
+                cy.wait(10000)
+                cy.readFile(path.join('cypress/downloads', 'document-'+text+'.pdf')).should("exist")
+                cy.log('document-'+text+'.pdf')
+                cy.wait(2000)
             })
         })
      

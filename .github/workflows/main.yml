@@ -5,8 +5,28 @@ on:
     branches:
       - main
 jobs:
+  directories-master-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: directories-master-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          spec: cypress/integration/baseTest/directoriesMasterAdmin.spec.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  start-admin-elec-linux:
+  find-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
     steps:
@@ -14,40 +34,19 @@ jobs:
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: start-admin-elec-linux
+      - name: find-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/start.spec.js
+          spec: cypress/integration/baseTest/find.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
           # Recommended: pass the GitHub token lets this action correctly
           # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
-  specialist-admin-elec-linux:
-    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: specialist-admin-elec-linux
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          spec: cypress/integration/baseTest/specialist.spec.js
-          # edge, firefox
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
+
   master-admin-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
@@ -82,6 +81,153 @@ jobs:
         with:
           record: true
           spec: cypress/integration/baseTest/masterMehanic.spec.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+
+  menu-master-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: menu-master-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          spec: cypress/integration/baseTest/menu.spec.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+          
+  ppo-master-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: ppo-master-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          spec: cypress/integration/baseTest/ppo.spec.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
+
+  reports-master-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: reports-master-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          spec: cypress/integration/baseTest/reports.spec.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+
+  desktopSH-master-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: desktopSH-master-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          spec: cypress/integration/baseTest/shDesktopMasterAdmin.spec.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+  
+  mobileSH-master-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: desktopSH-master-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          spec: cypress/integration/baseTest/shMobileMasterAdmin.spec.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
+  specialist-admin-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: specialist-admin-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          spec: cypress/integration/baseTest/specialist.spec.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  start-admin-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: start-admin-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          spec: cypress/integration/baseTest/start.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -132,150 +278,4 @@ jobs:
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
              
-  find-master-elec-linux:
-    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: find-master-elec-linux
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          spec: cypress/integration/baseTest/find.spec.js
-          # edge, firefox
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}     
-
-  ppo-master-elec-linux:
-    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: ppo-master-elec-linux
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          spec: cypress/integration/baseTest/ppo.spec.js
-          # edge, firefox
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
-
-  menu-master-elec-linux:
-    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: menu-master-elec-linux
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          spec: cypress/integration/baseTest/menu.spec.js
-          # edge, firefox
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
-
-  reports-master-elec-linux:
-    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: reports-master-elec-linux
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          spec: cypress/integration/baseTest/reports.spec.js
-          # edge, firefox
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
-
-  directories-master-elec-linux:
-    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: directories-master-elec-linux
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          spec: cypress/integration/baseTest/directoriesMasterAdmin.spec.js
-          # edge, firefox
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
-
-  desktopSH-master-elec-linux:
-    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: desktopSH-master-elec-linux
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          spec: cypress/integration/baseTest/shDesktopMasterAdmin.spec.js
-          # edge, firefox
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
-  
-  mobileSH-master-elec-linux:
-    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: desktopSH-master-elec-linux
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          spec: cypress/integration/baseTest/shMobileMasterAdmin.spec.js
-          # edge, firefox
-        env:
-          # pass the Dashboard record key as an environment variable
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
-          # Recommended: pass the GitHub token lets this action correctly
-          # determine the unique run id necessary to re-run the checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
           

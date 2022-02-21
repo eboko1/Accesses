@@ -1,7 +1,11 @@
 /// <reference types="cypress" />
 import ProfilePage from '../../support/pageObject/profilePage';
+import NavigationPage from '../../support/pageObject/navigationPage';
+import Menu from '../../support/pageObject/menu';
+
 const profilePage = new ProfilePage();
-const baseUrl = 'https://'+Cypress.env('url')+'my.carbook.pro';
+const navigationPage = new NavigationPage();
+const menu = new Menu();
 
 describe ('Menu|Master|UA|Desktop|', function(){
   const login = (email, password) =>{
@@ -26,66 +30,45 @@ beforeEach('User Login ', function(){
   })
  
   it('Меню / Швидка навігація + Ремонт',   function(){
-    cy.visit('/')
-    cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
+    cy.visit('/new-document')
     cy.get('.anticon-plus').eq(0).click({force: true})
     cy.wait(2000)
     cy.get('h1').should('have.text','Додати Ремонт')
   })
 
   it('Меню / Швидка навігація / Кнопка Ремонти',   function(){
-    cy.visit('/')
-    cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
-    cy.get('.ant-btn').contains('Наряд замовлення').click({force: true})
-    cy.wait(2000)
-    cy.get('h1').should('have.text','Нові')
+    cy.visit('/new-document') 
+    navigationPage.openNavigation('Наряд замовлення','Нові')
   })
 
   it('Меню / Швидка навігація / Кнопка Запис',   function(){
-    cy.visit('/')
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Запис').click({force: true})
-    cy.wait(2000)
-    cy.get('h1').should('have.text','Записи')
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Запис','Записи')
   })
 
   it('Меню / Швидка навігація / Кнопка Ремонт',   function(){
-    cy.visit('/')
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Ремонт').click({force: true})
-    cy.wait(2000)
-    cy.get('h1').should('have.text','Ремонти')
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Ремонт','Ремонти')
   })
+
   it('Меню / Швидка навігація / Кнопка Виконано',   function(){
-    cy.visit('/')
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Виконано').click({force: true})
-    cy.wait(2000)
-    cy.get('h1').should('have.text','Виконані')
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Виконано','Виконані')
   })
 
   it('Меню / Швидка навігація / Кнопка Відмова',   function(){
-    cy.visit('/')
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Відмова').click({force: true})
-    cy.wait(2000)
-    cy.get('h1').should('have.text','Відмови')
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Відмова','Відмови')
   })
 
   it('Меню / Швидка навігація / Кнопка Запрошення',   function(){
-    cy.visit('/')
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Запрошення').click({force: true})
-    cy.wait(2000)
-    cy.get('h1').should('have.text','Запрошення')
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Запрошення','Запрошення')
   })
 
   it('Меню / Швидка навігація / Кнопка Відгук',   function(){
-    cy.visit('/')
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Відгук').click({force: true})
-    cy.wait(2000)
-    cy.get('h1').should('have.text','Відгуки')
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Відгук','Відгуки')
   })
 
   it('Меню / Ремонти', function() {
@@ -104,6 +87,7 @@ beforeEach('User Login ', function(){
 
   it('Меню / Довідник', function() {
     cy.visit('/')
+
     cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
     cy.get('.ant-menu-item').contains('Довідники').click({force: true})
     cy.get('h1').should('have.text','Довідники та налаштування')

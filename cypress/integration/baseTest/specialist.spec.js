@@ -18,7 +18,7 @@ const emploeePage = new EmploeePage();
 const laborDetails = new LaborDetails();
 
 var date = new Date();
-//const idClient ='30022'
+////const idClient ='21122'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -70,116 +70,163 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
 
   it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
     cy.visit('/orders/appointments');
+    orderPage.openNZ(idClient)
     orderPage.editOrder(idClient);
   });
 
   it('Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Пробіг, Знижка', function(){
     cy.visit('/orders/appointments')
+    orderPage.openNZ(idClient)
     orderPage.checkOrder(idClient)
   });
 
   it('Перевід у статус Запис', function(){
     cy.visit('/orders/appointments');
-    orderPage.createAppointments(idClient);
+    orderPage.openNZ(idClient)
+    orderPage.createAppointments();
   });
 
   it('Створення Діагностики', function(){
     cy.visit('/orders/approve');
-    orderPage.createDiagnostic(idClient);
+    orderPage.openNZ(idClient)
+    orderPage.createDiagnostic();
   });
 
   it('Редагування ціни для доданої Роботи з діагностики', function(){
     cy.visit('/orders/approve');
-    laborTab.editLaborDiagnostic(idClient);
+    orderPage.openNZ(idClient)
+    laborTab.editLaborDiagnostic();
   });
 
   it('Додавання Робіт через групи Товарів', function(){
     cy.visit('/orders/approve');
-    laborTab.addLaborGroupProduct(idClient);
+    orderPage.openNZ(idClient)
+    laborTab.addLaborGroupProduct();
   })
 
   it('Додавання Робіт через поле Робіт', function(){
     cy.visit('/orders/approve');
-    laborTab.addLaborFieldLabor(idClient);
+    orderPage.openNZ(idClient)
+    laborTab.addLaborPlus();
   })
 
   it('Додавання Робіт повторно', function(){
     cy.visit('/orders/approve');
-    laborTab.addLaborFieldLabor(idClient);
+    orderPage.openNZ(idClient)
+    laborTab.addLaborPlus(idClient);
   })
 
   it('Вкладка Роботи > Додавання Роботи ч/з Комплекси', function(){
     cy.visit('/orders/approve');
-    laborTab.addLaborComplexes(idClient);
+    orderPage.openNZ(idClient)
+    laborTab.addLaborComplexes();
   });
 
-  it('Додавання коментарів до Роботи ч/з +', function(){
+  it('Додавання коментарів до Роботи', function(){
     cy.visit('/orders/approve');
+    orderPage.openNZ(idClient)
     laborTab.addCommentsToLabor();
   });
 
-  it('Додавання Запчастин ч/з +', function(){
-    cy.visit('/orders/approve');
-    productTab.addProductPlus();
+  it('Перевірка доданих коментарів', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    cy.get('.ant-table-cell').contains('пер. міст, попереду, вгорі; test').should('exist')   
   });
 
   it('Відображення механіка в табці Роботи  ', function(){
     cy.visit('/orders/approve');
-    laborTab.showMehanicLabor(idClient);
+    orderPage.openNZ(idClient)
+    laborTab.showMehanicLabor();
   })
+
+  it('Додавання Запчастин ч/з +', function(){
+    cy.visit('/orders/approve');
+    orderPage.openNZ(idClient)
+    productTab.addProductPlus();
+  });
 
   it('Додавання Запчастин ч/з Групу ЗЧ', function(){
     cy.visit('/orders/approve');
-    productTab.addProduct(idClient);
+    orderPage.openNZ(idClient)
+    productTab.addProduct();
   })
 
   it('Вкладка Запчастини > Пряме редагування', function(){
     cy.visit('/orders/approve');
-    productTab.editProduct(idClient)
-  });
-
-  it('Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
-    cy.visit('/orders/approve');
-    productTab.checkModalVIN(idClient);
+    orderPage.openNZ(idClient)
+    productTab.editProduct()
   });
 
   it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){
     cy.visit('/orders/approve');
-    productTab.addProductInfoAuto(idClient);
+    orderPage.openNZ(idClient)
+    productTab.addProductInfoAuto();
+  });
+
+  it('Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient);
+    productTab.checkModalVIN();
   });
 
   it('Вкладка Запчастини > Швидке редагування запчастин', function(){
     cy.visit('/orders/approve');
+    orderPage.openNZ(idClient);
     productTab.editProductIcon(idClient)
   });
 
   it('Інформація по а/м в НЗ', function(){
       cy.visit('/orders/approve');
+      orderPage.openNZ(idClient)
       orderPage.getInfoAuto()
   });
 
   it('Перевід у статус Ремонту', function(){
     cy.visit('/orders/approve');
-    orderPage.createProgress(idClient)
+    orderPage.openNZ(idClient)
+    orderPage.createProgress()
   })
 
   it('Додавання Коментарів', function(){
     cy.visit('/orders/progress');
+    orderPage.openNZ(idClient)
     orderPage.addComments(idClient);
   });
 
-  it('Оплата і видача (ОВ)', function(){
+  it('Часткова оплата ч/з статус завершено', function(){
     cy.visit('/orders/progress');
-    orderPage.payOrder(idClient);
+    orderPage.openNZ(idClient)
+    orderPage.payOrderCredit()
+  });
+
+  it('Перевірка поля Сплачено', function(){
+    cy.visit('/orders/success');
+    orderPage.openNZ(idClient);
+    cy.get('.styles-m__sumWrapper---1Ulp6').find('span').eq(2).contains('12,30 грн.') // сплачено Грн -> грн
+  });
+
+  it('Повна оплата ч/з $', function(){
+    cy.visit('/orders/success');
+    orderPage.openNZ(idClient);
+    orderPage.payOrderDollar('Готівкова');
+  });
+
+  it('Перевірка поля Залишок', function(){
+    cy.visit('/orders/success');
+    orderPage.openNZ(idClient);
+    cy.get('.styles-m__total---JSKrk').find('span').eq(1).contains('0 грн.'); // Залишок Грн -> грн
   });
 
   it('Статистика в НЗ', function(){
     cy.visit('/orders/success');
+    orderPage.openNZ(idClient)
     orderPage.getStatisticOrder();
   });
 
   it('Завантаження НЗ для Клієнта', function(){
     cy.visit('/orders/success');
+    orderPage.openNZ(idClient)
     orderPage.downloadOrder();
   });
 
@@ -188,34 +235,33 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
     orderPage.checkDownloadOrder()
   });
 
-  it('Відсутність $ в НЗ', function(){
-    cy.visit('/orders/success');
-    orderPage.checkDollar()
-  });
-
   it('Копія НЗ', function(){
     cy.visit('/orders/success');
-    orderPage.copyOrder(idClient)
+    orderPage.openNZ(idClient);
+    orderPage.copyOrder();
   });
 
   it('Видалення НЗ', function(){
-    cy.visit('/orders/appointments')
-    orderPage.deleteOrder(idClient)
+    cy.visit('/orders/appointments');
+    orderPage.openNZ(idClient);
+    orderPage.deleteOrder();
   });
 
   it('Вкладка Історія в н/з', function(){
     cy.visit('/orders/success');
+    orderPage.openNZ(idClient);
     orderPage.checkHistory();
   });
 
   it('Вкладка Пост в н/з', function(){
     cy.visit('/orders/success');
+    orderPage.openNZ(idClient);
     orderPage.checkTabPost();
   });
 
   it('Відкриття форми створення Працівника', function(){
     cy.visit('/employees');
-    orderPage.checkTabPost();
+    emploeePage.openEmploeeCardForCreate();
   });
 
   it('Відкриття картки існуючого Працівника', function(){

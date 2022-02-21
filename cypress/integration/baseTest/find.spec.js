@@ -98,7 +98,7 @@ const baseStorage = new BaseStorage();
         cy.get('tr > td').eq(3).invoke('text')
           .then (text => {
             cy.get('.ant-select-selection-search').first().type(text)
-            cy.wait(2000)
+            cy.wait(4000)
             cy.get('.ant-select-item').contains('Автомобілі').click();
             cy.get('.ant-table-row > :nth-child(4)').first().should('have.text',text) 
           })

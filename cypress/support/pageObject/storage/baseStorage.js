@@ -2,7 +2,7 @@ const path = require("path");
 
 class BaseStorage {
 
-    openDocsBtn = (numberBtn) => { // відкриття вже створеного дока
+    openDocsBtn = (numberBtn) => { // відкриття вже створеного дока 
         cy.contains('Швидка навігація').click({force: true})
         cy.get('h1').should('have.text','Швидка навігація')
         cy.get('button').eq(numberBtn).click({force: true})

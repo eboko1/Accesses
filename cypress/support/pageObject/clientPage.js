@@ -12,8 +12,6 @@ class ClientPage {
             .then(()=>{
                 cy.get('#type').click({ force: true })
                 cy.get('.ant-select-item-option-content').eq(0).click({ force: true });
-            //// cy.get('#sex').click();
-            //// cy.contains('Чоловіча').click();
             })
             .then(()=>{
                 cy.get('#status').click();
@@ -22,17 +20,10 @@ class ClientPage {
             .then(()=>{
                 cy.get('#source').click();
                 cy.contains('CarBook').click();
-                ///////cy.get('#source').should('have.text','CarBook');
             })
             .then(()=>{
-            cy.get('#sex').click();
-            cy.contains('Чоловіча').click();
-            })
-            .then(()=>{
-                cy.log('Дата народження клієнта ');
-              //  cy.get('#birthday').click();******************************************************************************
-                cy.wait(1000)
-               //// cy.contains('10').click();********************************************************************************
+                cy.get('#sex').click();
+                cy.contains('Чоловіча').click();
             })
             .then(()=>{
                 cy.wait(1000)
@@ -221,13 +212,13 @@ class ClientPage {
     }
 
     editClientNumber = (idClient,tel) => {      
-        cy.wait(6000)
+        cy.wait(3000)
         cy.log('Пошук клієнта');
         cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)  //
         cy.wait(4000)
         .then(()=>{
             cy.get('tr > td > a').first().click({force: true})
-            cy.wait(2000)
+            cy.wait(4000)
         })
         .then(()=>{
             cy.get('.ant-input-number-input').first().clear().type('683781977')

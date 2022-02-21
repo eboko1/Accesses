@@ -6,6 +6,7 @@ import ProfilePage from '../../support/pageObject/profilePage';
 import LaborTab from '../../support/pageObject/tabsOrder/laborTab';
 import ProductTab from '../../support/pageObject/tabsOrder/productTab';
 import LaborDetails from '../../support/pageObject/laborDetails';
+import Menu from '../../support/pageObject/menu';
 
 const loginPage = new LoginPage();
 const orderPage = new OrderPage();
@@ -14,13 +15,7 @@ const profilePage = new ProfilePage();
 const laborTab = new LaborTab();
 const productTab = new ProductTab();
 const laborDetails = new LaborDetails();
-
-var date = new Date();
-//const idClient ='1818'
-const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
-var second = parseInt(date.getSeconds())+10
-var minute = parseInt(date.getMinutes())+10
-const tel =second+'0'+minute+''+second+''+minute;
+const menu = new Menu();
 
 describe ('Master|Mehanic|UA|Desktop|', function(){ 
   const login = (email, password) =>{
@@ -47,20 +42,17 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Інформація по а/м в НЗ', function(){
       cy.visit('/orders/approve')
+      orderPage.openNZMehanic()
       orderPage.getInfoAuto()
   });
 
   it('Редагування ціни для Роботи в НЗ', function(){
-    cy.visit('/orders/approve')
-    cy.wait(2000);
-    cy.get('tr > td > a').first().click({force: true});
-    cy.log('Вибір Запису');
-    cy.wait(5000);
+    cy.visit('/orders/progress')
+    orderPage.openNZMehanic()
     cy.log('Вкладка Роботи');
     cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click();
-    /// перевірка доданої роботи з діагностики
     cy.wait(1000);
-    cy.get(':nth-child(1) > [title="Швидке редагування"] > div').first().click({force: true})
+    cy.get(':nth-child(1) > [title="Швидке редагування"]').first().click({force: true})
     cy.wait(1000);
     cy.log('Закупочна ціна');
     cy.get(':nth-child(4) > .ant-input-number > .ant-input-number-input-wrap > .ant-input-number-input').clear().type('111');
@@ -74,11 +66,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Відкриття таб. Роботи', function(){
     cy.visit('/orders/approve')
-    cy.wait(2000);
-    cy.get('tr > td > a').first().click({force: true});
-    cy.log('Вибір Запису');
-    cy.wait(5000);
-    cy.log('Вкладка Запчастини');
+    orderPage.openNZMehanic()
     cy.get('.ant-tabs-nav > :nth-child(1)').contains('Роботи').click()
     cy.wait(2000);
     cy.get('.ant-table-content').should('exist')
@@ -86,10 +74,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
   
   it('Відкриття таб. Запчастини', function(){
     cy.visit('/orders/approve')
-    cy.wait(2000);
-    cy.get('tr > td > a').first().click({force: true});
-    cy.log('Вибір Запису');
-    cy.wait(10000);
+    orderPage.openNZMehanic()
     cy.log('Вкладка Запчастини');
     cy.get('.ant-tabs-nav > :nth-child(1)').contains('Запчастини').click()
     cy.wait(2000);
@@ -98,34 +83,34 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Статистика в НЗ', function(){
     cy.visit('/orders/success');
+    orderPage.openNZMehanic()
     orderPage.getStatisticOrder()
   });
 
   it('Додавання Коментарів', function(){
     cy.visit('/orders/progress');
-    orderPage.addComments(idClient)});
+    orderPage.openNZMehanic()
+    orderPage.addComments();
+  })
 
-
-  it('Відсутність $ в НЗ', function(){
+  it('Відсутність $ ', function(){
     cy.visit('/orders/success');
+    orderPage.openNZMehanic()
     orderPage.checkDollar()
-  });
-
-  it('Вкладка Історія в н/з', function(){
-    cy.visit('/orders/success');
-    orderPage.checkHistory();
   });
 
   it('Вкладка Пост в н/з', function(){
     cy.visit('/orders/success');
-    orderPage.checkTabPost(); });
+    orderPage.openNZMehanic()
+    orderPage.checkTabPost(); 
+  });
 
   it('Відкриття сторінки Деталі в Роботі', function(){
     cy.visit('/spare-parts-workplace');
     laborDetails.openPage();
   });
 
-  it('Меню / Ремонти/ Список Ремонтів', function(){
+  it('Меню / Ремонти/ Список Ремонтів', function(){   // connect for start 
     cy.visit('/');
     cy.get('.ant-menu-item').contains('Ремонти').click({force: true})
     cy.get('h1').should('have.text','Нові')
@@ -141,44 +126,28 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Меню / Довідник', function() {
     cy.visit('/');
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Довідники').click({force: true})
-    cy.get('h1').should('have.text','Довідники та налаштування')
-    cy.get('.ant-layout-content').should('exist')
+    menu.menuOpen('Довідник', 'Довідники', 'Довідники та налаштування')
   })
 
   it('Меню / Товари / Список Товарів',   function(){
     cy.visit('/');
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Товари').click({force: true})
-    cy.get('h1').should('have.text','Товари')
-    cy.get('.ant-layout-content').should('exist')
+    menu.menuOpen('Довідник', 'Товари', 'Товари')
   })
 
   it('Меню / Автомобілі / Список а/м',   function(){
     cy.visit('/');
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Автомобілі').click({force: true})
-    cy.get('h1').should('have.text','Автомобілі')
-    cy.get('.ant-layout-content').should('exist')
+    menu.menuOpen('Довідник', 'Автомобілі', 'Автомобілі')
   })
 
   it('Меню / Клієнти / Список клієнтів',   function(){
     cy.visit('/');
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Клієнти').click({force: true})
-    cy.wait(2000);
-    cy.get('h1').should('have.text','Клієнти')
-    cy.get('.ant-layout-content').should('exist')
+    menu.menuOpen('Довідник', 'Клієнти', 'Клієнти')
+
   })
 
   it('Меню / Працівники / Список Працівників',   function(){
     cy.visit('/');
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Працівники').click({force: true})
-    cy.wait(2000);
-    cy.get('h1').should('have.text','Працівники')
-    cy.get('.ant-layout-content').should('exist')
+    menu.menuOpen('Довідник', 'Працівники', 'Працівники')
   })
 
   it('Загальний пошук', function(){

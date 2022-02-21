@@ -9,7 +9,6 @@ class EmploeePage {
     }
 
     openEmploeeCardForCreate = () =>{
-        cy.wait(2000)
         cy.get('.ant-btn').click({force: true})
         cy.wait(2000)
         cy.get('.ant-layout-content').should('exist');

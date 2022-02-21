@@ -8,6 +8,8 @@ import LaborTab from '../../support/pageObject/tabsOrder/laborTab';
 import ProductTab from '../../support/pageObject/tabsOrder/productTab';
 import EmploeePage from '../../support/pageObject/emploeePage';
 import LaborDetails from '../../support/pageObject/laborDetails';
+import Menu from '../../support/pageObject/menu';
+import NavigationPage from '../../support/pageObject/navigationPage';
 
 const loginPage = new LoginPage();
 const orderPage = new OrderPage();
@@ -17,11 +19,13 @@ const laborTab = new LaborTab();
 const productTab = new ProductTab();
 const emploeePage = new EmploeePage();
 const laborDetails = new LaborDetails();
+const menu = new Menu();
+const navigationPage = new NavigationPage();
 
 var date = new Date();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
-///const idClient ='14120'
+////const idClient ='21115'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 const tel =second+'0'+minute+''+second+''+minute;
 
@@ -44,155 +48,178 @@ describe ('Start|Admin|UA|Desktop', function(){
     login(Cypress.env('LoginStart'), Cypress.env('pw'))
   })
   
-  it('1. Профіль вибір українського інтерфейсу', function(){
+  it('Профіль вибір українського інтерфейсу', function(){
     cy.visit('/profile')
     profilePage.selectUA()
   })
 
-  it('2. Додавання Клієнта та а/м: '+idClient, function(){
+  it('Додавання Клієнта та а/м: '+idClient, function(){
     cy.visit('/add')
     clientPage.createClient(idClient,tel)
   });
 
-  it('3. Перевірка заповнених полів Картка клієнта '+idClient, function(){
+  it('Перевірка заповнених полів Картка клієнта '+idClient, function(){
     cy.visit('/client-hot-operations')
     clientPage.checkClient(idClient,tel)
   })
 
-  it('4. Редагування мобільного номера Клієнта:'+idClient, function(){
+  it('Редагування мобільного номера Клієнта:'+idClient, function(){
     cy.visit('/client-hot-operations')
     clientPage.editClientNumber(idClient,tel)
   })
 
-  it('5. Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
+  it('Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
     cy.visit('/orders/appointments')
     orderPage.createOrder(idClient)
   });
 
-  it('6. Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
+  it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
     cy.visit('/orders/appointments')
+    orderPage.openNZ(idClient)
     orderPage.editOrder(idClient)
   });
 
-  it('7. Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Пробіг, Знижка', function(){
+  it('Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Пробіг, Знижка', function(){
     cy.visit('/orders/appointments')
+    orderPage.openNZ(idClient)
     orderPage.checkOrder(idClient)
   });
 
-  it('8. Перевід у статус Запис', function(){
+  it('Перевід у статус Запис', function(){
     cy.visit('/orders/appointments')
-    orderPage.createAppointments(idClient)
+    orderPage.openNZ(idClient)
+    orderPage.createAppointments()
   });
 
-  it('9. Додавання Робіт через групи Товарів', function(){
+  it('Додавання Робіт через групи Товарів', function(){
     cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
     laborTab.addLaborGroupProduct(idClient)
   })
 
-  it('9.1 Додавання Робіт через групи Товарів', function(){
+  it('Додавання Робіт через групи Товарів', function(){
     cy.visit('/orders/approve')
-    laborTab.addLaborGroupProduct(idClient)
+    orderPage.openNZ(idClient)
+    laborTab.addLaborGroupProduct()
   })
 
-  it('10. Редагування ціни для доданої Роботи', function(){
+  it('Редагування ціни для доданої Роботи', function(){
     cy.visit('/orders/approve')
-    laborTab.editLaborDiagnostic(idClient)
+    orderPage.openNZ(idClient)
+    laborTab.editLaborDiagnostic()
   });
  
-  it('11. Додавання Робіт через поле Робіт', function(){
+  it('Додавання Робіт через поле Робіт', function(){
     cy.visit('/orders/approve')
-    laborTab.addLaborFieldLabor(idClient)
+    orderPage.openNZ(idClient)
+    laborTab.addLaborPlus()
   })
 
-  it('12. Додавання Робіт повторно', function(){
+  it('Додавання Робіт повторно', function(){
     cy.visit('/orders/approve')
-    laborTab.addLaborFieldLabor(idClient)
+    orderPage.openNZ(idClient)
+    laborTab.addLaborPlus()
   })
 
-  it('14. Відображення механіка в табці Роботи  ', function(){
+  it('Відображення механіка в табці Роботи  ', function(){
     cy.visit('/orders/approve')
-      laborTab.showMehanicLabor(idClient)
+    orderPage.openNZ(idClient)
+    laborTab.showMehanicLabor()
   })
 
-  it('15. Додавання Запчастин ч/з Групу ЗЧ', function(){
+  it('Додавання Запчастин ч/з Групу ЗЧ', function(){
     cy.visit('/orders/approve')
-    productTab.addProduct(idClient)
+    orderPage.openNZ(idClient)
+    productTab.addProduct()
   })
 
-  it('16. Вкладка Запчастини > Пряме редагування', function(){
+  it('Вкладка Запчастини > Пряме редагування', function(){
     cy.visit('/orders/approve')
-    productTab.editProduct(idClient)
+    orderPage.openNZ(idClient)
+    productTab.editProduct()
   });
 
-  it('17. Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){
+  it('Вкладка Запчастини > Швидке редагування запчастин', function(){
     cy.visit('/orders/approve')
-    productTab.addProductInfoAuto(idClient)
-  });
-
-  it('18. Вкладка Запчастини > Швидке редагування запчастин', function(){
-    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
     productTab.editProductIcon(idClient)
   });
 
-  it('19. Інформація по а/м в НЗ', function(){
+  it('Інформація по а/м в НЗ', function(){
       cy.visit('/orders/approve')
+      orderPage.openNZ(idClient)
       orderPage.getInfoAuto()
   });
 
-  it('20. Перевід у статус Ремонту', function(){
+  it('Перевід у статус Ремонту', function(){
     cy.visit('/orders/approve')
-    orderPage.createProgress(idClient)
+    orderPage.openNZ(idClient)
+    orderPage.createProgress()
   })
 
-  it('21. Додавання Коментарів', function(){
+  it('Додавання Коментарів', function(){
     cy.visit('/orders/progress');
-    orderPage.addComments(idClient)
+    orderPage.openNZ(idClient)
+    orderPage.addComments()
   });
 
-  it('22. Перевід НЗ в статус Завершено', function(){
+  it('Перевід НЗ в статус Завершено', function(){  // відсутня оплата в пакеті start
     cy.visit('/orders/progress');
-    orderPage.payOrderStart(idClient);
+    orderPage.openNZ(idClient)
+    cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover') // Статус Завершено
+    cy.get('.ant-dropdown-menu-item').contains('Завершено').click()
+    cy.get('[data-qa=button_submit_yes_to_success_form]').click({force: true});//ОК;
+    cy.wait(5000);
+    cy.get('h1').contains('Виконано')
+    cy.wait(4000);   
   });
 
-  it('23. Відображення модалки Статистики в НЗ', function(){
+  it('Відображення модалки Статистики в НЗ', function(){
     cy.visit('/orders/success');
+    orderPage.openNZ(idClient)
     orderPage.getStatisticOrder();
   });
 
-  it('24. Завантаження НЗ для Клієнта', function(){
+  it('Завантаження НЗ для Клієнта', function(){
     cy.visit('/orders/success');
+    orderPage.openNZ(idClient)
     orderPage.downloadOrder();
     cy.wait(8000);
   });
 
-  it('25. Перевірка завантаженних файлів', function(){
+  it('Перевірка завантаженних файлів', function(){
     cy.visit('/orders/success');
     orderPage.checkDownloadOrder();
   });
 
-  it('25. Відсутність $ в НЗ', function(){
+  it('Відсутність $ в пакеті START', function(){
     cy.visit('/orders/success');
+    orderPage.openNZ(idClient)
     orderPage.checkDollar();
   });
 
-  it('26. Копія НЗ', function(){
+  it('Копія НЗ', function(){
     cy.visit('/orders/success');
-    orderPage.copyOrder(idClient);
+    orderPage.openNZ(idClient)
+    orderPage.copyOrder();
   });
 
-  it('27. Видалення НЗ', function(){
+  it('Видалення НЗ', function(){
     cy.visit('/orders/appointments')
-    orderPage.deleteOrder(idClient);
+    orderPage.openNZ(idClient)
+    orderPage.deleteOrder();
   });
 
-  it('28. Вкладка Історія в н/з', function(){
+  it('Вкладка Історія в н/з', function(){
     cy.visit('/orders/success');
+    orderPage.openNZ(idClient)
     orderPage.checkHistory();
   });
 
-  it('29. Вкладка Пост в н/з', function(){
+  it('Вкладка Пост в н/з', function(){
     cy.visit('/orders/success');
-    
+    orderPage.openNZ(idClient);
+    orderPage.checkTabPost();
   });
 
   it('Відкриття форми створення Працівника', function(){
@@ -215,56 +242,42 @@ describe ('Start|Admin|UA|Desktop', function(){
     cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
     cy.get(':nth-child(1) > .styles-m__folderLink---2Myrv > .anticon > svg').first().click({force: true})
       .then(()=> {
-        cy.get('h1').should('have.text','Додати Ремонт')
+        cy.get('h1').contains('Додати Ремонт').should('exist')
     }) 
   })
 
   it('Меню / Швидка навігація / Кнопка Ремонти', function(){
-    cy.visit('/') 
-    cy.get('.ant-menu-item').contains('Швидка навігація').first().click({force: true})
-    cy.get(':nth-child(1) > .styles-m__buttonLink---1D7wr > .ant-btn').first().click({force: true})
-    cy.get('h1').should('have.text','Нові')
+    cy.visit('/new-document') 
+    navigationPage.openNavigation('Наряд замовлення','Нові')
   })
 
   it('Меню / Швидка навігація / Кнопка Запис', function() {
-    cy.visit('/') 
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Запис').click({force: true})
-    cy.get('h1').should('have.text','Записи')
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Запис','Записи')
   })
 
   it('Меню / Швидка навігація / Кнопка Ремонт', function(){
-    cy.visit('/') 
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Ремонт').click({force: true})
-    cy.get('h1').should('have.text','Ремонти')
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Ремонт','Ремонти')
   })
   it('Меню / Швидка навігація / Кнопка Виконано', function(){
-    cy.visit('/') 
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Виконано').click({force: true})
-    cy.get('h1').should('have.text','Виконані')
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Виконано','Виконані')
   })
 
-  it('Меню / Швидка навігація / Кнопка Відмова', function(){
-    cy.visit('/') 
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Відмова').click({force: true})
-    cy.get('h1').should('have.text','Відмови')
+  it('Меню / Швидка навігація / Кнопка Відмова',   function(){
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Відмова','Відмови')
   })
 
-  it('Меню / Швидка навігація / Кнопка Запрошення', function(){
-    cy.visit('/') 
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Запрошення').click({force: true})
-    cy.get('h1').should('have.text','Запрошення')
+  it('Меню / Швидка навігація / Кнопка Запрошення',   function(){
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Запрошення','Запрошення')
   })
 
-  it('Меню / Швидка навігація / Кнопка Відгук', function(){
-    cy.visit('/') 
-    cy.get('.ant-menu-item').contains('Швидка навігація').click({force: true})
-    cy.get('.ant-btn').contains('Відгук').click({force: true})
-    cy.get('h1').should('have.text','Відгуки')
+  it('Меню / Швидка навігація / Кнопка Відгук',   function(){
+    cy.visit('/new-document')
+    navigationPage.openNavigation('Відгук','Відгуки')
   })
 
   it('Меню / Ремонти', function(){
@@ -278,55 +291,38 @@ describe ('Start|Admin|UA|Desktop', function(){
     cy.get('.styles-m__headerContorls---2pU_V > .anticon > svg').click({force: true})
     cy.get('tr > td > a').first().click({force: true});
     cy.wait(2000)
-    cy.get('h1').should('have.text','Новий')
+    cy.get('h1').contains('Новий').should('exist')
   })
 
   it('Меню / Довідник', function(){
     cy.visit('/') 
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Довідники').click({force: true})
-    cy.get('h1').should('have.text','Довідники та налаштування')
-    cy.get('.styles-m__paper---3d-H1').should('exist')
+    menu.menuOpen('Довідник', 'Довідники', 'Довідники та налаштування')
   })
 
   it('Меню / Товари / Відображення списку ЗЧ', function(){
     cy.visit('/') 
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Товари').click({force: true})
-    cy.get('h1').should('have.text','Товари')
-    cy.get('.sc-gzVnrw').should('exist')
+    menu.menuOpen('Довідник', 'Товари', 'Товари')
   })
 
   it('Меню / Автомобілі / Відображення списку а/м', function(){
     cy.visit('/') 
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Автомобілі').click({force: true})
-    cy.get('h1').should('have.text','Автомобілі')
-    cy.get('.styles-m__paper---3d-H1').should('exist')
+    menu.menuOpen('Довідник', 'Автомобілі', 'Автомобілі')
   })
 
   it('Меню / Клієнти / Відображення списку Клієнтів', function(){
     cy.visit('/') 
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Клієнти').click({force: true})
-    cy.wait(2000);
-    cy.get('h1').should('have.text','Клієнти')
-    cy.get('.ant-table-body').should('exist')
+    menu.menuOpen('Довідник', 'Клієнти', 'Клієнти')
   })
 
   it('Меню / Працівники', function(){
     cy.visit('/') 
-    cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
-    cy.get('.ant-menu-item').contains('Працівники').click({force: true})
-    cy.wait(2000);
-    cy.get('h1').should('have.text','Працівники')
-    cy.get('.styles-m__paper---3d-H1').should('exist')
+    menu.menuOpen('Довідник', 'Працівники', 'Працівники')
   })
 
   it('Загальний пошук', function(){
-    cy.visit('/') 
+    cy.visit('/dashboard') 
     cy.get('h1').should('have.text','Календар Завантаження')
-    cy.get('.ant-select-search__field > .ant-input').type('start')
+    cy.get('.ant-select-selection-search').type('start')
     cy.wait(3000)
     cy.get('h1').should('not.have.text','Помилка')
   })

@@ -1,12 +1,7 @@
 class ProductTab {
 
-    addProduct = (idClient) => {
-        cy.get('.ant-input-wrapper > .ant-input').type(idClient)//пошук
-        cy.wait(2000);
-        cy.get('tr > td > a').first().click({force: true})
-        cy.log('Вкладка Запчастин');
+    addProduct = () => {
         cy.get('.ant-tabs-nav').contains('Запчастини').click()
-
         cy.get('.ant-input-number-input').eq(7).clear().type('15')
         cy.get('[data-qa="btn_header_actions_details_table_order_page"]').click()
         cy.get('[data-qa=tree_select_storeGroupId_detail_product_modal]').type('Мастила (оливи) моторні{enter}')
@@ -25,11 +20,7 @@ class ProductTab {
         })
     }
 
-    editProduct = (idClient) => {
-        cy.get('.ant-input-wrapper > .ant-input').type(idClient)//пошук
-        cy.wait(2000);
-        cy.get('tr > td > a').first().click({force: true}); // вибір НЗ
-        cy.wait(5000);
+    editProduct = () => {
         cy.get('.ant-tabs-nav').contains('Запчастини').click();  ////Вкладка Запчастини
         cy.wait(2000);
         cy.get('[data-qa=btn_header_actions_details_table_order_page]').click() // btn + ЗЧ
@@ -46,10 +37,7 @@ class ProductTab {
         cy.wait(3000);
     }
 
-    checkModalVIN = (idClient) => {
-        cy.get('.ant-input-wrapper > .ant-input').type(idClient)//пошук
-        cy.wait(2000);
-        cy.get('tr > td > a').first().click({force: true});
+    checkModalVIN = () => {
         cy.get('.ant-tabs-nav').contains('Запчастини').click();
         cy.get('[data-qa=btn_header_actions_details_table_order_page]').click() // btn + ЗЧ
         cy.get('[data-qa=button_setModal_vin_detail_product_modal]').click(); ///btn Вибір VIN
@@ -67,17 +55,12 @@ class ProductTab {
         cy.wait(1000);
     }
 
-    addProductInfoAuto = (idClient) => {
-        cy.get('.ant-input-wrapper > .ant-input').type(idClient)//пошук  !!!!якщо відсутня модифікація для а/м то модалка Інфо буде без даних
-        cy.wait(2000);
-        cy.get('tr > td > a').first().click({force: true});
-        cy.log('Вибір Запису');
-        cy.wait(5000);
+    addProductInfoAuto = () => {
         cy.get('.ant-tabs-nav').contains('Запчастини').click();
         cy.wait(1000);
         cy.get('[aria-label=question-circle]').first().click({force: true})
-        cy.wait(7000);
-        cy.get('.ant-tabs-tabpane').contains('Спецификации масел и технических жидкостей').should('exist')
+        cy.wait(10000);
+        ///////cy.get('.ant-tabs-tabpane').contains('Спецификации масел и технических жидкостей').should('exist')
         cy.get('tr[data-row-key="0"] > td > .ant-btn').last().click({force: true}) // btn додати
         cy.wait(5000);
         cy.get('.ant-modal-header').contains('Масла і рідини').should('exist')  //модалка масла та рідини
@@ -90,12 +73,8 @@ class ProductTab {
         cy.get('.ant-table-tbody').find('.ant-table-cell').contains('Мастила (оливи)').should('exist') // перевірка в табі ЗЧ 
     }
     
-    editProductIcon = (idClient) => {
+    editProductIcon = () => {
         /// якщо ЗЧ не зарезервована
-        cy.get('.ant-input-wrapper > .ant-input').type(idClient)//пошук
-        cy.wait(2000);
-        cy.get('tr > td > a').first().click({force: true});
-        cy.wait(5000);
         cy.get('.ant-tabs-nav').contains('Запчастини').click();
         cy.wait(1000);
         cy.get('[data-qa=button_quick_edit_modal_details_table_order_page]').first().click({force: true});
@@ -108,16 +87,8 @@ class ProductTab {
     }
 
     addProductPlus = () => {
-        cy.get('tr > td > a').first().invoke('text')
-            .then (text => { var codeNZ = text;
-            cy.log(codeNZ)
-            const numArr = text.split('-')  //[MDR, 594, 12345]
-            cy.get('.ant-input-wrapper > .ant-input').last().type(numArr[numArr.length-1])//пошук
-        })
-        cy.get('h1').should('have.text','Записи')
-        cy.get('tr > td > a').first().click({force: true});
         cy.get('.ant-tabs-nav').contains('Запчастини').click()
-       cy.get('[data-qa="btn_header_actions_details_table_order_page"]').click()
+        cy.get('[data-qa="btn_header_actions_details_table_order_page"]').click()
  
         cy.get('.ant-tabs-tab').contains('Пряме редагування').click({force: true});
         cy.get('[data-qa=input_detailName_detail_product_modal]').should('have.text','')

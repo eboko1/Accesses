@@ -162,7 +162,7 @@ describe ('Reports|Master|Admin|Desktop|UA|', function(){
 
     it('Бухгалтерія. Звіт по кредиторці', function(){
         cy.visit(baseUrl+'/reports')
-        reportsPage.checkDownloadFile('Кредиторка', 'Звіт по кредиторці', 'accounts_payable_repor')
+        reportsPage.checkDownloadFile('Кредиторка', 'Звіт по кредиторці', 'accounts_payable_report')
     })
 
     it('Бухгалтерія. Звіт по касам', function(){

@@ -8,19 +8,19 @@
 
   
   "env": {
-    "url":"",
+    "url":"test-",
     "pw":"123456",
-    "pwD":"vika_test_prod@i.ua",
+    "pwD":"456789",
+    "pwSH":"ACBf4W7G",
     
-    
-    
-    
-    "LoginSpec":"vtest@test.com",
-    "Login":"my@admin.com",
-    
-    
-    "Kasur":"dev@kasur.com",
-    "LoginSHTest":"vika_test_prod@i.ua"
+    "LoginFree":"free@admin.com",
+    "LoginStart":"start@admin.com",
+    "LoginSpec":"specialist@admin.com",
+    "LoginMaster":"master@admin.com",
+    "LoginQA":"test@admin.com",
+    "LoginMasterMehanic":"master@mehanic.com",
+    "Kasur":"test@kasur.com",
+    "LoginSHTest":"0930473717"
     
   }
 }

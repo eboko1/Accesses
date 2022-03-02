@@ -27,6 +27,22 @@ var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel = minute+minute+second+minute+second+minute;
 
+const login = (email, password) =>{
+  cy.session([email, password], () => { 
+    cy.visit('/') 
+    cy.get('#loginForm_login').type(email)
+    cy.get('#loginForm_password').type(password)
+    cy.get('button').click()
+    cy.wait(7000)
+    cy.getCookie('io')
+    cy.get('img').eq(0).click({force: true}) //menu
+  })
+}
+
+beforeEach('User Login ', function(){
+  cy.viewport(1240,960) 
+  login(Cypress.env('Kasur'), Cypress.env('pw'))
+})
 
 it('2. Створення НЗ', function(){
     cy.visit('/orders/appointments')

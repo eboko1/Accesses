@@ -42,8 +42,8 @@ describe ('SH|Desktop|Master|Admin|UA', function(){
 
     beforeEach('User Login ', function(){
         cy.viewport(1240,960)
-        ////login(Cypress.env('LoginSHTest'), Cypress.env('pwSH'))
-        login("prod@sadmin.com", "123456")
+        login(Cypress.env('LoginSHTest'), Cypress.env('pwSH'))  // test
+        ////login("prod@sadmin.com", "123456")
     })
 
     it('Профіль вибір українського інтерфейсу', function(){

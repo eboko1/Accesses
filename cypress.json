@@ -1,12 +1,10 @@
 {
-  "baseUrl":"https://test-my.carbook.pro",
   "experimentalStudio": true,
   "experimentalSessionSupport":true,
   "projectId": "kq8qxc",
   "chromeWebSecurity": false,
 
-
-  
+  "baseUrl":"https://test-my.carbook.pro",
   "env": {
     "pw":"123456",
     "pwD":"456789",

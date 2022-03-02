@@ -1,5 +1,5 @@
 {
-  "baseUrl":"https://my.carbook.pro",
+  "baseUrl":"https://test-my.carbook.pro",
   "experimentalStudio": true,
   "experimentalSessionSupport":true,
   "projectId": "kq8qxc",
@@ -8,7 +8,6 @@
 
   
   "env": {
-    "url":"test-",
     "pw":"123456",
     "pwD":"456789",
     "pwSH":"ACBf4W7G",

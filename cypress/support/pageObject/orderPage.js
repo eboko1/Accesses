@@ -106,7 +106,7 @@ class OrderPage {
         cy.wait(4000); 
         cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover') // Статус Завершено
         cy.get('.ant-dropdown-menu-item').contains('Завершено').click()
-        cy.wait(2000);
+        cy.wait(5000);
         cy.get('.ant-radio-input').first().click();  //Сплатити радіо-кнопка Так
         cy.wait(2000);
         cy.get('.ant-modal-body').find('.ant-select-selector').type(nameCash+'{enter}');  //Вибір Каси 
@@ -176,12 +176,14 @@ class OrderPage {
         cy.get('[data-qa=select_payment_method_order_page]').type('{enter}') ///Вибір Готівка 
         cy.get('[data-qa=select_business_requisites_order_page]').type('{downarrow}{enter}'); ///Вибір Реквізитів STO
         cy.wait(1000);
-        cy.get('.ant-input-number-input').eq(0).clear().type('7') 
-        cy.get('[data-qa=input_number_client_provide_odometr_order_page]').clear().type('123456') 
-        .then(function(){
-            cy.get('[aria-label=save]').click() // зберегти картку
-            cy.wait(2000);
-        })
+        cy.get('.ant-input-number-input').eq(0).clear()
+        cy.get('.ant-input-number-input').eq(0).type('7') 
+        cy.get('[data-qa=input_number_client_provide_odometr_order_page]').clear()
+        cy.get('[data-qa=input_number_client_provide_odometr_order_page]').type('123456')  
+        cy.wait(3000);
+        cy.get('[aria-label=save]').click() // зберегти картку
+        cy.wait(4000);
+    
     }
 
     editOrderSH = () =>{ 

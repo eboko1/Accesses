@@ -225,7 +225,8 @@ class ClientPage {
             cy.wait(4000)
         })
         .then(()=>{
-            cy.get('.ant-input-number-input').first().clear().type('683781977')
+            cy.get('.ant-input-number-input').first().clear()
+            cy.get('.ant-input-number-input').first().type('683781977')
             //cy.get('.ant-form > :nth-child(4) > :nth-child(1)').find('.ant-input-number-input').focus().clear().type('683781977')
             cy.wait(2000)
         })

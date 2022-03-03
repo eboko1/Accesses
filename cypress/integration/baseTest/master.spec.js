@@ -19,7 +19,7 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-///const idClient ='20150'
+///const idClient ='2236'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -100,7 +100,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
     laborTab.editLaborDiagnostic()
   });
 
-  it('Додавання Робіт через групи Товарів', function(){
+  it('Додавання Робіт через групу Товарів', function(){
     cy.visit('/orders/approve')
     orderPage.openNZ(idClient)
     laborTab.addLaborGroupProduct() 

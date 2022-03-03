@@ -25,8 +25,8 @@ const navigationPage = new NavigationPage();
 var date = new Date();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
-const idClient ='21115'
-///const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
+///const idClient ='21115'
+const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 const tel =second+'0'+minute+''+second+''+minute;
 
 describe ('Start|Admin|UA|Desktop', function(){
@@ -53,10 +53,10 @@ describe ('Start|Admin|UA|Desktop', function(){
     profilePage.selectUA()
   })
 
-  // // it('Додавання Клієнта та а/м: '+idClient, function(){
-  // //   cy.visit('/add')
-  // //   clientPage.createClient(idClient,tel)
-  // // });
+  it('Додавання Клієнта та а/м: '+idClient, function(){
+    cy.visit('/add')
+    clientPage.createClient(idClient,tel)
+  });
 
   it('Перевірка заповнених полів Картка клієнта '+idClient, function(){
     cy.visit('/client-hot-operations')

@@ -19,7 +19,7 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-///const idClient ='2236'
+///const idClient ='3257'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -40,8 +40,8 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   beforeEach('User Login ', function(){
     cy.viewport(1240,960) 
-    login(Cypress.env('LoginMaster'), Cypress.env('pw'))  //test
-   ///login("my@admin.com", "123456")
+    ///login(Cypress.env('LoginMaster'), Cypress.env('pw'))  //test
+    login("my@admin.com", "123456")
   })
 
   it('Профіль вибір українського інтерфейсу', function(){

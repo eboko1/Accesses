@@ -28,8 +28,8 @@ describe ('Складські документи ', function(){
 
     beforeEach('User Login ', function(){
         cy.viewport(1240,960) 
-        login(Cypress.env('LoginMaster'), Cypress.env('pw'))  // test
-        ///login("my@admin.com", "123456")
+        ///login(Cypress.env('LoginMaster'), Cypress.env('pw'))  // test
+        login("my@admin.com", "123456")
     })
    
     it(' OUT / Витрати Товару / Продаж Клієнту через +',  function(){

@@ -1,6 +1,7 @@
 class DirectoriesPage {
 
     checkHeader = (nameButton, nameHeader) => {
+        cy.wait(2000)
         cy.get('.ant-btn')
           .contains(nameButton)
           .click({force: true});

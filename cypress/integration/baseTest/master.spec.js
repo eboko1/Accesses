@@ -19,8 +19,8 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-const idClient ='3245'
-///const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
+///const idClient ='3245'
+const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel = minute+minute+second+minute+second+minute;

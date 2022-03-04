@@ -103,7 +103,6 @@ class OrderPage {
     }
 
    payOrderCredit = (nameCash) =>{
-        cy.wait(4000); 
         cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover') // Статус Завершено
         cy.get('.ant-dropdown-menu-item').contains('Завершено').click()
         cy.wait(5000);
@@ -121,7 +120,6 @@ class OrderPage {
     }
 
    payOrderDollar = (nameCash$) =>{
-        cy.wait(4000); 
         cy.get('.anticon-dollar').last().click() // повна оплата суми 
         cy.wait(2000)
         cy.get('[data-qa="select_credit_card"]').type(nameCash$+'{enter}');  //Вибір Каси
@@ -131,24 +129,22 @@ class OrderPage {
     }
 
    checkOrder = () =>{ 
-        cy.wait(4000); 
         cy.get('[data-qa=select_date_order_page]').should('not.have.value','')                          ///select_date_order_page
-        cy.get('[data-qa=select_station_order_page]').should('not.have.text','')
+        cy.get('[data-qa=select_station_order_page]').should('not.have.text','Оберіть пост')
         cy.get('[data-qa=provide_time_order_page]').should('not.have.value','')
         cy.get('[data-qa=select_delivery_date_order_page]').should('not.have.value','')
         cy.get('[data-qa=select_manager_order_page]').should('not.have.text','')
         cy.get('[data-qa=select_master_order_page]').should('not.have.text','')
-        cy.get('[data-qa=select_appurtenancies_responsible_order_page]').should('not.have.text','')     ///Запчастист
-        cy.get('[data-qa=select_payment_method_order_page]').should('have.text','Готівка') 
+        cy.get('[data-qa=select_appurtenancies_responsible_order_page]').should('not.have.text','Вкажіть Запчастиста')     ///Запчастист
+        cy.get('[data-qa=select_payment_method_order_page]').should('not.have.text','Виберіть спосіб розрахунку') 
         cy.get('[data-qa=select_payment_method_order_page]').should('not.have.text','') 
-        cy.get('[data-qa=select_business_requisites_order_page]').should('not.have.text','')            // Реквізити СТО
-        cy.get('[data-qa=select_client_requisites_order_page]').should('not.have.text','')              /// Реквізити Клієнта
+        cy.get('[data-qa=select_business_requisites_order_page]').should('not.have.text','Вкажіть реквізити')            // Реквізити СТО
+        cy.get('[data-qa=select_client_requisites_order_page]').should('have.text','Вкажіть реквізити')              /// Реквізити Клієнта
         cy.get('[data-qa=input_total_discount_or_markup_order_page]').should('have.value',7)            // Націнка
         cy.get('[data-qa=input_number_client_provide_odometr_order_page]').should('have.value',123456)  // Пробіг
    }
 
    checkOrderSH = () =>{ 
-        cy.wait(4000); 
         cy.get('.ant-select-selector').eq(1).should('not.have.text','') // ПОСТ
         cy.get('.ant-select-selector').eq(2).should('not.have.text','') // відповідальний
         cy.get('.ant-select-selector').eq(3).should('not.have.text','') // мех
@@ -162,13 +158,11 @@ class OrderPage {
     }
 
    editOrder = () =>{ 
-        cy.wait(5000)   
         cy.get('label').find('span').eq(1).click() // відкриття модалки Планувальника ч/з іконку в НЗ
         cy.wait(2000);
         cy.get('.timeColumn > :nth-child(2)').should('exist') 
         cy.get('.ant-modal-body').find('a').first().click({ force: true }) // Вибір поста клік + 11:00
         cy.get('[data-qa=select_station_order_page]').type('{enter}') 
-        cy.wait(2000);
         cy.get('.ant-modal-close').last().click({ force: true })  ///Закриття модалки Планувальника
         cy.get('[data-qa=select_master_order_page]').type('Механік{enter}')
         cy.get('[data-qa=select_appurtenancies_responsible_order_page]').type('Запчастист{enter}')
@@ -181,9 +175,8 @@ class OrderPage {
         cy.get('[data-qa=input_number_client_provide_odometr_order_page]').clear()
         cy.get('[data-qa=input_number_client_provide_odometr_order_page]').type('123456')  
         cy.wait(3000);
-        cy.get('[aria-label=save]').click() // зберегти картку
+        cy.get('[data-icon="save"]').click({force: true})  ///.should('be.visible').last()
         cy.wait(4000);
-    
     }
 
     editOrderSH = () =>{ 
@@ -205,17 +198,15 @@ class OrderPage {
     }
 
    getInfoAuto = () => {
-        cy.wait(5000);
         cy.get('[title="Інфо по автомобілю"] > .anticon').click({force: true})
-        cy.wait(6000);
+        cy.wait(8000);
         cy.get('.ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body').should('exist');
-        cy.wait(10000);
+        cy.wait(2000);
         cy.get('.ant-table-cell').should('not.have.text','')
         cy.wait(1000);
     }
 
     getStatisticOrder = () =>{
-        cy.wait(4000); 
         cy.get('.anticon-info-circle').click({force: true})
         cy.wait(3000);
         cy.get('.ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body').should('exist');
@@ -226,7 +217,6 @@ class OrderPage {
     }
 
     downloadOrder = () =>{ 
-        cy.wait(4000); 
         cy.get('.anticon-printer').click();  /// Завантаження Наряд замовлення для Клієнта
         cy.get('.ant-dropdown-menu-item').eq(5).click({force: true});
         cy.wait(5000); 
@@ -250,7 +240,6 @@ class OrderPage {
     }
 
      createAppointments = () =>{  
-        cy.wait(4000); 
         cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover') // Статус Запис
         cy.wait(2000);
         cy.get('.ant-dropdown-menu-item').contains('Запис').first().click({ force: true });
@@ -258,7 +247,6 @@ class OrderPage {
     }
 
     createDiagnostic = () =>{ 
-        cy.wait(4000); 
         cy.get('.ant-tabs-nav').contains('Діагностика').click(); //клік на вкладку діагностики
         cy.wait(2000);
         cy.log('Клік на випливаюче меню');

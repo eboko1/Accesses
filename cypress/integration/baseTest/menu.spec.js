@@ -21,8 +21,7 @@ describe ('Menu|Master|UA|Desktop|', function(){
 
 beforeEach('User Login ', function(){
     cy.viewport(1240,960) 
-    ///login(Cypress.env('LoginQA'), Cypress.env('pwD'))  //test
-    login("my@admin.com", "123456")
+    login(Cypress.env('LoginQA'), Cypress.env('pw'))  //test
 })
   
   it('Профіль вибір українського інтерфейсу', function(){

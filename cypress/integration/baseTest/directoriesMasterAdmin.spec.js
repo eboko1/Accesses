@@ -20,8 +20,7 @@ describe ('Directories & Settings|Master|Admin|Desktop|UA|', function(){
 
   beforeEach('User Login ', function(){
     cy.viewport(1240,960) 
-    ///login(Cypress.env('Kasur'), Cypress.env('pw')) // test
-    login("my@admin.com", "123456")
+    login(Cypress.env('Kasur'), Cypress.env('pw'))
   })
 
   it('Контрагенти. Клієнти', function(){

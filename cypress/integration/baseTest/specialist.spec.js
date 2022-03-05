@@ -40,8 +40,7 @@ describe ('Specialist|Admin|UA|Desktop|', function(){
 
   beforeEach('User Login ', function(){
     cy.viewport(1240,960) 
-    ///login(Cypress.env('LoginSpec'), Cypress.env('pw'))  // test
-    login("vtest@test.com", "123456")
+    login(Cypress.env('LoginSpec'), Cypress.env('pw'))
   })
   
   it('Профіль вибір українського інтерфейсу', function(){

@@ -5,15 +5,16 @@
   "chromeWebSecurity": false,
 
   "baseUrl":"https://my.carbook.pro",
+
   "env": {
-    "pw":"123456",
-    "pwD":"vika_test_prod@i.ua",
+    "LoginFree":"free@admin.com",
+    "LoginStart":"start@admin.com",
+    "LoginSpec":"specialist@admin.com",
+    "LoginMaster":"master@admin.com",
+    "LoginMasterMehanic":"master@mehanic.com",
+    "LoginQA":"manual@admin.com",
 
-    "LoginSpec":"vtest@test.com",
-    "LoginMaster":"my@admin.com",
-
-    "Kasur":"dev@kasur.com",
-    "LoginSHTest":"vika_test_prod@i.ua"
-    
+    "Kasur":"kasur@admin.com",
+    "LoginSHTest":"super@admin.com"
   }
 }

@@ -29,8 +29,7 @@ describe ('Складські документи ', function(){
 
     beforeEach('User Login ', function(){
         cy.viewport(1240,960) 
-        ///login(Cypress.env('LoginMaster'), Cypress.env('pw'))  // test
-        login("my@admin.com", "123456")
+        login(Cypress.env('LoginMaster'), Cypress.env('pw'))  // test
     })
    
     it('Створення нового Товару через картку Товару / id= '+idProduct ,function(){
@@ -350,47 +349,5 @@ describe ('Складські документи ', function(){
         baseStorage.openDocsBtn(11);
         baseStorage.createDocsByBtnAdd('Послуги');
     })
-    
-    it(' SRT / Повернення Постачальнику через +',  function(){
-        cy.visit('/')
-        baseStorage.openDocsPlus(12);
-        baseStorage.fillingForm(idProduct, 'Повернення постачальнику')
-    })
-
-    it('SRT / Додавання ЗЧ в документ Повернення Постачальнику',  function(){
-        cy.visit('/')
-        baseStorage.openDocsBtn(12);
-        baseStorage.addProductInDocs(idProduct, '3.2')
-    })
-
-    it('SRT / Перевід Повернення Постачальнику в статус Враховано',  function(){
-        cy.visit('/')
-        baseStorage.openDocsBtn(12);
-        baseStorage.successDocs();
-    })
-
-    it('SRT / Завантаження документа .pdf ',  function(){ 
-        cy.visit('/')
-        baseStorage.openDocsBtn(12);
-        baseStorage.downloadPDF();
-    })
-
-    it('SRT / Завантаження документа .xlsx',  function() {
-        cy.visit('/')
-        baseStorage.openDocsBtn(12);
-        baseStorage.downloadXML();
-    })
-
-    it('SRT / Відображення документа Повернення Постачальнику у списку Витрат на Складі ',  function(){
-        cy.visit('/')
-        baseStorage.openDocsBtn(12);
-        baseStorage.showDocsInList();
-    })
-   
-    it('SRT / Створення документа Повернення Постачальнику через кнопку Додати',  function(){
-        cy.visit('/')
-        baseStorage.openDocsBtn(12);
-        baseStorage.createDocsByBtnAdd('Повернення постачальнику');
-    })
-  
+      
 })

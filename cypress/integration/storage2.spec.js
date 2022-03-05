@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
-import LoginPage from '../../support/pageObject/loginPage';
-import OrderPage from '../../support/pageObject/orderPage';
-import BaseStorage from '../../support/pageObject/storage/baseStorage';
+import LoginPage from '../support/pageObject/loginPage';
+import OrderPage from '../support/pageObject/orderPage';
+import BaseStorage from '../support/pageObject/storage/baseStorage';
 
 
 const loginPage = new LoginPage();

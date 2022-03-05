@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
-import ProfilePage from '../../support/pageObject/profilePage';
-import NavigationPage from '../../support/pageObject/navigationPage';
-import Menu from '../../support/pageObject/menu';
+import ProfilePage from '../support/pageObject/profilePage';
+import NavigationPage from '../support/pageObject/navigationPage';
+import Menu from '../support/pageObject/menu';
 
 const profilePage = new ProfilePage();
 const navigationPage = new NavigationPage();

@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
-import ProfilePage from '../../support/pageObject/profilePage';
-import BaseStorage from '../../support/pageObject/storage/baseStorage';
+import ProfilePage from '../support/pageObject/profilePage';
+import BaseStorage from '../support/pageObject/storage/baseStorage';
 
 const profilePage = new ProfilePage();
 const baseStorage = new BaseStorage();

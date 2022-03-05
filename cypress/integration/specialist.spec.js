@@ -1,12 +1,12 @@
 /// <reference types="cypress" />
-import LoginPage from '../../support/pageObject/loginPage';
-import OrderPage from '../../support/pageObject/orderPage';
-import ClientPage from '../../support/pageObject/clientPage';
-import ProfilePage from '../../support/pageObject/profilePage';
-import LaborTab from '../../support/pageObject/tabsOrder/laborTab';
-import ProductTab from '../../support/pageObject/tabsOrder/productTab';
-import EmploeePage from '../../support/pageObject/emploeePage';
-import LaborDetails from '../../support/pageObject/laborDetails';
+import LoginPage from '../support/pageObject/loginPage';
+import OrderPage from '../support/pageObject/orderPage';
+import ClientPage from '../support/pageObject/clientPage';
+import ProfilePage from '../support/pageObject/profilePage';
+import LaborTab from '../support/pageObject/tabsOrder/laborTab';
+import ProductTab from '../support/pageObject/tabsOrder/productTab';
+import EmploeePage from '../support/pageObject/emploeePage';
+import LaborDetails from '../support/pageObject/laborDetails';
 
 const loginPage = new LoginPage();
 const orderPage = new OrderPage();
@@ -17,15 +17,15 @@ const productTab = new ProductTab();
 const emploeePage = new EmploeePage();
 const laborDetails = new LaborDetails();
 
-
 var date = new Date();
-///const idClient ='3245'
+////const idClient ='21122'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
-const tel = minute+minute+second+minute+second+minute;
+const tel =second+'0'+minute+''+second+''+minute;
 
-describe ('Master|Admin|UA|Desktop|', function(){ 
+describe ('Specialist|Admin|UA|Desktop|', function(){  
+  
   const login = (email, password) =>{
     cy.session([email, password], () => { 
       cy.visit('/') 
@@ -40,94 +40,93 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   beforeEach('User Login ', function(){
     cy.viewport(1240,960) 
-    ///login(Cypress.env('LoginMaster'), Cypress.env('pw'))  //test
-    login("specialist@admin.com", "123456")
+    login(Cypress.env('LoginSpec'), Cypress.env('pw'))
   })
-
+  
   it('Профіль вибір українського інтерфейсу', function(){
-    cy.visit('/') 
+    cy.visit('/profile')
     profilePage.selectUA()
   })
 
-  it(`Додавання Клієнта та а/м ч/з + : ${idClient}`, function(){
-    cy.visit('/add')
-    cy.wait(5000)
-    clientPage.createClient(idClient,tel)
+  it('Додавання Клієнта та а/м: '+idClient, function(){
+    cy.visit('/add');
+    clientPage.createClient(idClient,tel);
   });
 
-  it(`Перевірка заповнених полів Картка клієнта ${idClient}`, function(){
-    cy.visit('/client-hot-operations')
-    clientPage.checkClient(idClient,tel)
+  it('Перевірка заповнених полів Картка клієнта '+idClient, function(){
+    cy.visit('/client-hot-operations');
+    clientPage.checkClient(idClient,tel);
   })
 
-  it(`Редагування мобільного номера Клієнта: ${idClient}`, function(){
-    cy.visit('/client-hot-operations')
-    clientPage.editClientNumber(idClient,tel)
+  it('Редагування мобільного номера Клієнта:'+idClient, function(){
+    cy.visit('/client-hot-operations');
+    clientPage.editClientNumber(idClient,tel);
   })
 
-  it(`Додати Н/З, підтягування клієнта через пошук, клієнт:${idClient}`, function(){
-    cy.visit('/orders/appointments')
-    orderPage.createOrder(idClient)
+  it('Додати Н/З, підтягування клієнта через пошук, клієнт: '+idClient, function(){
+    cy.visit('/orders/appointments');
+    orderPage.createOrder(idClient);
   });
 
-  it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Націнка, Пробіг', function(){
-    cy.visit('/orders/appointments')
+  it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Пробіг', function(){
+    cy.visit('/orders/appointments');
     orderPage.openNZ(idClient)
-    orderPage.editOrder(idClient)
+    cy.wait(4000)
+    orderPage.editOrder(idClient);
   });
 
-  it('Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Націнка, Пробіг', function(){
+  it('Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Пробіг, Знижка', function(){
     cy.visit('/orders/appointments')
     orderPage.openNZ(idClient)
-    orderPage.checkOrder()
+    orderPage.checkOrder(idClient)
   });
 
   it('Перевід у статус Запис', function(){
-    cy.visit('/orders/appointments')
+    cy.visit('/orders/appointments');
     orderPage.openNZ(idClient)
-    orderPage.createAppointments()
+    orderPage.createAppointments();
   });
 
   it('Створення Діагностики', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    orderPage.createDiagnostic()
+    orderPage.createDiagnostic();
   });
 
-  it('Редагування ціни для доданої Роботи з Діагностики', function(){
-    cy.visit('/orders/approve')
+  it('Редагування ціни для доданої Роботи з діагностики', function(){
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    laborTab.editLaborDiagnostic()
+    laborTab.editLaborDiagnostic();
   });
 
-  it('Додавання Робіт через групу Товарів', function(){
-    cy.visit('/orders/approve')
+  it('Додавання Робіт через групи Товарів', function(){
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    laborTab.addLaborGroupProduct() 
+    laborTab.addLaborGroupProduct();
   })
 
   it('Додавання Робіт через поле Робіт', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    laborTab.addLaborPlus()
+    laborTab.addLaborPlus();
   })
 
   it('Додавання Робіт повторно', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    laborTab.addLaborPlus(idClient)
+    laborTab.addLaborPlus(idClient);
   })
 
   it('Вкладка Роботи > Додавання Роботи ч/з Комплекси', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    laborTab.addLaborComplexes()
+    laborTab.addLaborComplexes();
   });
 
   it('Додавання коментарів до Роботи', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    laborTab.addCommentsToLabor()
+    laborTab.addCommentsToLabor();
   });
 
   it('Перевірка доданих коментарів', function(){
@@ -137,69 +136,69 @@ describe ('Master|Admin|UA|Desktop|', function(){
   });
 
   it('Відображення механіка в табці Роботи  ', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    laborTab.showMehanicLabor()
-  }) 
+    laborTab.showMehanicLabor();
+  })
 
   it('Додавання Запчастин ч/з +', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    productTab.addProductPlus()
+    productTab.addProductPlus();
   });
 
   it('Додавання Запчастин ч/з Групу ЗЧ', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    productTab.addProduct()
+    productTab.addProduct();
   })
 
   it('Вкладка Запчастини > Пряме редагування', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
     productTab.editProduct()
   });
 
-  it('Вкладка Запчастини > Відкриття модалки VIN', function(){
-    cy.visit('/orders/approve')
+  it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
-    productTab.checkModalVIN()
+    productTab.addProductInfoAuto();
   });
 
-  it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){ ///не підтягує дані 
+  it('Вкладка Запчастини > Додавання ЗЧ по VIN', function(){
     cy.visit('/orders/approve')
-    orderPage.openNZ(idClient)
-    productTab.addProductInfoAuto()
+    orderPage.openNZ(idClient);
+    productTab.checkModalVIN();
   });
 
   it('Вкладка Запчастини > Швидке редагування запчастин', function(){
-    cy.visit('/orders/approve')
-    orderPage.openNZ(idClient)
-    productTab.editProductIcon()
+    cy.visit('/orders/approve');
+    orderPage.openNZ(idClient);
+    productTab.editProductIcon(idClient)
   });
 
   it('Інформація по а/м в НЗ', function(){
-    cy.visit('/orders/approve')
-    orderPage.openNZ(idClient)
-    orderPage.getInfoAuto()
+      cy.visit('/orders/approve');
+      orderPage.openNZ(idClient)
+      orderPage.getInfoAuto()
   });
 
   it('Перевід у статус Ремонту', function(){
-    cy.visit('/orders/approve')
+    cy.visit('/orders/approve');
     orderPage.openNZ(idClient)
     orderPage.createProgress()
   })
 
-  it('Додавання Коментарів в НЗ', function(){
+  it('Додавання Коментарів', function(){
     cy.visit('/orders/progress');
-    orderPage.openNZ(idClient);
-    orderPage.addComments();
+    orderPage.openNZ(idClient)
+    orderPage.addComments(idClient);
   });
 
   it('Часткова оплата ч/з статус завершено', function(){
     cy.visit('/orders/progress');
-    orderPage.openNZ(idClient);
-    orderPage.payOrderCredit('Готівкова');
+    orderPage.openNZ(idClient)
+    orderPage.payOrderCredit()
   });
 
   it('Перевірка поля Сплачено', function(){
@@ -222,19 +221,19 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   it('Статистика в НЗ', function(){
     cy.visit('/orders/success');
-    orderPage.openNZ(idClient);
+    orderPage.openNZ(idClient)
     orderPage.getStatisticOrder();
   });
 
   it('Завантаження НЗ для Клієнта', function(){
     cy.visit('/orders/success');
-    orderPage.openNZ(idClient);
+    orderPage.openNZ(idClient)
     orderPage.downloadOrder();
   });
 
   it('Перевірка завантаженних файлів', function(){
     cy.visit('/orders/success');
-    orderPage.checkDownloadOrder();
+    orderPage.checkDownloadOrder()
   });
 
   it('Копія НЗ', function(){
@@ -243,7 +242,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
     orderPage.copyOrder();
   });
 
-  it('Видалення НЗ / відмова', function(){
+  it('Видалення НЗ', function(){
     cy.visit('/orders/appointments');
     orderPage.openNZ(idClient);
     orderPage.deleteOrder();
@@ -263,7 +262,6 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   it('Відкриття форми створення Працівника', function(){
     cy.visit('/employees');
-    cy.wait(3000);
     emploeePage.openEmploeeCardForCreate();
   });
 
@@ -275,5 +273,5 @@ describe ('Master|Admin|UA|Desktop|', function(){
   it('Відкриття сторінки Деталі в Роботі', function(){
     cy.visit('/spare-parts-workplace');
     laborDetails.openPage();
-  })  
+  });
 })

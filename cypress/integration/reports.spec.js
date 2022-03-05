@@ -2,7 +2,7 @@
 
 const path = require("path");
 
-import ReportsPage from '../../support/pageObject/reportsPage';
+import ReportsPage from '../support/pageObject/reportsPage';
 
 const reportsPage = new ReportsPage();
 

@@ -7,12 +7,10 @@ on:
 jobs:
   directories-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    name: Run on Chrome 81
-    runs-on: ubuntu-18.04
-    container: cypress/browsers:node12.16.2-chrome81-ff75
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Install a project with a clean slate
+      - uses: actions/checkout@v2
         run: |
           npm ci
           $(npm bin)/cypress cache path
@@ -21,29 +19,21 @@ jobs:
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      - name: Run Cypress tests
-        run: npm run test:chrome
+      - name: Run Cypress tests directories-master-elec-linux
+      - uses: cypress-io/github-action@v2
         continue-on-error: true
-
-      - name: Copy test execution videos
-        run: |
-          mkdir public
-          cp -r cypress/videos public/videos
-      
-      - name: Merge test results into one
-        run: npm run report:merge
-      
-      - name: Generate HTML report
-        run: npm run report:generate
-      
-      - name: Deploy report page
-        uses: peaceiris/actions-gh-pages@v3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          record: true
+          spec: cypress/integration/directoriesMasterAdmin.spec.js
           publish_dir: ./public
-          spec: cypress/integration/baseTest/directoriesMasterAdmin.spec.js
-        
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
+
   find-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
@@ -56,7 +46,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/find.spec.js
+          spec: cypress/integration/find.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -77,7 +67,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/master.spec.js
+          spec: cypress/integration/master.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -98,7 +88,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/masterMehanic.spec.js
+          spec: cypress/integration/masterMehanic.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -119,7 +109,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/menu.spec.js
+          spec: cypress/integration/menu.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -140,7 +130,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/ppo.spec.js
+          spec: cypress/integration/ppo.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -161,7 +151,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/reports.spec.js
+          spec: cypress/integration/reports.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -182,7 +172,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/shDesktopMasterAdmin.spec.js
+          spec: cypress/integration/shDesktopMasterAdmin.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -203,7 +193,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/shMobileMasterAdmin.spec.js
+          spec: cypress/integration/shMobileMasterAdmin.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -224,7 +214,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/specialist.spec.js
+          spec: cypress/integration/specialist.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -245,7 +235,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/start.spec.js
+          spec: cypress/integration/start.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -266,7 +256,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/storage1.spec.js
+          spec: cypress/integration/storage1.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable
@@ -287,7 +277,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
-          spec: cypress/integration/baseTest/storage2.spec.js
+          spec: cypress/integration/storage2.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable

@@ -9,8 +9,12 @@ jobs:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
     steps:
-      - name: Run browser
-        uses: actions/checkout@v2
+      - name: Install a project with a clean slate
+        run: |
+          npm ci
+          $(npm bin)/cypress cache path
+          $(npm bin)/cypress cache list
+          $(npm bin)/cypress verify
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Run test Find
@@ -19,6 +23,19 @@ jobs:
           record: true
           spec: cypress/integration/directoriesMasterAdmin.spec.js
           # edge, firefox
+      - name: Copy test execution videos
+        run: |
+          mkdir public
+          cp -r cypress/videos public/videos
+      
+      - name: Merge test results into one
+        run: npm run report:merge
+      
+      - name: Generate HTML report
+        run: npm run report:generate
+      
+      - name: Deploy report page
+        uses: peaceiris/actions-gh-pages@v3    
         env:
           # pass the Dashboard record key as an environment variable
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}

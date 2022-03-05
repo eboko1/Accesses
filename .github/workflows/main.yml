@@ -10,11 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install a project with a clean slate
-        run: |
-          npm ci
-          $(npm bin)/cypress cache path
-          $(npm bin)/cypress cache list
-          $(npm bin)/cypress verify
+        uses: actions/checkout@v2
+
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Run test Find

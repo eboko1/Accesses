@@ -9,8 +9,8 @@ jobs:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Install a project with a clean slate
-        uses: actions/checkout@v2
         run: |
           npm ci
           $(npm bin)/cypress cache path
@@ -20,7 +20,7 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Run Cypress tests directories-master-elec-linux
-        uses: cypress-io/github-action@v2
+        #uses: cypress-io/github-action@v2
         continue-on-error: true
         with:
           record: true
@@ -33,7 +33,17 @@ jobs:
           # Recommended: pass the GitHub token lets this action correctly
           # determine the unique run id necessary to re-run the checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
-
+      - name: Copy test execution videos
+        run: |
+          mkdir public
+          cp -r cypress/videos public/videos
+      
+      - name: Merge test results into one
+        run: npm run report:merge
+      
+      - name: Generate HTML report
+        run: npm run report:generate
+        
   find-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest

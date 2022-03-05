@@ -2,9 +2,10 @@
   "reporter": "cypress-multi-reporters",
     "reporterOptions": {
         "configFile": "reporter-config.json"
-    },
-  "videoCompression": 15,
+  },
   
+  "videoCompression": 15,
+
   "experimentalStudio": true,
   "experimentalSessionSupport":true,
   "projectId": "kq8qxc",

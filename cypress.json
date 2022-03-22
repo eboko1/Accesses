@@ -11,16 +11,20 @@
   "projectId": "kq8qxc",
   "chromeWebSecurity": false,
 
-  "baseUrl":"https://my.carbook.pro",
+  "baseUrl":"https://dev-my.carbook.pro",
 
   "env": {
     "pw":"123456",
     "LoginFree":"free@admin.com",
     "LoginStart":"start@admin.com",
     "LoginSpec":"specialist@admin.com",
+   
     "LoginMaster":"master@admin.com",
     "LoginMasterMehanic":"master@mehanic.com",
+    
     "LoginQA":"manual@admin.com",
+
+    "LoginSH":"sh@admin.com",
 
     "Kasur":"kasur@admin.com",
     "LoginSHTest":"super@admin.com"

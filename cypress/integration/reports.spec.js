@@ -1,9 +1,8 @@
 /// <reference types="cypress" />
 
-const path = require("path");
-
 import ReportsPage from '../support/pageObject/reportsPage';
 
+const path = require("path");
 const reportsPage = new ReportsPage();
 
 

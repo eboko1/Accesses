@@ -32,7 +32,7 @@ describe ('Mobile|SH|Admin|UA', function(){
     
     beforeEach('User Login ', function(){
         cy.viewport('iphone-x')
-        login(Cypress.env('LoginSHTest'), Cypress.env('pw'))  // test
+        login(Cypress.env('LoginSH'), Cypress.env('pw'))  // test  super@admin.com
     })
     
     it('Календар Завантажень', function(){

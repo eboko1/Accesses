@@ -31,9 +31,11 @@ class ClientPage {
                 cy.get('#comment').click({ force: true }).type('Комент Постійний Клієнт)))')
             })
             .then(()=>{
-                cy.get('.ant-modal-body').find('.ant-input-number-input').first().type('05025351'+tel)
+                cy.get('.ant-modal-body').find('.ant-input-number-input').first().type('683781977')
             })
             .then(()=>{
+                cy.get('.ant-modal-confirm-title').should('exist');
+                cy.get('.ant-modal-confirm-btns > .ant-btn').click({force: true})
                 cy.wait(2000)
                 cy.get('.ant-modal-body').find('.ant-input').last().clear().type('eboko1@gmail.com')
             })

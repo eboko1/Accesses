@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import DirectoriesPage from '../support/pageObject/directoriesPage';
+import DirectoriesPage from '../../support/pageObject/directoriesPage';
 
 const directiries = new DirectoriesPage();
 

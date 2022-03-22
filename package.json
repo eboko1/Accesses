@@ -15,10 +15,9 @@
     "mochawesome-report-generator": "^6.1.0"
   },
   "scripts": {
-    "test": "cypress run",
-    "test:chrome": "cypress run --browser chrome",
-    "report:merge": "mochawesome-merge cypress/results/json/*.json > index.json",
-    "report:generate": "marge index.json --reportDir public --assetsDir public/assets --reportPageTitle index.html"
+    "test": "cypress run --browser chrome",
+    "combine:report": "mochawesome-merge ./mochawesome-report/*.json -o index.json",
+    "generate:report": "marge index.json --reportDir public --assetsDir public/assets --reportPageTitle index.html"
   },
   "repository": {
     "type": "git",

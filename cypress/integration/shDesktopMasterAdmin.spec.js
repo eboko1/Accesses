@@ -50,21 +50,21 @@ describe ('SH|Desktop|Master|Admin|UA', function(){
         profilePage.selectUA()
     })
 
-    // // it(`Додавання Клієнта та а/м ч/з ${idClient}`, function(){
-    // //     cy.visit('/add')
-    // //     cy.wait(5000)
-    // //     clientPage.createClient(idClient,tel)
-    // // });
+    it(`Додавання Клієнта та а/м ч/з ${idClient}`, function(){
+        cy.visit('/add')
+        cy.wait(5000)
+        clientPage.createClient(idClient,tel)
+    });
 
     it(`Перевірка заповнених полів Картка клієнта ${idClient}`, function(){
         cy.visit('/client-hot-operations')
         clientPage.checkClient(idClient,tel)
     })
 
-    // // it(`Редагування мобільного номера Клієнта: ${idClient}`, function(){
-    // //     cy.visit('/client-hot-operations')
-    // //     clientPage.editClientNumber(idClient,tel)
-    // // })
+    it(`Редагування мобільного номера Клієнта: ${idClient}`, function(){
+        cy.visit('/client-hot-operations')
+        clientPage.editClientNumber(idClient,tel)
+    })
 
     it(`Додати Н/З, підтягування клієнта через пошук, клієнт:${idClient}`, function(){
         cy.visit('/orders/appointments')
@@ -117,7 +117,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){
     it('Відображення доданої Роботи в НЗ ', function(){
         cy.visit('/orders/approve')
         orderPage.openNZ(idClient)
-        laborTab.checkAddedLaborSH()  //перевірка 2 горядока
+        laborTab.checkAddedLaborSH()  //перевірка 2 го рядка
     });
 
     it('Вкладка Роботи > Додавання Роботи повторно', function(){

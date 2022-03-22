@@ -44,10 +44,10 @@ describe ('Master|Admin|UA|Desktop|', function(){
     
   })
 
-  // it('Профіль вибір українського інтерфейсу', function(){
-  //   cy.visit('/') 
-  //   profilePage.selectUA()
-  // })
+  it('Профіль вибір українського інтерфейсу', function(){
+    cy.visit('/') 
+    profilePage.selectUA()
+  })
 
   it(`Додавання Клієнта та а/м ч/з + : ${idClient}`, function(){
     cy.visit('/add')

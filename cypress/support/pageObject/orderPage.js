@@ -8,7 +8,7 @@ class OrderPage {
         cy.wait(5000);
         cy.get('h1').first().click({ force: true }).then(function(){
             cy.get('tr > td > a').first().click({ force: true })
-            cy.wait(6000);
+            cy.wait(3000);
         })   
     }
 

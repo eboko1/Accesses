@@ -19,7 +19,7 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-///const idClient ='3245'
+//const idClient ='22228'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -40,8 +40,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   beforeEach('User Login ', function(){
     cy.viewport(1240,960) 
-    login(Cypress.env('LoginMaster'), Cypress.env('pw'))  //test
-    
+    login(Cypress.env('LoginMaster'), Cypress.env('pw'))  //test 
   })
 
   it('Профіль вибір українського інтерфейсу', function(){
@@ -100,7 +99,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
     laborTab.editLaborDiagnostic()
   });
 
-  it('Додавання Робіт через групу Товарів', function(){
+  it('Додавання Робіт по найменуваню Групи Товарів', function(){
     cy.visit('/orders/approve')
     orderPage.openNZ(idClient)
     laborTab.addLaborGroupProduct() 
@@ -112,10 +111,10 @@ describe ('Master|Admin|UA|Desktop|', function(){
     laborTab.addLaborPlus()
   })
 
-  it('Додавання Робіт повторно', function(){
+  it('Додавання Робіт по коду Групи Товарів', function(){
     cy.visit('/orders/approve')
     orderPage.openNZ(idClient)
-    laborTab.addLaborPlus(idClient)
+    laborTab.addLaborName(idClient)
   })
 
   it('Вкладка Роботи > Додавання Роботи ч/з Комплекси', function(){

@@ -86,7 +86,7 @@ describe ('Складські документи ', function(){
         cy.get('.ant-btn-primary').contains('Так').click({force: true})
         cy.wait(3000); 
 
-        cy.get('.styles-m__title---Nwr2X').first().invoke('text').then(text =>{
+        cy.get('h1').first().invoke('text').then(text =>{
             cy.log(text)
             const numArr = text.split('-') 
             cy.log(numArr[numArr.length-1])
@@ -98,7 +98,7 @@ describe ('Складські документи ', function(){
             cy.wait(2000);
             cy.get('tr > td > a').first().click({force: true})// вибір першого AUT в списку
             cy.get(':nth-child(5) > :nth-child(1) > div > a').first().invoke('text').then( textFind =>{
-                expect('MRD-'+'4835-'+newNmArr[0]).to.eq(textFind)
+                expect('MRD-'+numArr[1]+'-'+newNmArr[0]).to.eq(textFind)
             })
         })
         cy.wait(2000);

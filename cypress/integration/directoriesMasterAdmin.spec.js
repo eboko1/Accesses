@@ -156,10 +156,10 @@ describe ('Directories & Settings|Master|Admin|Desktop|UA|', function(){
     directiries.checkHeader('API постачальників', 'API постачальників');
   });
 
-  it('Налаштування.СМС', function(){
-    cy.visit('/directories') 
-    directiries.checkHeader('СМС', 'Налаштування SMS');
-  });
+  // // it('Налаштування.СМС', function(){
+  // //   cy.visit('/directories') 
+  // //   directiries.checkHeader('СМС', 'Налаштування SMS');
+  // // });
 
 })
 

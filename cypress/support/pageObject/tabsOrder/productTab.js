@@ -88,9 +88,9 @@ class ProductTab {
 
     addProductPlus = () => {
         cy.get('.ant-tabs-nav').contains('Запчастини').click()
-        cy.get('[data-qa="btn_header_actions_details_table_order_page"]').click()
+        cy.get('[data-qa="btn_header_actions_details_table_order_page"]').eq(0).click()
  
-        cy.get('.ant-tabs-tab').contains('Пряме редагування').click({force: true});
+        /////cy.get('.ant-tabs-tab').contains('Пряме редагування').click({force: true});
         cy.get('[data-qa=input_detailName_detail_product_modal]').should('have.text','')
         cy.get('[data-qa=input_detailName_detail_product_modal]').clear().type('Моторне мастило')
 

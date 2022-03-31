@@ -8,14 +8,13 @@ jobs:
   directorie-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-20.04
-    image: cypress/browsers:node16.14.0-slim-chrome99-ff97
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: directorie-master-elec-linux
-        uses: cypress-io/github-action@v2
+        uses: cypress/browsers:node16.14.0-slim-chrome99-ff97
         with:
           record: true
           spec: cypress/integration/directoriesMasterAdmin.spec.js
@@ -30,7 +29,6 @@ jobs:
   find-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-20.04
-    image: cypress/browsers:node16.14.0-slim-chrome99-ff97
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -52,7 +50,6 @@ jobs:
   master-admin-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-
-    image: cypress/browsers:node16.14.0-slim-chrome99-ff97
     steps:
       - name: Checkout
         uses: actions/checkout@v2

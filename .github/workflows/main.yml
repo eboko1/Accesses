@@ -6,9 +6,8 @@ on:
       - main
 jobs:
   directorie-master-elec-linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container: cypress/browsers:node12.18.3-chrome87-ff82
-    needs: install
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -17,7 +16,9 @@ jobs:
       - name: directorie-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          headless: true
+          record: false
           spec: cypress/integration/directoriesMasterAdmin.spec.js
           # edge, firefox
         env:
@@ -29,7 +30,7 @@ jobs:
          
   find-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     container: cypress/browsers:node16.14.0-slim-chrome99-ff97
     steps:
       - name: Checkout
@@ -39,7 +40,8 @@ jobs:
       - name: find-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/find.spec.js
           # edge, firefox
         env:
@@ -60,7 +62,8 @@ jobs:
       - name: master-admin-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/master.spec.js
           # edge, firefox
         env:
@@ -81,7 +84,8 @@ jobs:
       - name: mehanic-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/masterMehanic.spec.js
           # edge, firefox
         env:
@@ -102,7 +106,8 @@ jobs:
       - name: menu-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/menu.spec.js
           # edge, firefox
         env:
@@ -123,7 +128,8 @@ jobs:
       - name: ppo-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/ppo.spec.js
           # edge, firefox
         env:
@@ -144,7 +150,8 @@ jobs:
       - name: reports-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/reports.spec.js
           # edge, firefox
         env:
@@ -165,7 +172,8 @@ jobs:
       - name: desktopSH-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/shDesktopMasterAdmin.spec.js
           # edge, firefox
         env:
@@ -186,7 +194,8 @@ jobs:
       - name: desktopSH-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/shMobileMasterAdmin.spec.js
           # edge, firefox
         env:
@@ -207,7 +216,8 @@ jobs:
       - name: specialist-admin-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/specialist.spec.js
           # edge, firefox
         env:
@@ -228,7 +238,8 @@ jobs:
       - name: start-admin-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/start.spec.js
           # edge, firefox
         env:
@@ -249,7 +260,8 @@ jobs:
       - name: storage1-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/storage1.spec.js
           # edge, firefox
         env:
@@ -270,7 +282,8 @@ jobs:
       - name: storage2-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: chrome
+          record: false
           spec: cypress/integration/storage2.spec.js
           # edge, firefox
         env:

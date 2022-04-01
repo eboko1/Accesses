@@ -19,7 +19,7 @@ const baseStorage = new BaseStorage();
 
       beforeEach('User Login ', function(){
         cy.viewport(1240,960) 
-        login(Cypress.env('LoginQA'), Cypress.env('pw'))  //test
+        login(Cypress.env('Manual'), Cypress.env('pw'))  //присутні доступи до пошуку
       })
 
       it('Профіль вибір українського інтерфейсу', function(){
@@ -36,9 +36,11 @@ const baseStorage = new BaseStorage();
         cy.wait(3000)
         cy.get('tr > td > a').first().invoke('text')
           .then (text => {var clientName = text;
-            cy.get('.ant-select-selection-search').first().type(clientName)
+            var list = clientName.split(' ')
+            cy.get('.ant-select-selection-search').first().type(list[0])
             cy.wait(2000)
-            cy.get('.ant-select-item').contains('Клієнт').click({force: true});
+            cy.get('.ant-select-item').contains('Клієнти').click({force: true});
+            cy.get('tr > td > a').should('be.visible')
             cy.get('tr > td > a').first().should('have.text', clientName) 
         })
       })
@@ -53,7 +55,8 @@ const baseStorage = new BaseStorage();
           .then (text => {var clientName = text;
             cy.get('.ant-select-selection-search').first().type(clientName)
             cy.wait(2000)
-            cy.get('.ant-select-item').contains('Клієнт').click({force: true});
+            cy.get('.ant-select-item').contains('Клієнти').click({force: true});
+            cy.get('tr > td > a').should('be.visible')
             cy.get('tr > td > a').eq(1).should('have.text',clientName) 
           })
       })
@@ -69,6 +72,7 @@ const baseStorage = new BaseStorage();
             cy.get('.ant-select-selection-search').first().type(clientName)
             cy.wait(2000)
             cy.get('.ant-select-item').contains('Новий').click({force: true});
+            cy.get('tr > td > a').should('be.visible')
             cy.get('tr > td > a').should('have.text', clientName) 
           })
       })
@@ -85,6 +89,7 @@ const baseStorage = new BaseStorage();
             cy.get('.ant-select-selection-search').first().type(shotNZ[shotNZ.length-1])
             cy.wait(2000)
             cy.get('.ant-select-item').contains('Новий').click();
+            cy.get('tr > td > a').should('be.visible')
             cy.get('tr > td > a').should('have.text',text) 
           })
       })
@@ -282,7 +287,7 @@ const baseStorage = new BaseStorage();
       it('Пошук по короткій назві / Повернення від клієнта / CRT ' , function(){
         cy.visit('/')
         baseStorage.openDocsBtn(17);
-        cy.get('tr > td > a').eq(2).invoke('text')
+        cy.get('tr > td > a').eq(1).invoke('text')
         .then (text => {
           const nameDoc = text.split('-')
           cy.get('.ant-select-selection-search').first().type(nameDoc[nameDoc.length-1])

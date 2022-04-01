@@ -3,7 +3,7 @@
 class OrderPage {
     
     openNZ = (idClient) => {
-        cy.wait(5000); 
+        cy.wait(3000); 
         cy.get('.ant-input-wrapper > .ant-input').type(idClient)
         cy.wait(5000);
         cy.get('h1').first().click({ force: true }).then(function(){

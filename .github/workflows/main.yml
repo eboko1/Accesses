@@ -6,13 +6,18 @@ on:
       - main
 jobs:
   directorie-master-elec-linux:
-    runs-on: ubuntu-20.04
-    container: cypress/browsers:node12.18.3-chrome87-ff82
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node16.14.0-slim-chrome99-ff97
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
       - name: directorie-master-elec-linux
         uses: cypress-io/github-action@v2
         with:
@@ -54,6 +59,7 @@ jobs:
   master-admin-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-20.04
+    container: cypress/browsers:node16.14.0-slim-chrome99-ff97
     steps:
       - name: Checkout
         uses: actions/checkout@v2

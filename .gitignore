@@ -5,3 +5,4 @@ idea
 examples/*/cypress/videos
 examples/*/cypress/screenshots
 results.json
+package-lock.json

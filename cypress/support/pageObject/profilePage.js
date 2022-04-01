@@ -14,10 +14,11 @@ class ProfilePage {
     }
     selectSH = () => {
          cy.get('[href="/profile"]').click()
-         cy.get('.ant-tabs').find('.ant-select-selector').eq(1).click({force: true})
-         cy.get('.ant-select-item').eq(1).click({force: true})
+         cy.get('.ant-tabs').find('.ant-select-selector').last().click({force: true})
+         cy.get('.ant-select-item').last().click({force: true})
          cy.wait(1000)
          cy.get('.ant-tabs').find('.ant-btn').first().click({force: true});
+         cy.wait(3000)
     }
 
     logout = () => {

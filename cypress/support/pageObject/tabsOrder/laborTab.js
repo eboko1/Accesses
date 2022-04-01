@@ -114,8 +114,8 @@ class LaborTab {
     }
 
     addLaborSH = () => {
-        cy.get('.ant-modal-body').find('.ant-select-selector').eq(0).type('{downarrow}{enter}')
-        cy.wait(3000);
+        cy.get('.ant-modal-body').should('be.visible')
+        cy.get('.ant-modal-body').find('.ant-select-selector').eq(0).type('шино{enter}')
         cy.get('.ant-modal-footer').find('button').last().click({force: true})
         cy.wait(2000);  
     }
@@ -130,7 +130,8 @@ class LaborTab {
         cy.get('.ant-modal-body').find('.ant-input-disabled').eq(0).should('have.value','Заміна трансмісійного мастила (оливи)')
         cy.wait(2000)
         cy.get('.ant-btn-primary').last().click({force: true})
-    
+        cy.get('[data-qa="button_visible_complexes_modal"]').should('be.visible')
+        cy.get('tr > td').should('contain','Заміна')
     }
 
     deleteLaborSH = () => {

@@ -29,15 +29,15 @@ const tel = minute+minute+second+minute+second+minute;
 describe ('SH|Desktop|Master|Admin|UA', function(){
 
     const login = (email, password) =>{
-        cy.session([email, password], () => {
+       // cy.session([email, password], () => { // не ставити session
           cy.visit('/')
           cy.get('#loginForm_login').type(email)
           cy.get('#loginForm_password').type(password)
           cy.get('button').click()
-          cy.wait(7000)
+          cy.wait(4000)
           cy.getCookie('io')
           cy.get('img').eq(0).click({force: true}) //menu
-        })
+       /// })
     }
 
     beforeEach('User Login ', function(){
@@ -48,6 +48,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){
     it('Профіль вибір українського інтерфейсу', function(){
         cy.visit('/profile')
         profilePage.selectUA()
+        profilePage.selectSH()
     })
 
     it(`Додавання Клієнта та а/м ч/з ${idClient}`, function(){
@@ -91,6 +92,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){
 
     it('Вкладка Роботи > Додавання Роботи ч/з Комплекси', function(){
         cy.visit('/orders/approve')
+        orderPage.openNZ(idClient)
         laborTab.addLaborComplexes(idClient)
     });
 

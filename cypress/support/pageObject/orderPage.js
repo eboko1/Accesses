@@ -161,20 +161,18 @@ class OrderPage {
         cy.get('label').find('span').eq(1).click() // відкриття модалки Планувальника ч/з іконку в НЗ
         cy.wait(2000);
         cy.get('.timeColumn > :nth-child(2)').should('exist') 
-        cy.get('.ant-modal-body').find('a').first().click({ force: true }) // Вибір поста клік + 11:00
-        cy.get('[data-qa=select_station_order_page]').type('{enter}') 
+        cy.get('.ant-modal-body').should('be.visible').find('a').eq(2).click({force: true}) // Вибір поста клік + 11:00
         cy.get('.ant-modal-close').last().click({ force: true })  ///Закриття модалки Планувальника
+       
+        cy.get('[data-qa=select_station_order_page]').should('be.visible').type('{downarrow}{enter}') 
         cy.get('[data-qa=select_master_order_page]').type('Механік{enter}')
         cy.get('[data-qa=select_appurtenancies_responsible_order_page]').type('Запчастист{enter}')
-        cy.wait(2000);
         cy.get('[data-qa=select_payment_method_order_page]').type('{enter}') ///Вибір Готівка 
         cy.get('[data-qa=select_business_requisites_order_page]').type('{downarrow}{enter}'); ///Вибір Реквізитів STO
-        cy.wait(1000);
         cy.get('.ant-input-number-input').eq(0).clear()
         cy.get('.ant-input-number-input').eq(0).type('7') 
         cy.get('[data-qa=input_number_client_provide_odometr_order_page]').clear()
         cy.get('[data-qa=input_number_client_provide_odometr_order_page]').type('123456')  
-        cy.wait(3000);
         cy.get('[data-icon="save"]').click({force: true})  ///.should('be.visible').last()
         cy.wait(4000);
     }
@@ -270,10 +268,10 @@ class OrderPage {
             cy.wait(2000)
         })
         .then(()=>{
-            cy.get('tr > td').find('button').first().click({force: true}); //редагувати
+            cy.get('tr > td').find('button').contains('Редагувати').first().click({force: true}); //редагувати
         })
         .then(()=>{
-            cy.wait(2000)
+            cy.wait(1000)
             cy.get('[data-row-key] > :nth-child(5) > .styles-m__diagnostic_status_button_wrap---ucmHY > .ant-btn-danger').first().click({force: true}); // Клік на Критично;
         })
         .then(()=>{

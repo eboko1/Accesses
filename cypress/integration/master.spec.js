@@ -19,8 +19,8 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-//const idClient ='22228'
-const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
+const idClient = '20346'   //'19350'
+//const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel = minute+minute+second+minute+second+minute;
@@ -153,29 +153,29 @@ describe ('Master|Admin|UA|Desktop|', function(){
     productTab.addProduct()
   })
 
-  it('Вкладка Запчастини > Пряме редагування', function(){
-    cy.visit('/orders/approve')
-    orderPage.openNZ(idClient)
-    productTab.editProduct()
-  });
+  // it('Вкладка Запчастини > Пряме редагування', function(){
+  //   cy.visit('/orders/approve')
+  //   orderPage.openNZ(idClient)
+  //   productTab.editProduct()
+  // });
 
-  it('Вкладка Запчастини > Відкриття модалки VIN', function(){
-    cy.visit('/orders/approve')
-    orderPage.openNZ(idClient)
-    productTab.checkModalVIN()
-  });
+  // it('Вкладка Запчастини > Відкриття модалки VIN', function(){
+  //   cy.visit('/orders/approve')
+  //   orderPage.openNZ(idClient)
+  //   productTab.checkModalVIN()
+  // });
 
-  it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){ ///не підтягує дані 
-    cy.visit('/orders/approve')
-    orderPage.openNZ(idClient)
-    productTab.addProductInfoAuto()
-  });
+  // it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){ ///не підтягує дані 
+  //   cy.visit('/orders/approve')
+  //   orderPage.openNZ(idClient)
+  //   productTab.addProductInfoAuto()
+  // });
 
-  it('Вкладка Запчастини > Швидке редагування запчастин', function(){
-    cy.visit('/orders/approve')
-    orderPage.openNZ(idClient)
-    productTab.editProductIcon()
-  });
+  // it('Вкладка Запчастини > Швидке редагування запчастин', function(){
+  //   cy.visit('/orders/approve')
+  //   orderPage.openNZ(idClient)
+  //   productTab.editProductIcon()
+  // });
 
   it('Інформація по а/м в НЗ', function(){
     cy.visit('/orders/approve')

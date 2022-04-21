@@ -19,8 +19,8 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-const idClient = '91113'   //'19350'
-//const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
+//const idClient = '91113'   //'19350'
+const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel = minute+minute+second+minute+second+minute;
@@ -43,121 +43,121 @@ describe ('Master|Admin|UA|Desktop|', function(){
     login(Cypress.env('LoginMaster'), Cypress.env('pw'))  //test 
   })
 
-  // it('Профіль вибір українського інтерфейсу', function(){
-  //   cy.visit('/') 
-  //   profilePage.selectUA()
-  // })
+  it('Профіль вибір українського інтерфейсу', function(){
+    cy.visit('/') 
+    profilePage.selectUA()
+  })
 
-  // it(`Додавання Клієнта та а/м ч/з + : ${idClient}`, function(){
-  //   cy.visit('/add')
-  //   cy.wait(5000)
-  //   clientPage.createClient(idClient,tel)
-  // });
+  it(`Додавання Клієнта та а/м ч/з + : ${idClient}`, function(){
+    cy.visit('/add')
+    cy.wait(5000)
+    clientPage.createClient(idClient,tel)
+  });
 
-  // it(`Перевірка заповнених полів Картка клієнта ${idClient}`, function(){
-  //   cy.visit('/client-hot-operations')
-  //   clientPage.checkClient(idClient,tel)
-  // })
+  it(`Перевірка заповнених полів Картка клієнта ${idClient}`, function(){
+    cy.visit('/client-hot-operations')
+    clientPage.checkClient(idClient,tel)
+  })
 
-  // it(`Редагування мобільного номера Клієнта: ${idClient}`, function(){
-  //   cy.visit('/client-hot-operations')
-  //   clientPage.editClientNumber(idClient,tel)
-  // })
+  it(`Редагування мобільного номера Клієнта: ${idClient}`, function(){
+    cy.visit('/client-hot-operations')
+    clientPage.editClientNumber(idClient,tel)
+  })
 
-  // it(`Додати Н/З, підтягування клієнта через пошук, клієнт:${idClient}`, function(){
-  //   cy.visit('/orders/appointments')
-  //   orderPage.createOrder(idClient)
-  // });
+  it(`Додати Н/З, підтягування клієнта через пошук, клієнт:${idClient}`, function(){
+    cy.visit('/orders/appointments')
+    orderPage.createOrder(idClient)
+  });
 
-  // it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Націнка, Пробіг', function(){
-  //   cy.visit('/orders/appointments')
-  //   orderPage.openNZ(idClient)
-  //   orderPage.editOrder(idClient)
-  // });
+  it('Редагування н/з та додавання Поста, Механіка, Готівки, Реквізити STO, Націнка, Пробіг', function(){
+    cy.visit('/orders/appointments')
+    orderPage.openNZ(idClient)
+    orderPage.editOrder(idClient)
+  });
 
-  // it('Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Націнка, Пробіг', function(){
-  //   cy.visit('/orders/appointments')
-  //   orderPage.openNZ(idClient)
-  //   orderPage.checkOrder()
-  // });
+  it('Перевірка заповнених полів: Поста, Механіка, Готівки, Реквізити STO, Націнка, Пробіг', function(){
+    cy.visit('/orders/appointments')
+    orderPage.openNZ(idClient)
+    orderPage.checkOrder()
+  });
 
-  // it('Перевід у статус Запис', function(){
-  //   cy.visit('/orders/appointments')
-  //   orderPage.openNZ(idClient)
-  //   orderPage.createAppointments()
-  // });
+  it('Перевід у статус Запис', function(){
+    cy.visit('/orders/appointments')
+    orderPage.openNZ(idClient)
+    orderPage.createAppointments()
+  });
 
-  // it('Створення Діагностики', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   orderPage.createDiagnostic()
-  // });
+  it('Створення Діагностики', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    orderPage.createDiagnostic()
+  });
 
-  // it('Редагування ціни для доданої Роботи з Діагностики', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   laborTab.editLaborDiagnostic()
-  // });
+  it('Редагування ціни для доданої Роботи з Діагностики', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    laborTab.editLaborDiagnostic()
+  });
 
-  // it('Додавання Робіт по найменуваню Групи Товарів', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   laborTab.addLaborGroupProduct() 
-  // })
+  it('Додавання Робіт по найменуваню Групи Товарів', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    laborTab.addLaborGroupProduct() 
+  })
 
-  // it('Додавання Робіт через поле Робіт', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   laborTab.addLaborPlus()
-  // })
+  it('Додавання Робіт через поле Робіт', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    laborTab.addLaborPlus()
+  })
 
-  // it('Додавання Робіт по коду Групи Товарів', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   laborTab.addLaborName(idClient)
-  // })
+  it('Додавання Робіт по коду Групи Товарів', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    laborTab.addLaborName(idClient)
+  })
 
-  // it('Вкладка Роботи > Додавання Роботи ч/з Комплекси', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   laborTab.addLaborComplexes()
-  // });
+  it('Вкладка Роботи > Додавання Роботи ч/з Комплекси', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    laborTab.addLaborComplexes()
+  });
 
-  // it('Додавання коментарів до Роботи', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   laborTab.addCommentsToLabor()
-  // });
+  it('Додавання коментарів до Роботи', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    laborTab.addCommentsToLabor()
+  });
 
-  // it('Перевірка доданих коментарів', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   cy.get('.ant-table-cell').contains('пер. міст, попереду, вгорі; test').should('exist')   
-  // });
+  it('Перевірка доданих коментарів', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    cy.get('.ant-table-cell').contains('пер. міст, попереду, вгорі; test').should('exist')   
+  });
 
-  // it('Відображення механіка в табці Роботи  ', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   laborTab.showMehanicLabor()
-  // }) 
+  it('Відображення механіка в табці Роботи  ', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    laborTab.showMehanicLabor()
+  }) 
 
-  // it('Додавання Запчастин ч/з +', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   productTab.addProductPlus()
-  // });
+  it('Додавання Запчастин ч/з +', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.addProductPlus()
+  });
 
-  // it('Додавання Запчастин ч/з Групу ЗЧ', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   productTab.addProduct()
-  // })
+  it('Додавання Запчастин ч/з Групу ЗЧ', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.addProduct()
+  })
 
-  // it('Вкладка Запчастини > Пряме редагування', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   productTab.editProduct()
-  // });
+  it('Вкладка Запчастини > Пряме редагування', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.editProduct()
+  });
 
   it('Вкладка Запчастини > + ЗЧ по VIN', function(){
     cy.visit('/orders/approve')

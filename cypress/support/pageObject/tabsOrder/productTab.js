@@ -48,6 +48,7 @@ class ProductTab {
         cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click();
         cy.get('[data-qa=btn_header_actions_details_table_order_page]').eq(1).click() // btn + ЗЧ
         cy.get('[data-qa="btn_add_form_vin_order_detail_modal"]').click(); ///btn Вибір VIN"
+        cy.wait(3000)
         cy.get('.ant-modal-content').should('be.visible')
         cy.get('.ant-modal-header').last().should('have.text','VIN-код')
 
@@ -57,10 +58,49 @@ class ProductTab {
         cy.get('tr > td').find('span').contains('15208').click({force: true})
         cy.get('.ant-btn-primary').last().click({force: true})
 
-        cy.get('[data-qa="input_detailName_detail_product_modal"]').should('not.be.empty')
-        cy.get('[data-qa="select_brandId_order_detail_edit_modal"]').should('not.be.empty')  
-        cy.get('[data-qa="input_detailCode_order_detail_edit_modal"]').should('have.value', '152081HC0A')
-        cy.get('.ant-btn-primary').first().click({force: true})
+        cy.get('[data-qa="table_detail_code_input_order_detail_modal"]').should('have.value','152081HC0A')
+        cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click({force: true})
+        cy.wait(4000)
+    }
+
+    searchByCar = () => {
+        cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click();
+        cy.get('[data-qa=btn_header_actions_details_table_order_page]').eq(1).click() // btn + ЗЧ
+        cy.get('[data-qa="btn_selection_by_product_code_order_detail_modal"]').click(); ///btn Каталог
+        cy.get('.ant-modal-content').should('be.visible')
+        cy.get('.ant-modal-header').last().should('have.text','Додати деталь')
+        cy.get('.ant-dropdown-menu-item').first().click({force: true}) // Пошук по авто
+        cy.get('.ant-modal-content').should('be.visible')
+        cy.get('.ant-modal-header').last().should('have.text','Виберіть групу запчастини')
+        cy.get('[data-qa="tree_select_storeGroupId_order_detail_modal"]').type('Фільтри повітряні{enter}') // Модалка Виберіть групу ЗЧ
+        cy.get('.ant-select-tree-treenode').last().click() // додавання групи ЗЧ остання в списку
+        cy.get('.ant-btn-primary').last().click({force: true})
+        cy.wait(3000)
+        cy.get('tr').contains('Фільтр').should('exist')
+    }
+
+    searchByStorage = () => {
+        cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click();
+        cy.get('[data-qa=btn_header_actions_details_table_order_page]').eq(1).click() // btn + ЗЧ
+        cy.get('[data-qa="btn_selection_by_product_code_order_detail_modal"]').click(); ///btn Каталог
+        cy.get('.ant-modal-content').should('be.visible')
+        cy.get('.ant-modal-header').last().should('have.text','Додати деталь')
+        cy.get('.ant-dropdown-menu-item').eq(1).click({force: true}) // Пошук по авто
+        cy.wait(3000)
+        cy.get('tr').contains('Мастила').should('exist')
+    }
+
+    searchByOil = () => {
+        cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click();
+        cy.get('[data-qa=btn_header_actions_details_table_order_page]').eq(1).click() // btn + ЗЧ
+        cy.get('[data-qa="btn_selection_by_product_code_order_detail_modal"]').click(); ///btn Каталог
+        cy.get('.ant-modal-content').should('be.visible')
+        cy.get('.ant-modal-header').last().should('have.text','Додати деталь')
+        cy.get('.ant-dropdown-menu-item').eq(2).click({force: true}) // Пошук по авто
+        cy.wait(3000)
+        cy.get('.ant-modal-content').should('be.visible')
+        cy.get('.ant-modal-header').last().should('have.text','Масла і рідини')
+        cy.get('tr').contains('Engine').should('exist')
     }
 
     addProductInfoAuto = () => {
@@ -73,12 +113,11 @@ class ProductTab {
         cy.get('tr[data-row-key="0"] > td > .ant-btn').last().click({force: true}) // btn додати
         cy.wait(5000)
         cy.get('.ant-modal-header').should('be.visible') //модалка Додати Деталь фільтр масла та рідини
-        cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').should('be.visible')
-        cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click({force: true})
-        cy.get('[data-qa="input_detailName_detail_product_modal"]').should('not.be.empty') /// cy.get('.ant-modal-body').find('.ant-input').eq(2).should('not.have.value','') 
+        //cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').should('be.visible')
+        //cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click({force: true})
+        ///cy.get('[data-qa="input_detailName_detail_product_modal"]').should('not.be.empty') /// cy.get('.ant-modal-body').find('.ant-input').eq(2).should('not.have.value','') 
         cy.get('.ant-btn-primary').eq(2).click({force: true}); // Гаразд
         cy.get('.ant-table-tbody').should('be.visible')
-       
     }
     
     editProductIcon = () => {

@@ -5,11 +5,11 @@ class OrderPage {
     openNZ = (idClient) => {
         cy.wait(3000); 
         cy.get('.ant-input-wrapper > .ant-input').type(idClient)
-        cy.wait(5000);
-        cy.get('h1').first().click({ force: true }).then(function(){
-            cy.get('tr > td > a').first().click({ force: true })
-            cy.wait(3000);
-        })   
+        cy.wait(3000);
+        cy.get('h1').first().click({ force: true })
+        cy.wait(3000);
+        cy.get('tr > td > a').first().click({ force: true })
+        cy.wait(3000);
     }
 
     openNZMehanic = () => {
@@ -101,22 +101,22 @@ class OrderPage {
         cy.get('.ant-dropdown-menu-item').contains('Ремонт').click()
         cy.wait(5000);
     }
-
-   payOrderCredit = (nameCash) =>{
-        cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover') // Статус Завершено
+    createSuccess= () =>{
+        cy.wait(4000); 
+        cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover')////Переведіть н/з в статус Завершено 
+        cy.wait(1000);
         cy.get('.ant-dropdown-menu-item').contains('Завершено').click()
         cy.wait(5000);
-        cy.get('.ant-radio-input').first().click();  //Сплатити радіо-кнопка Так
-        cy.wait(2000);
-        cy.get('.ant-modal-body').find('.ant-select-selector').type(nameCash+'{enter}');  //Вибір Каси 
-        cy.wait(2000);
-        cy.get('.ant-modal-body').find('.ant-checkbox-input').eq(1).click({force: true});
-        cy.get('.ant-modal-body').find('.ant-input-number').clear().type('12.30')
+        cy.get('[data-qa="button_submit_yes_to_success_form"]').click()
+        cy.wait(5000);
+    }
+
+   payOrderCredit = () =>{
+        cy.get('.anticon-dollar').click({force: true})
+        cy.get('[data-qa="input_sum"]').clear().type('12.30')
         cy.wait(1000);
         cy.get('.ant-btn-primary').last().click({force: true});//ОК;
-        cy.wait(5000);
-        cy.get('h1').contains('Виконано')
-        cy.wait(4000);   
+        cy.wait(1000);   
     }
 
    payOrderDollar = (nameCash$) =>{
@@ -265,7 +265,7 @@ class OrderPage {
         .then(()=>{
             cy.log('Клік на all OK ');
             cy.get('.styles-m__diagnosticTableHeader---1_8Bu > .styles-m__diagnostic_status_button_wrap---ucmHY > [title="Вузол / все гаразд"]').click();
-            cy.wait(2000)
+            cy.wait(4000)
         })
         .then(()=>{
             cy.get('tr > td').find('button').contains('Редагувати').first().click({force: true}); //редагувати

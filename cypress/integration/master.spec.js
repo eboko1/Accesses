@@ -19,7 +19,7 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-//const idClient = '20358'   //'19350'
+//const idClient = '20332'   //'19350'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -153,29 +153,47 @@ describe ('Master|Admin|UA|Desktop|', function(){
     productTab.addProduct()
   })
 
-  // it('Вкладка Запчастини > Пряме редагування', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   productTab.editProduct()
-  // });
+  it('Вкладка Запчастини > Пряме редагування', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.editProduct()
+  });
 
-  // it('Вкладка Запчастини > Відкриття модалки VIN', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   productTab.checkModalVIN()
-  // });
+  it('Вкладка Запчастини > Відкриття модалки VIN', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.checkModalVIN()
+  });
 
-  // it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){ ///не підтягує дані 
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   productTab.addProductInfoAuto()
-  // });
+  it('Вкладка Запчастини > Швидке редагування запчастин', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.editProductIcon()
+  });
 
-  // it('Вкладка Запчастини > Швидке редагування запчастин', function(){
-  //   cy.visit('/orders/approve')
-  //   orderPage.openNZ(idClient)
-  //   productTab.editProductIcon()
-  // });
+  it('Вкладка Запчастини > Додати Деталь > Пошук по авто', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.searchByCar()
+  });
+
+  it('Вкладка Запчастини > Додати Деталь > Пошук по Складу', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.searchByStorage()
+  });
+
+  it('Вкладка Запчастини > Додати Деталь > Пошук олив ', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.searchByOil()
+  });
+
+  it('Вкладка Запчастини > Додавання ЗЧ через ІНФО по автомобілю', function(){ ///не підтягує дані 
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.addProductInfoAuto()
+  });
 
   it('Інформація по а/м в НЗ', function(){
     cy.visit('/orders/approve')
@@ -195,10 +213,16 @@ describe ('Master|Admin|UA|Desktop|', function(){
     orderPage.addComments();
   });
 
-  it('Часткова оплата ч/з статус завершено', function(){
-    cy.visit('/orders/progress');
+ it('Перевід у статус Завершено', function(){
+    cy.visit('/orders/progress')
+    orderPage.openNZ(idClient)
+    orderPage.createSuccess()
+  })
+
+  it('Часткова оплата', function(){
+    cy.visit('/orders/success');
     orderPage.openNZ(idClient);
-    orderPage.payOrderCredit('Готівкова');
+    orderPage.payOrderCredit();
   });
 
   it('Перевірка поля Сплачено', function(){
@@ -219,13 +243,23 @@ describe ('Master|Admin|UA|Desktop|', function(){
     cy.get('.styles-m__total---JSKrk').find('span').eq(1).contains('0 грн.'); // Залишок Грн -> грн
   });
 
+  it('Перевірка Залишка в списку НЗ', function(){
+    cy.visit('/orders/success');
+    orderPage.openNZ(idClient);
+    cy.get('[data-icon="close"]').first().click({force: true})
+    cy.get('.ant-input-wrapper > .ant-input').type(idClient)
+    cy.wait(20000)
+    cy.get('tr >td').eq(7).should('have.text', ' грн.')
+   // cy.get('.styles-m__total---JSKrk').find('span').eq(1).contains('0 грн.'); // Залишок Грн -> грн
+  });
+
   it('Статистика в НЗ', function(){
     cy.visit('/orders/success');
     orderPage.openNZ(idClient);
     orderPage.getStatisticOrder();
   });
 
-  it('Завантаження НЗ для Клієнта', function(){
+  it('Друк НЗ для Клієнта', function(){
     cy.visit('/orders/success');
     orderPage.openNZ(idClient);
     orderPage.downloadOrder();

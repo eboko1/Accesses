@@ -209,12 +209,18 @@ class ClientPage {
         cy.wait(5000)
         cy.log('Пошук клієнта');
         cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)
-        cy.wait(7000)
+        cy.wait(4000)
         .then(()=>{
             cy.get('tr > td > a').first().click({force: true})
         })
-        cy.wait(5000)
-        cy.get('.ant-select-selection-item').eq(2).should('have.text','CarBook') 
+        cy.wait(3000)
+        cy.get('.ant-input').eq(1).should('have.value','БазовийКлієнт'+idClient)
+        cy.get('.ant-input').eq(2).should('have.value','Побатькові')
+        cy.get('.ant-input').eq(3).should('have.value','Прізвище')
+        cy.get('.ant-input').eq(4).should('have.value','Комент Постійний Клієнт)))') 
+        cy.get('.ant-input').eq(5).should('have.value','eboko1@gmail.com') 
+        cy.get('textarea').should('have.text','Комент Постійний Клієнт)))')
+
     }
 
     editClientNumber = (idClient,tel) => {      

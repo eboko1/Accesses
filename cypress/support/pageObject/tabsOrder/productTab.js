@@ -44,23 +44,25 @@ class ProductTab {
 
     }
 
-    checkModalVIN = () => {
+    addDetailVIN = () => {
         cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click();
         cy.get('[data-qa=btn_header_actions_details_table_order_page]').eq(1).click() // btn + ЗЧ
         cy.get('[data-qa="btn_add_form_vin_order_detail_modal"]').click(); ///btn Вибір VIN"
-        cy.wait(3000)
+        cy.wait(4000)
         cy.get('.ant-modal-content').should('be.visible')
         cy.get('.ant-modal-header').last().should('have.text','VIN-код')
-
         cy.get('.ant-modal-content').find('.ant-select-selector').should('be.visible').last().type('1020200{enter}')
-        cy.get('.ant-select-tree-treenode').eq(3).click() // додавання групи ЗЧ остання в списку
+        cy.get('.ant-select-tree-treenode').eq(3).click()                  // додавання групи ЗЧ остання в списку
+        cy.wait(5000)
         cy.get('.styles-m__vinModal---3rARV').should('be.visible')
         cy.get('tr > td').find('span').contains('15208').click({force: true})
         cy.get('.ant-btn-primary').last().click({force: true})
-
+        cy.wait(3000)
         cy.get('[data-qa="table_detail_code_input_order_detail_modal"]').should('have.value','152081HC0A')
         cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click({force: true})
-        cy.wait(4000)
+        cy.wait(2000)
+        cy.get('.ant-modal > .ant-modal-content > .ant-modal-footer > .ant-btn-primary').last().click({force: true})            //btn Гаразд;
+        cy.wait(10000)
     }
 
     searchByCar = () => {
@@ -73,8 +75,8 @@ class ProductTab {
         cy.get('.ant-modal-content').should('be.visible')
         cy.get('.ant-modal-header').last().should('have.text','Виберіть групу запчастини')
         cy.get('[data-qa="tree_select_storeGroupId_order_detail_modal"]').type('Фільтри повітряні{enter}') // Модалка Виберіть групу ЗЧ
-        cy.get('.ant-select-tree-treenode').last().click() // додавання групи ЗЧ остання в списку
-        cy.get('.ant-btn-primary').last().click({force: true})
+        cy.get('.ant-select-tree-treenode').last().click() // дcy.get('.ant-btn-primary').last().click({force: true})одавання групи ЗЧ остання в списку
+        
         cy.wait(3000)
         cy.get('tr').contains('Фільтр').should('exist')
     }

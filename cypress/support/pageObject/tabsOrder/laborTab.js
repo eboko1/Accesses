@@ -85,13 +85,13 @@ class LaborTab {
         cy.get('[data-qa="btn_show_service_product_modal_services_table_order_page"]').click()
         cy.get('.ant-modal-body').should('be.visible')
         cy.get('.ant-modal-body').find('.ant-select-selector').eq(2).type('Заміна{enter}')
-        cy.get('.ant-modal-body').should('be.visible')
-        cy.get('.ant-modal-body').find('.ant-select-selector').eq(2).should('contain','Заміна')
+        
         cy.get('[data-qa="input_number_purchase_price_add_service_modal"]').clear().type('333.33').should('have.value','333.33')
         ////cy.get('.ant-modal-footer').find('button').last().click({force: true})
         cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
         cy.wait(2000);  
         cy.get('tr > td').contains('333.33')
+        cy.get('tr > td').contains('Заміна')
     }
 
     addLaborName = () => {

@@ -19,8 +19,8 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-//const idClient = '91113'   //'19350'
-const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
+const idClient = '2530'   //'19350'
+//const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
 const tel = minute+minute+second+minute+second+minute;
@@ -105,7 +105,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
     laborTab.addLaborGroupProduct() 
   })
 
-  it('Додавання Робіт через поле Робіт', function(){
+  it.only('Додавання Робіт через поле Робіт', function(){
     cy.visit('/orders/approve')
     orderPage.openNZ(idClient)
     laborTab.addLaborPlus()
@@ -140,6 +140,12 @@ describe ('Master|Admin|UA|Desktop|', function(){
     orderPage.openNZ(idClient)
     laborTab.showMehanicLabor()
   }) 
+
+  it('Редагування ціни для доданої ЗЧ з Діагностики', function(){
+    cy.visit('/orders/approve')
+    orderPage.openNZ(idClient)
+    productTab.editDetailDiagnostic()
+  });
 
   it('Додавання Запчастин ч/з +', function(){
     cy.visit('/orders/approve')
@@ -243,7 +249,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
     cy.get('.styles-m__total---JSKrk').find('span').eq(1).contains('0 грн.'); // Залишок Грн -> грн
   });
 
-  it('Перевірка Залишка в списку НЗ', function(){
+  it('Перевірка Залишкy в списку НЗ', function(){
     cy.visit('/orders/success');
     orderPage.openNZ(idClient);
     cy.get('[data-icon="close"]').first().click({force: true})

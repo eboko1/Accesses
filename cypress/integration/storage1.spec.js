@@ -2,12 +2,12 @@
 import LoginPage from '../support/pageObject/loginPage';
 import OrderPage from '../support/pageObject/orderPage';
 import BaseStorage from '../support/pageObject/storage/baseStorage';
-
+import ProductTab from '../support/pageObject/tabsOrder/productTab';
 
 const loginPage = new LoginPage();
 const orderPage = new OrderPage();
 const baseStorage = new BaseStorage();
-
+const productTab = new ProductTab();
 const path = require("path");
 
 const textServise = 'Доставка Запчастин'
@@ -60,28 +60,16 @@ describe ('Складські документи ', function(){
         })
     })
 
-    it(' AUT / Витрати із НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
+    it.only(' AUT / Витрати із НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
         cy.visit('/')
         baseStorage.openDocsBtn(2)
         cy.get('h1').should('have.text','Ремонти')
         orderPage.createOrder('') // Клієнт
-
-        cy.get('.ant-tabs-nav').contains('Запчастини').first().click({force: true})
-        cy.get('.styles-m__headerActions---29OlS > [title="Додати"]').first().click({force: true})
-        cy.get('.ant-tabs-tab').contains('Склад').first().click({force: true})
-        cy.get('.ant-modal-body').find('.ant-btn').eq(1).click()  // каталог запчастин
-        cy.wait(1000);
-        cy.get('[data-row-key="0"] > :nth-child(8) > .ant-btn').first().click({force: true})
-        cy.wait(1000);
-        cy.get('.ant-btn-primary').eq(2).click({force: true});//ОК;
-
+        productTab.addFirstDetail()
         cy.wait(3000);
         cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover')////Переведіть н/з в статус Ремонт 
         cy.get('.ant-dropdown-menu-item').contains('Завершено').first().click({force: true})
         cy.wait(2000); 
-        // // if(cy.get('.ant-modal').should('be.visible')){
-        // //     cy.get('.ant-modal').contains('OK').click({force: true})/////////////
-        // // }
         cy.get('.sc-bxivhb > .ant-checkbox > .ant-checkbox-inner').first().click({force: true})  ///модалка оплати ч/з статус Завершено
         cy.get('.ant-btn-primary').contains('Так').click({force: true})
         cy.wait(3000); 

@@ -114,6 +114,17 @@ class ProductTab {
         cy.get('tr').contains('Мастила').should('exist')
     }
 
+    addFirstDetail = () => {
+        //для AUT товар має бути в наявності
+        cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click();
+        cy.get('[data-qa=btn_header_actions_details_table_order_page]').eq(1).click() // btn + ЗЧ
+        cy.get('.ant-modal-content').should('be.visible')
+        cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click()
+        cy.wait(3000)
+        cy.get('.ant-btn-primary').eq(2).click({force: true});//ОК;
+        cy.wait(30000)
+    }
+
     searchByOil = () => {
         cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click();
         cy.get('[data-qa=btn_header_actions_details_table_order_page]').eq(1).click() // btn + ЗЧ
@@ -167,8 +178,6 @@ class ProductTab {
         cy.get('[data-qa="btn_header_actions_details_table_order_page"]').eq(0).click()
         cy.get('[data-qa=input_detailName_detail_product_modal]').should('have.text','')
         cy.get('[data-qa=input_detailName_detail_product_modal]').clear().type('Моторне мастило')
-        // cy.get('[data-qa=select_brandId_order_detail_edit_modal]').type('ABEX{enter}').should('contain','ABEX')     // бренд 
-        // cy.get('[data-qa=select_supplierName_order_detail_edit_modal]').type('АНД{enter}').should('contain','АНД') //Постачальник 
         cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('222.1').should('have.value','222.1')
         cy.get('[data-qa="input_number_price_order_detail_edit_modal"]').clear().type('222.2').should('not.be.NaN')
         cy.get('[data-qa="input_number_count_order_detail_edit_modal"]').clear().type('2.3').should('not.be.NaN')

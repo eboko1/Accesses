@@ -148,7 +148,7 @@ class ProductTab {
         /// якщо ЗЧ не зарезервована
         cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click();
         cy.get('[data-qa=button_quick_edit_modal_details_table_order_page]').should('be.visible').last().click({force: true});
-        cy.wait(3000);
+        cy.wait(4000);
         cy.get('[data-qa="input_detailName_detail_product_modal"]').should('be.visible')
        //// cy.get('[data-qa="input_detailName_detail_product_modal"]').should('not.be.empty')
         cy.get('[data-qa="select_brandId_order_detail_edit_modal"]').should('not.be.empty')  

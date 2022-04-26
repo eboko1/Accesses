@@ -171,7 +171,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
     productTab.addDetailVIN()
   });
 
-  it('Вкладка Запчастини > Швидке редагування запчастин', function(){
+  it('Вкладка Запчастини > Редагування запчастин', function(){
     cy.visit('/orders/approve')
     orderPage.openNZ(idClient)
     productTab.editProductIcon()

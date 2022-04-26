@@ -60,7 +60,7 @@ describe ('Складські документи ', function(){
         })
     })
 
-    it.only(' AUT / Витрати із НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
+    it(' AUT / Витрати із НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
         cy.visit('/')
         baseStorage.openDocsBtn(2)
         cy.get('h1').should('have.text','Ремонти')

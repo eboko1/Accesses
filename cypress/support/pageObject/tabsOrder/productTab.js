@@ -10,7 +10,7 @@ class ProductTab {
         cy.get('[data-qa="select_brandId_order_detail_edit_modal"]').should('not.be.empty')
         ///cy.get('[data-qa="input_detailCode_order_detail_edit_modal"]').should('not.be.empty')
 
-        cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('333.1').should('have.value','333.1')
+        cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('333.1').should('have.value','333,1')
         cy.get('[data-qa="input_number_price_order_detail_edit_modal"]').clear().type('333.2').should('not.be.NaN')
         cy.get('[data-qa="input_number_count_order_detail_edit_modal"]').clear().type('3.3').should('not.be.NaN')
         cy.get('.ant-modal-body').find('.ant-checkbox-wrapper').last().click({force: true})  //пов'язані ЗЧ
@@ -34,7 +34,7 @@ class ProductTab {
         cy.get('[data-qa="select_brandId_order_detail_edit_modal"]').type('ABEX{enter}').should('not.be.empty')  
         cy.get('[data-qa="input_detailCode_order_detail_edit_modal"]').clear().type('123456').should('have.value','123456')
 
-        cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('111.1').should('have.value','111.1')
+        cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('111.1').should('have.value','111,1')
         cy.get('[data-qa="input_number_price_order_detail_edit_modal"]').clear().type('111.2').should('not.be.NaN')
         cy.get('[data-qa="input_number_count_order_detail_edit_modal"]').clear().type('1.3').should('not.be.NaN')
         cy.wait(2000);
@@ -178,7 +178,7 @@ class ProductTab {
         cy.get('[data-qa="btn_header_actions_details_table_order_page"]').eq(0).click()
         cy.get('[data-qa=input_detailName_detail_product_modal]').should('have.text','')
         cy.get('[data-qa=input_detailName_detail_product_modal]').clear().type('Моторне мастило')
-        cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('222.1').should('have.value','222.1')
+        cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('222.1').should('have.value','222,1')
         cy.get('[data-qa="input_number_price_order_detail_edit_modal"]').clear().type('222.2').should('not.be.NaN')
         cy.get('[data-qa="input_number_count_order_detail_edit_modal"]').clear().type('2.3').should('not.be.NaN')
         cy.wait(1000);

@@ -141,7 +141,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
     laborTab.showMehanicLabor()
   }) 
 
-  it('Редагування ціни для доданої ЗЧ з Діагностики', function(){
+  it('Редагування ціни для ЗЧ з Діагностики', function(){
     cy.visit('/orders/approve')
     orderPage.openNZ(idClient)
     productTab.editDetailDiagnostic()

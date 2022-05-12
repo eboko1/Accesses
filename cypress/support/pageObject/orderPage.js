@@ -103,9 +103,18 @@ class OrderPage {
     }
     createSuccess= () =>{
         cy.wait(4000); 
+        // зняти резерв для ЗЧ
+        cy.get('.ant-tabs-nav').contains('Запчастини').click()
+        cy.get('tr > td').find('button').contains('1.0').click({force: true});
+        // **зняти резерв для ЗЧ
+        cy.wait(2000);
         cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover')////Переведіть н/з в статус Завершено 
         cy.wait(1000);
         cy.get('.ant-dropdown-menu-item').contains('Завершено').click()
+        cy.wait(4000);
+       
+        cy.get('.ant-modal-confirm-btns').contains('Гаразд').click()
+        
         cy.wait(5000);
         cy.get('[data-qa="button_submit_yes_to_success_form"]').click()
         cy.wait(5000);
@@ -196,7 +205,8 @@ class OrderPage {
     }
 
    getInfoAuto = () => {
-        cy.get('[title="Інфо по автомобілю"] > .anticon').click({force: true})
+        cy.get('.anticon-question-circle').first().click({force: true})
+        /////cy.get('[title="Інфо по автомобілю"] > .anticon').click({force: true})
         cy.wait(8000);
         cy.get('.ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-body').should('exist');
         cy.wait(2000);
@@ -264,10 +274,12 @@ class OrderPage {
         })
         .then(()=>{
             cy.log('Клік на all OK ');
-            cy.get('.styles-m__diagnosticTableHeader---1_8Bu > .styles-m__diagnostic_status_button_wrap---ucmHY > [title="Вузол / все гаразд"]').click();
-            cy.wait(4000)
+            ////cy.get('.styles-m__diagnosticTableHeader---1_8Bu > .styles-m__diagnostic_status_button_wrap---ucmHY > [title="Вузол / все гаразд"]').click();
+            cy.get('[data-qa="btn_ok_title_diagnostic_table_order_page"]').first().click({force: true})
+            cy.wait(5000)
         })
         .then(()=>{
+            cy.wait(5000)
             cy.get('tr > td').find('button').contains('Редагувати').first().click({force: true}); //редагувати
         })
         .then(()=>{

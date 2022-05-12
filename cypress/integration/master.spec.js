@@ -19,7 +19,7 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-//const idClient = '2417'
+//const idClient = '9451'
 const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -254,7 +254,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
     orderPage.openNZ(idClient);
     cy.get('[data-icon="close"]').first().click({force: true})
     cy.get('.ant-input-wrapper > .ant-input').type(idClient)
-    cy.wait(20000)
+    cy.wait(2000)
     cy.get('tr >td').eq(7).should('have.text', ' грн.')
    // cy.get('.styles-m__total---JSKrk').find('span').eq(1).contains('0 грн.'); // Залишок Грн -> грн
   });

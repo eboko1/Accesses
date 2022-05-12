@@ -127,7 +127,7 @@ class LaborTab {
         cy.get('[data-qa="button_visible_complexes_modal"]').click()
         cy.get('.ant-modal-body').should('be.visible')
         cy.wait(3000)
-        cy.get('.ant-modal-body').find('.ant-select-selection-search').eq(1).type('заміна мастила (оливи) в кпп')
+        cy.get('.ant-modal-body').find('.ant-select-selection-search').eq(0).type('заміна мастила (оливи) в кпп')
         cy.wait(2000)
         cy.get(':nth-child(2) > .ant-select-tree-node-content-wrapper > .ant-select-tree-title').click({force: true}) ///:nth-child(2) > .ant-select-tree-node-content-wrapper > .ant-select-tree-title
         cy.get('.ant-modal-body').find('.ant-input-disabled').eq(0).should('have.value','Заміна трансмісійного мастила (оливи)')

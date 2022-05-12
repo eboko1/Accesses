@@ -142,7 +142,7 @@ class ProductTab {
         cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click();
         cy.wait(1000);
         cy.get('[aria-label=question-circle]').first().click({force: true})
-        cy.wait(4000)
+        cy.wait(8000)
         cy.get('tr[data-row-key="0"] > td ').should('be.visible')
         cy.get('.ant-tabs-tabpane').should('contain', 'Спецификации масел и технических жидкостей')
         cy.get('tr[data-row-key="0"] > td > .ant-btn').last().click({force: true}) // btn додати
@@ -165,7 +165,7 @@ class ProductTab {
         cy.get('[data-qa="select_brandId_order_detail_edit_modal"]').should('not.be.empty')  
         cy.get('[data-qa="input_detailCode_order_detail_edit_modal"]').should('have.value', '152081HC0A')
 
-        cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('444.1').should('have.value','444.1')
+        cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('444.1').should('have.value','444,1')
         cy.get('[data-qa="input_number_price_order_detail_edit_modal"]').clear().type('4.2').should('not.be.NaN')
         cy.get('[data-qa="input_number_count_order_detail_edit_modal"]').clear().type('4.3').should('not.be.NaN')
 
@@ -173,11 +173,11 @@ class ProductTab {
         cy.wait(1000);
     }
 
-    addProductPlus = () => {
+    addProductPlus = (idClient) => {
         cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click()
         cy.get('[data-qa="btn_header_actions_details_table_order_page"]').eq(0).click()
         cy.get('[data-qa=input_detailName_detail_product_modal]').should('have.text','')
-        cy.get('[data-qa=input_detailName_detail_product_modal]').clear().type('Моторне мастило')
+        cy.get('[data-qa=input_detailName_detail_product_modal]').clear().type('Моторне мастило'+idClient)
         cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('222.1').should('have.value','222,1')
         cy.get('[data-qa="input_number_price_order_detail_edit_modal"]').clear().type('222.2').should('not.be.NaN')
         cy.get('[data-qa="input_number_count_order_detail_edit_modal"]').clear().type('2.3').should('not.be.NaN')

@@ -35,8 +35,7 @@ jobs:
          
   find-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-20.04
-    container: cypress/browsers:node16.14.0-slim-chrome99-ff97
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -58,8 +57,7 @@ jobs:
 
   master-admin-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
-    runs-on: ubuntu-20.04
-    container: cypress/browsers:node16.14.0-slim-chrome99-ff97
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2

@@ -205,8 +205,8 @@ class ClientPage {
             })
     }
 
-    checkClient = (idClient,tel) => {
-        cy.wait(5000)
+    checkClient = (idClient) => {
+        cy.wait(7000)
         cy.log('Пошук клієнта');
         cy.get('.ant-input').last().type('БазовийКлієнт'+idClient)
         cy.wait(4000)

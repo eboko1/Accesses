@@ -109,7 +109,7 @@ class LaborTab {
         cy.get('[data-qa="input_service_name_add_service_modal"]').should('have.value','test+vika')
         ////cy.get('.ant-modal-footer').find('button').last().click({force: true})
         cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
-        cy.wait(2000);  
+        cy.wait(5000);  
         cy.get('tr > td').contains('444.44')
         cy.get('tr > td').contains('test+vika')
 

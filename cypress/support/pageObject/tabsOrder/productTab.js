@@ -173,17 +173,17 @@ class ProductTab {
         cy.wait(1000);
     }
 
-    addProductPlus = (idClient) => {
+    addProductPlus = () => {
         cy.get('.ant-tabs-nav').should('be.visible').contains('Запчастини').click()
         cy.get('[data-qa="btn_header_actions_details_table_order_page"]').eq(0).click()
         cy.get('[data-qa=input_detailName_detail_product_modal]').should('have.text','')
-        cy.get('[data-qa=input_detailName_detail_product_modal]').clear().type('Моторне мастило'+idClient)
+        cy.get('[data-qa=input_detailName_detail_product_modal]').clear().type('Моторне мастило')
         cy.get('[data-qa="input_number_purchasePrice_order_detail_edit_modal"]').clear().type('222.1').should('have.value','222,1')
         cy.get('[data-qa="input_number_price_order_detail_edit_modal"]').clear().type('222.2').should('not.be.NaN')
         cy.get('[data-qa="input_number_count_order_detail_edit_modal"]').clear().type('2.3').should('not.be.NaN')
         cy.wait(1000);
         cy.get('.ant-btn-primary').eq(2).click({force: true})
-        cy.wait(2000);
+        cy.wait(5000);
         cy.get('.ant-table-tbody').find('.ant-table-cell').contains('Моторне мастило') // перевірка в табі ЗЧ 
     }
 }

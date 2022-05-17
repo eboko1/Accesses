@@ -12,8 +12,8 @@ const path = require("path");
 
 const textServise = 'Доставка Запчастин'
 var date = new Date();
-const idProduct ='TEST'+'17154'
-///const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
+//const idProduct ='TEST'+'17454'
+const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
 
 describe ('Складські документи ', function(){
     const login = (email, password) =>{
@@ -285,13 +285,15 @@ describe ('Складські документи ', function(){
         baseStorage.fillingForm(idProduct, 'Послуги')
     })
 
-    it('SRV / Додавання Послуги',  function() {
+    it('SRV / Додавання Послуги',  () => {
         cy.visit('/')
         baseStorage.openDocsBtn(11);
         cy.get('tr > td > a').first().click({force: true})
         cy.wait(2000)
-        cy.get('.ant-table-row > :nth-child(1) > .ant-btn').first().click({force: true})
-        cy.get('.ant-modal-body').find('.ant-input').eq(1).should('have.text','').type(textServise)
+        cy.get('.ant-btn-icon-only').eq(1).click({force: true})
+        cy.wait(1000)
+        //cy.get('.ant-input').first().should('have.text','').type(textServise)
+        cy.get('.ant-input').eq(5).should('have.text','').type(textServise)
         cy.wait(1000)
         cy.get('.ant-input-number-input').eq(0).clear().type('202,29')
         cy.get('.ant-input-number-input').eq(1).clear().type('1,29')
@@ -301,6 +303,23 @@ describe ('Складські документи ', function(){
         cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
         cy.wait(2000)
     })
+
+    // // // // it('SRV / Редагування Послуги',  function() {
+    // // // //     cy.visit('/')
+    // // // //     baseStorage.openDocsBtn(11);
+    // // // //     cy.get('tr > td > a').first().click({force: true})
+    // // // //     cy.wait(2000)
+    // // // //     cy.get('.ant-btn-icon-only').first().click({force: true})
+    // // // //     cy.get('.ant-modal-body').find('.ant-input').eq(1).should('have.text','').type(textServise)
+    // // // //     cy.wait(1000)
+    // // // //     cy.get('.ant-input-number-input').eq(0).clear().type('202,29')
+    // // // //     cy.get('.ant-input-number-input').eq(1).clear().type('1,29')
+    // // // //     cy.wait(1000)
+    // // // //     cy.get('.ant-input-number-input').eq(0).should('have.value','202,29')
+    // // // //     cy.get('.ant-input-number-input').eq(1).should('have.value','1,29')
+    // // // //     cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
+    // // // //     cy.wait(2000)
+    // // // // })
 
     it('SRV / Перевід Прихід Послуги в статус Враховано',  function() {
         cy.visit('/')

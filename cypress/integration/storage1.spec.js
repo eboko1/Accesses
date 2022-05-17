@@ -12,8 +12,8 @@ const path = require("path");
 
 const textServise = 'Доставка Запчастин'
 var date = new Date();
-const idProduct ='TEST'+'17454'
-//const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
+//const idProduct ='TEST'+'17454'
+const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
 
 describe ('Складські документи ', function(){
     const login = (email, password) =>{

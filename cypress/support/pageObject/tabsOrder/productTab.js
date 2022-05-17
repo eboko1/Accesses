@@ -122,7 +122,7 @@ class ProductTab {
         cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click()
         cy.wait(3000)
         cy.get('.ant-btn-primary').eq(2).click({force: true});//ОК;
-        cy.wait(30000)
+        cy.wait(3000)
     }
 
     searchByOil = () => {

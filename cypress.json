@@ -15,7 +15,7 @@
   "chromeWebSecurity": false,
 
 
-  "baseUrl":"https://dev-my.carbook.pro",
+  "baseUrl":"https://my.carbook.pro",
 
   "env": {
     "pw":"123456",

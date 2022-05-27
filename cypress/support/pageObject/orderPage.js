@@ -242,7 +242,7 @@ class OrderPage {
             .then (text => {var codeNZ = text;
             cy.log(codeNZ)
             const path = require("path");
-            cy.wait(2000);
+            cy.wait(4000);
             cy.readFile(path.join('cypress/downloads', 'order-'+codeNZ+'.pdf')).should("exist"); // файл Наряд замовлення для Клієнта
         })
     }

@@ -187,7 +187,7 @@ class BaseStorage {
     payOrder = () => {
         cy.get('tr > td > a').first().click({force: true})
         cy.get('[data-qa="button_open_cash_order_modal_storage_document_page"]').should('be.visible')
-        cy.get('[data-qa="button_open_cash_order_modal_storage_document_page"]').first().click({force: true})        cy.wait(2000)
+        cy.get('[data-qa="button_open_cash_order_modal_storage_document_page"]').first().click({force: true})
         cy.get('.ant-modal-body').should('exist')
         cy.get('.ant-modal-footer').find('.ant-btn').click({force: true})
         cy.wait(2000)

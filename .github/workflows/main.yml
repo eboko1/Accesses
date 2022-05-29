@@ -5,7 +5,6 @@ on:
     branches:
       - main
 jobs:
-
  debit-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest

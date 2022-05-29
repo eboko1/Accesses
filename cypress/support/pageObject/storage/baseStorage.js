@@ -2,30 +2,40 @@ const path = require("path");
 
 class BaseStorage {
 
-    openDocsBtn = (numberBtn) => { // відкриття вже створеного дока 
-        cy.contains('Швидка навігація').click({force: true})
+    openDocsBtn = (numberBtn) => { 
         cy.get('h1').should('have.text','Швидка навігація')
         cy.get('button').eq(numberBtn).click({force: true})
         cy.wait(4000)
     }
 
-    openDocsPlus = (numberPlus) => {  // відкриття новаго дока
-        cy.contains('Швидка навігація').click({force: true})
-        cy.wait(1000)
+    openDocsPlus = (numberPlus) => { 
         cy.get('h1').should('have.text','Швидка навігація')
         cy.get('.anticon-plus').eq(numberPlus).click({force: true})
         cy.wait(4000)
     }
+    
+    selectSupplier = (supplier) => {  
+        cy.get('.ant-input').last().type(supplier)
+        cy.wait(2000)
+        cy.get('tr > td > a').first().click({force: true})
+        cy.get('.ant-input').eq(1).should('have.value',supplier)
+    }
+    checkCardSupplier = (numberDoc) => { 
+        cy.get('.ant-tabs-tab').contains('Борг').click({force:true})
+        cy.get('.ant-input').last().type(numberDoc)
+        cy.wait(1000)
+        cy.get('.ant-table-row > :nth-child(8)').should('have.text','0 ')
+    }
 
-    fillingForm=(idProduct, nameDocs) => { // заповнення даними docs
+    fillingForm=(idProduct, nameDocs,nameSupplier,requisitesBusness) => { // заповнення даними docs
         cy.get('.ant-select-selection-item').eq(1).should('have.text', nameDocs)
-        cy.get('.ant-select-selection-search').eq(3).type('Exist{enter}')
+        cy.get('.ant-select-selection-search').eq(3).type(nameSupplier+'{enter}')
         cy.wait(2000);
         cy.get('.ant-input').eq(2).clear().type('Коментарій '+nameDocs).should('have.text','Коментарій '+nameDocs)
         cy.get('.ant-input').eq(1).type(idProduct)
-        cy.get('.ant-select-selection-search').eq(6).type('{downarrow}{enter}') // Реквізити СТО
+        cy.get('.ant-select-selection-search').eq(6).type('{enter}').should('not.be.empty') // Реквізити СТО
         cy.wait(2000);
-        cy.get('.ant-select-selection-search').eq(7).type('{downarrow}{enter}')  // Реквізити Постачальника
+        cy.get('.ant-select-selection-search').eq(7).type('{enter}')  // Реквізити Постачальника
         cy.wait(2000);
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(3000);
@@ -34,15 +44,15 @@ class BaseStorage {
 
     fillingFormClient=(idProduct, nameDocs, client) =>{
         cy.get('.ant-select-selection-item').eq(1).should('have.text',nameDocs)
-        cy.get('.ant-select-selection-search').eq(3).type(client)
+        cy.get('.ant-select-selection-search').eq(3).type(client).should('not.be.empty') 
         cy.wait(2000);
         cy.get('.ant-select-item').first().click({force: true})
         cy.wait(2000);
         cy.get('.ant-input').eq(2).clear().type('Коментарій '+nameDocs).should('have.text','Коментарій '+ nameDocs)
-        cy.get('.ant-input').eq(1).type(idProduct)
-        cy.get('.ant-select-selection-search').eq(6).type('{downarrow}{enter}') 
+        cy.get('.ant-input').eq(1).type(idProduct).should('have.value', idProduct)
+        cy.get('.ant-select-selection-search').eq(6).type('{downarrow}{enter}').should('not.be.empty')  
         cy.wait(2000);
-        cy.get('.ant-select-selection-search').eq(7).type('{downarrow}{enter}') 
+        cy.get('.ant-select-selection-search').eq(7).type('{downarrow}{enter}').should('not.be.empty') 
         cy.wait(2000);
         cy.get('.ant-badge > .anticon').last().click({force: true}) // дискетка 
         cy.wait(3000);
@@ -54,26 +64,75 @@ class BaseStorage {
         cy.wait(2000)
         cy.get('.ant-select-selection-item').eq(1).should('have.text', nameDocs)
     }
+    
+    openListDocs = () => {
+        cy.get('tr > td > a').first().click({force: true}) // вибір зі списку
+        cy.wait(3000);      
+    }
 
-    addProductInDocs=(idProduct, numCount) => {
+    cardSupplierCredit = (supplierSystem) => {
+     cy.get('tr > td > a').first().invoke('text')
+          .then (text => {
+            const idDoc = text.split('-')
+            const numberDoc = idDoc[idDoc.length-1]
+            cy.get('img').eq(0).click({force: true}) //menu
+            cy.get('.ant-menu-submenu-title').contains('Довідник').click({force: true})
+            cy.get('.ant-menu-item').contains('Довідники та налаштування').click({force: true})
+            cy.get('button').contains('Постачальники').click({force: true})
+            this.selectSupplier(supplierSystem)
+            this.checkCardSupplier(numberDoc)
+        })
+    }
+
+    checkCreditPage = (supplierSystem, message) => {
+        cy.get('.ant-tabs-tab').contains('Кредиторка').click({force:true})
+        cy.get('.ant-input').last().type(supplierSystem)
+        cy.wait(1000)
+        cy.get('.ant-empty-description').should('have.text',message)
+    }
+
+    checkPurchaseDoc = () => {
         cy.get('tr > td > a').first().click({force: true})
         cy.wait(2000);
-        cy.get('.anticon-plus').first().click({force: true})
+        cy.get('[data-qa="remain_storage_document_form"]').should('have.text','Залишок0 грн.')
+        cy.get('[data-qa="purchase_sum_storage_document_form"]').invoke('text').then( purchase_sum =>{
+        const purchase = purchase_sum.replace(/[^0-9,]/g, '');
+            cy.get('[data-qa="button_delete_post_storage_document_page"]').click()
+            cy.get('[data-row-key] > :nth-child(5) > span').first().should('have.text', purchase +' грн.')
+            
+        })    
+    }
+
+    checkSellingDoc = () => {
+        cy.get('tr > td > a').first().click({force: true})
         cy.wait(2000);
+        cy.get('[data-qa="remain_storage_document_form"]').should('have.text','Залишок0 грн.')
+        cy.get('[data-qa="selling_sum_storage_document_form"]').invoke('text').then( selling_sum =>{
+            const selling = selling_sum.replace(/[^0-9,]/g, '');
+            cy.get('[data-qa="button_delete_post_storage_document_page"]').click()
+            cy.get('[data-row-key] > :nth-child(6) > span').first().should('have.text',selling +' грн.')
+        })    
+    }
+
+    addProductInDocCatalog = (idProduct, priceSelling, quantity) => {
+        cy.get('[data-qa="doc_products_table.add_btn"]').click({force: true})
+        cy.wait(3000)
         cy.get('.ant-input').eq(0).should('have.text','')
-        cy.get('.ant-modal-body').find('.ant-select-selector').first().type(idProduct) 
-        cy.wait(2000);
-        cy.get('.ant-modal-body').find('.ant-input-number').first().type('111.11')              // ціна
-        cy.get('.ant-modal-body').find('.ant-input-number-input').eq(1).clear().type(numCount)    // кількість
+        cy.wait(2000)
+        cy.get('.ant-modal-body').find('.ant-select-selector').first().type(idProduct)
+        cy.get('.ant-btn-icon-only').last().click({force: true}) // btn catalog
+        cy.get('.ant-input-wrapper > .ant-input-affix-wrapper > .ant-input').should('have.value',idProduct)
+        cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click({force: true}) //модалка Каталог ЗЧ btn OK
+        ///// cy.get('.ant-modal-body').find('.ant-input-number').first().clear()
+        cy.get('.ant-modal-body').find('.ant-input-number').first().type(priceSelling)// Закуп.сума
+        ////// cy.get('.ant-modal-body').find('.ant-input-number-input').eq(1).clear()
+        ///cy.get('.ant-modal-body').find('.ant-input-number-input').type(quantity)    // кількість
         cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
-        cy.wait(2000);
+        cy.wait(3000);
     }
 
     addProductInventDocs = (idProduct) => {
-        cy.get('tr > td > a').first().click({force: true})
-        cy.wait(2000);
-        cy.get('.anticon-plus').first().click({force: true})
-        cy.wait(2000);
+        cy.get('[data-qa="doc_products_table.add_btn"]').click({force: true})
         cy.get('.ant-modal-body').find('.ant-select-selector').first().type(idProduct) 
         cy.get('.ant-modal-body').find('.ant-input-number').first().type('111.11') 
         cy.get('.ant-modal-body').last().find('.ant-input').eq(1).click({force: true})      // комірка
@@ -86,12 +145,20 @@ class BaseStorage {
     }
   
     successDocs = () => {  // перевід в статус враховано
-        cy.get('tr > td > a').first().click({force: true}) // вибір зі списку
-        cy.wait(3000);
         cy.get('div.ant-dropdown-trigger > span').click() /////////
         cy.wait(2000);
         cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
         cy.wait(3000);
+        cy.get('h1 > span').contains('Врах.').should('exist')
+        cy.wait(3000);
+    }
+
+    successDocsModal = () => {  // перевід в статус враховано модалка Оплати
+        cy.get('div.ant-dropdown-trigger > span').click() /////////
+        cy.wait(2000);
+        cy.get('.ant-dropdown-menu-item').contains('Врах.').click()
+        cy.wait(3000);
+        cy.get('.ant-modal-body').contains('Так').click({force: true})
         cy.get('h1 > span').contains('Врах.').should('exist')
         cy.wait(3000);
     }
@@ -119,13 +186,12 @@ class BaseStorage {
   
     payOrder = () => {
         cy.get('tr > td > a').first().click({force: true})
-        cy.get('.styles-m__header---2z2EP').find('.anticon-dollar').should('exist').first().click({force: true})
-        cy.wait(2000)
+        cy.get('[data-qa="button_open_cash_order_modal_storage_document_page"]').should('be.visible')
+        cy.get('[data-qa="button_open_cash_order_modal_storage_document_page"]').first().click({force: true})        cy.wait(2000)
         cy.get('.ant-modal-body').should('exist')
         cy.get('.ant-modal-footer').find('.ant-btn').click({force: true})
         cy.wait(2000)
-        cy.get('.styles-m__sumNumeral---KAUvr').find('span').last().should('have.text','0 грн.')
-        cy.get('.styles-m__header---2z2EP').find('.anticon-close').click()
+        cy.get('[data-qa="remain_storage_document_form"]').should('have.text','Залишок0 грн.')
     }
 
     downloadXML = () => {

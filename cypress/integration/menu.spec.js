@@ -26,7 +26,7 @@ beforeEach('User Login ', function(){
   
   it('Профіль вибір українського інтерфейсу', function(){
     cy.visit('/')
-    profilePage.selectUA()
+    profilePage.choiceLanguage(1)
   })
  
   it('Меню / Швидка навігація + Ремонт',   function(){

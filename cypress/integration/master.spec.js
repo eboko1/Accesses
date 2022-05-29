@@ -45,7 +45,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
 
   it('Профіль вибір українського інтерфейсу', function(){
     cy.visit('/') 
-    profilePage.selectUA()
+    profilePage.choiceLanguage(1)
   })
 
   it(`Додавання Клієнта та а/м ч/з + : ${idClient}`, function(){

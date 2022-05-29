@@ -37,7 +37,7 @@ describe ('Master|Mehanic|UA|Desktop|', function(){
 
   it('Профіль вибір українського інтерфейсу', function(){
       cy.visit('/profile')
-      profilePage.selectUA()
+      profilePage.choiceLanguage(1)
   })
 
   it('Інформація по а/м в НЗ', function(){

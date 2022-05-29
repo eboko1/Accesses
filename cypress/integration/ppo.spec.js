@@ -47,7 +47,7 @@ describe ('PPO|Kasur|UA|Desktop|', function(){  /// cy.viewport(1240,960)
 
   it('1. Профіль вибір українського інтерфейсу', function(){
     cy.visit('/') 
-    profilePage.selectUA()
+    profilePage.choiceLanguage(1)
   })
 
   it('2. Відкриття каси ГотівкаРРО', function(){

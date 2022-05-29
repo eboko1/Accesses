@@ -25,7 +25,7 @@ const baseStorage = new BaseStorage();
       it('Профіль вибір українського інтерфейсу', function(){
         cy.visit('/')
         cy.get('img').eq(0).click({force: true}) //menu
-        profilePage.selectUA()
+        profilePage.choiceLanguage(1)
       })
     
       it('Пошук по імені Клієнта', function(){

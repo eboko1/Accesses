@@ -5,6 +5,29 @@ on:
     branches:
       - main
 jobs:
+
+ debit-master-elec-linux:
+    # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: debit-credit-master-elec-linux
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          record: false
+          spec: cypress/integration/debit.spec.js
+          # edge, firefox
+        env:
+          # pass the Dashboard record key as an environment variable
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_SECRET_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
+
   directorie-master-elec-linux:
     runs-on: ubuntu-latest
     container: cypress/browsers:node16.14.0-slim-chrome99-ff97

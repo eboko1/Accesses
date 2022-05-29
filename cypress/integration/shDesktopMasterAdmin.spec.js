@@ -47,7 +47,7 @@ describe ('SH|Desktop|Master|Admin|UA', function(){
 
     it('Профіль вибір українського інтерфейсу', function(){
         cy.visit('/profile')
-        profilePage.selectUA()
+        profilePage.choiceLanguage(1)
         profilePage.selectSH()
     })
 

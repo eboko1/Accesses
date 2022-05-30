@@ -110,17 +110,17 @@ describe ('Складські документи 1 ', function(){
         baseStorage.downloadXML();
     })
 
-    it(' ORD / Замовлення Постачальнику через + / Сторінка Швидка навігація ', function(){
+    it.only(' ORD / Замовлення Постачальнику через + / Сторінка Швидка навігація ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsPlus(7)
         baseStorage.fillingForm(idProduct,'Замовлення постачальнику', supplierSystem)
     })
 
-    it('ORD / Додавання ЗЧ в Замовлення постачальнику / Модалка +', function() {
+    it.only('ORD / Додавання ЗЧ в Замовлення постачальнику / Модалка +', function() {
         cy.visit('/new-document')
         baseStorage.openDocsBtn(7)
         baseStorage.openListDocs()
-        baseStorage.addProductInDocs(idProduct, 25, 2);
+        baseStorage.addProductInDocCatalog(idProduct, 25, 2);
     })
 
     it('ORD / Відображення модалки ШК )', function() {
@@ -170,7 +170,7 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(9)
         baseStorage.openListDocs()
-        baseStorage.addProductInDocs(idProduct, '3', 1)
+        baseStorage.addProductInDocCatalog(idProduct, '3', 1)
     })
 
     it('BOR / Завантаження документа .pdf', function() {
@@ -207,7 +207,7 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(8)
         baseStorage.openListDocs()
-        baseStorage.addProductInDocs(idProduct, '5.3', 2)
+        baseStorage.addProductInDocCatalog(idProduct, '5.3', 2)
     })
 
     it('COM / Перевід документа Приходу за Замовленням в статус Враховано',  function() {
@@ -252,8 +252,8 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(10);
         baseStorage.openListDocs()
-        baseStorage.addProductInDocs(idProduct, '13.9', 12);
-        baseStorage.addProductInDocs(idProduct, '100', 12);
+        baseStorage.addProductInDocCatalog(idProduct, '13.9', 12);
+        baseStorage.addProductInDocCatalog(idProduct, '100', 12);
     })
 
     it('INC / Перевід документа Приходу від Постачальника в статус Враховано ',  function() {
@@ -400,7 +400,7 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(12);
         baseStorage.openListDocs()
-        baseStorage.addProductInDocs(idProduct, '133.2', 1)
+        baseStorage.addProductInDocCatalog(idProduct, '133.2', 1)
     })
 
     it('SRT / Перевід в статус Враховано',  function(){

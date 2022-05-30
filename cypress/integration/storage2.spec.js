@@ -204,11 +204,10 @@ describe ('Складські документи 2 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(14);
         baseStorage.openListDocs();
-        baseStorage.addProductInDocCatalog(idProduct,'')
-        ////baseStorage.addProductInventDocs(idProduct);
+        baseStorage.addProductInventDocs(idProduct);
     })
 
-    it('STP / Оплата та Перевід в статус враховано Плюс/Надлишки по Інвент.', function() {
+    it('STP / Перевід в статус враховано Плюс/Надлишки по Інвент.', function() {
         cy.visit('/new-document')
         baseStorage.openDocsBtn(14);
         baseStorage.openListDocs();

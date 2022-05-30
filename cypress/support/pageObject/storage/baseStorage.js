@@ -133,15 +133,21 @@ class BaseStorage {
 
     addProductInventDocs = (idProduct) => {
         cy.get('[data-qa="doc_products_table.add_btn"]').click({force: true})
-        cy.get('.ant-modal-body').find('.ant-select-selector').first().type(idProduct) 
-        cy.get('.ant-modal-body').find('.ant-input-number').first().type('111.11') 
-        cy.get('.ant-modal-body').last().find('.ant-input').eq(1).click({force: true})      // комірка
+        cy.wait(3000)
+        cy.get('.ant-input').eq(0).should('have.text','')
+        cy.wait(2000)
+        cy.get('.ant-modal-body').find('.ant-select-selector').first().type(idProduct)
+        cy.get('.ant-btn-icon-only').last().click({force: true}) // btn catalog
+        cy.get('.ant-input-wrapper > .ant-input-affix-wrapper > .ant-input').should('have.value',idProduct)
+        cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click({force: true}) //модалка Каталог ЗЧ btn OK
+        cy.wait(2000);
+        cy.get('.ant-modal-body').find('.ant-input').eq(3).click({force: true})  
         cy.wait(2000);
         cy.get('tr > td > .ant-btn').first().click({force: true})                         ///комірка
-        cy.wait(2000);
         cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
         cy.wait(3000);
         cy.get('.ant-table-cell').should('not.have.text','')
+        cy.wait(3000);
     }
   
     successDocs = () => {  // перевід в статус враховано
@@ -189,6 +195,7 @@ class BaseStorage {
         cy.get('[data-qa="button_open_cash_order_modal_storage_document_page"]').should('be.visible')
         cy.get('[data-qa="button_open_cash_order_modal_storage_document_page"]').first().click({force: true})
         cy.get('.ant-modal-body').should('exist')
+        cy.wait(3000)
         cy.get('.ant-modal-footer').find('.ant-btn').click({force: true})
         cy.wait(2000)
         cy.get('[data-qa="remain_storage_document_form"]').should('have.text','Залишок0 грн.')

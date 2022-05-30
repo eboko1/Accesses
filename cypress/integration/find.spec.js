@@ -13,6 +13,7 @@ const baseStorage = new BaseStorage();
           cy.get('#loginForm_password').type(password)
           cy.get('button').click()
           cy.wait(7000)
+          cy.get('img').eq(0).click({force: true}) //menu
           cy.getCookie('io')
         })
       }
@@ -158,7 +159,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук по короткій назві / Замовлення постачальнику / ORD' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(7)
         cy.get('tr > td > a').eq(2).invoke('text')
         .then (text => {
@@ -173,7 +174,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук за повною назвою / Прихід за замовленням / COM' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(8)
         cy.get('tr > td > a').eq(2).invoke('text')
           .then (text => {
@@ -187,7 +188,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук по короткій назві / Коригування замовлення / BOR' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(9)
         cy.get('tr > td > a').eq(2).invoke('text')
           .then (text => {
@@ -202,7 +203,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук за повною назвою / Прихід Товару / INC' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(10);
         cy.get('tr > td > a').eq(2).invoke('text')
           .then (text => {
@@ -216,7 +217,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук по короткій назві / Повернення постачальнику / SRT' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(12);
         cy.get('tr > td > a').eq(2).invoke('text')
           .then (text => {
@@ -231,7 +232,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук за повною назвою / Послуги / SRV' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(11);
         cy.get('tr > td > a').eq(2).invoke('text')
           .then (text => {
@@ -244,7 +245,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук по короткій назві / Витрати товару / OUT' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(15);
         cy.get('tr > td > a').eq(2).invoke('text')
           .then (text => {
@@ -258,7 +259,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук за повною назвою / Витрати з НЗ / AUT' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(16);
         cy.get('tr > td > a').eq(2).invoke('text')
         .then (text => {
@@ -271,7 +272,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук по короткій назві / Витрати з НЗ / AUT' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(16);
         cy.get('tr > td > a').eq(2).invoke('text')
         .then (text => {
@@ -285,7 +286,7 @@ const baseStorage = new BaseStorage();
       })
 
       it('Пошук по короткій назві / Повернення від клієнта / CRT ' , function(){
-        cy.visit('/')
+        cy.visit('/new-document')
         baseStorage.openDocsBtn(17);
         cy.get('tr > td > a').eq(1).invoke('text')
         .then (text => {

@@ -14,8 +14,9 @@ const path = require("path");
 
 const textServise = 'Доставка Запчастин'
 const supplierSystem = 'АСГ S'
+const newSupplier = 'АВДТрейд S'
 var date = new Date();
-//const idProduct ='TEST'+'29432'
+///const idProduct ='TEST'+'25111'
 const idProduct ='TEST'+date.getDate()+date.getMonth()+date.getMinutes()//+date.getSeconds();
 
 describe ('Складські документи 1 ', function(){
@@ -39,31 +40,6 @@ describe ('Складські документи 1 ', function(){
     it('Профіль вибір українського інтерфейсу', function(){
         cy.visit('/profile') 
         profilePage.choiceLanguage(1)
-    })
-   
-    it('Створення нового Товару через картку Товару / id= '+idProduct ,function(){
-        cy.visit('/products')
-        cy.get('.ant-btn').contains('Додати').click({force: true})
-        cy.get('#StoreProductForm_code').type(idProduct)
-        cy.get('.ant-modal').find('.ant-select').eq(0).type('100 Plus{enter}')     // бренд
-        cy.wait(2000);
-        cy.get('.ant-modal').find('.ant-select').eq(1).type('1020201')             // група ЗЧ
-        cy.wait(2000);
-        cy.get('.ant-select-tree-title').first().click({force: true})
-        cy.get('.ant-modal').find('.ant-select').eq(2).type('{downarrow}{enter}')  // одиниці виміру
-        cy.get('.ant-modal').find('.ant-input').eq(3).type('0000000000')           // код ТДЗЕД
-        cy.get('.ant-modal').find('.ant-input').eq(4).type('00000000000000000')    // сертифікат
-        cy.get('.ant-modal').find('button').contains('Застосувати').click({force: true})   //.contains('Застосувати')
-        cy.wait(2000);
-        cy.get(':nth-child(1) > :nth-child(1) > div > .ant-input').first().type(idProduct)
-        cy.wait(3000);
-        cy.get('.ant-table-content td').first().should('exist')
-        cy.wait(3000);
-        cy.get('a > div').first().invoke('text')
-            .then (text => {
-                cy.log(text)
-            expect(text).to.eq(idProduct)
-        })
     })
 
     it(' AUT / Витрати із НЗ / Створення нового Ремонту та відображення створеного дока в AUT',function(){
@@ -116,11 +92,20 @@ describe ('Складські документи 1 ', function(){
         baseStorage.fillingForm(idProduct,'Замовлення постачальнику', supplierSystem)
     })
 
+    it('ORD / Створення нового Товару ч/з модалку Склад. документа / id= '+idProduct ,function(){
+        cy.visit('/new-document')
+        baseStorage.openDocsBtn(7);
+        baseStorage.openListDocs()
+        baseStorage.addProductWithStorage(idProduct)
+    })
+
     it('ORD / Додавання ЗЧ в Замовлення постачальнику / Модалка +', function() {
         cy.visit('/new-document')
         baseStorage.openDocsBtn(7)
         baseStorage.openListDocs()
         baseStorage.addProductInDocCatalog(idProduct, 25, 2);
+        cy.reload()
+        baseStorage.addProductInDocCatalog(idProduct, '15.8', '2');
     })
 
     it('ORD / Відображення модалки ШК )', function() {
@@ -173,6 +158,13 @@ describe ('Складські документи 1 ', function(){
         baseStorage.addProductInDocCatalog(idProduct, '3', 1)
     })
 
+    it('BOR/ Перевід документа у статус Враховано ', function() {
+        cy.visit('/new-document')
+        baseStorage.openDocsBtn(9);
+        baseStorage.openListDocs()
+        baseStorage.successDocs();
+    })
+
     it('BOR / Завантаження документа .pdf', function() {
         cy.visit('/new-document')
         baseStorage.openDocsBtn(9);
@@ -207,7 +199,7 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(8)
         baseStorage.openListDocs()
-        baseStorage.addProductInDocCatalog(idProduct, '5.3', 2)
+        baseStorage.addProductInDocCatalog(idProduct, 25, 2);
     })
 
     it('COM / Перевід документа Приходу за Замовленням в статус Враховано',  function() {
@@ -241,11 +233,11 @@ describe ('Складські документи 1 ', function(){
         cy.wait(3000)
         baseStorage.createDocsByBtnAdd('Прихід за замовленням');
     })
-    //////////////////////////INC////////////////////////////////
+
     it(' INC / Прихід від Постачальника через + ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsPlus(10)
-        baseStorage.fillingForm(idProduct,'Прихід від постачальника', supplierSystem)
+        baseStorage.fillingForm(idProduct,'Прихід від постачальника', newSupplier)
     })
 
     it('INC / Додавання ЗЧ в Прихід від Постачальника, редагування ціни', function() {
@@ -278,12 +270,12 @@ describe ('Складські документи 1 ', function(){
 
     it('INC / Відсутність Боргу / Картка Пастачальника', function() {
         cy.visit('/storage-incomes')
-        baseStorage.cardSupplierCredit(supplierSystem)
+        baseStorage.cardSupplierCredit(newSupplier)
     })
 
     it('INC / Відсутність Боргу Постачальника в Кредиторці/Бухгалтерія',  function() {
         cy.visit('/receivables_and_payables')
-        baseStorage.checkCreditPage(supplierSystem,'Даних немає')   
+        baseStorage.checkCreditPage(newSupplier,'Даних немає')   
     })
       
     it('INC / Відображення документа в списку Приходів на Склад ',  function() {
@@ -310,11 +302,10 @@ describe ('Складські документи 1 ', function(){
         baseStorage.createDocsByBtnAdd('Прихід від постачальника');
     })
 
-    ///////////////////////INC////////////////////////////////
     it(' SRV / Прихід Послуги через кнопку +',  function(){
         cy.visit('/new-document')
         baseStorage.openDocsPlus(11);
-        baseStorage.fillingForm(idProduct,'Послуги', supplierSystem)
+        baseStorage.fillingForm(idProduct,'Послуги', newSupplier)
     })
 
     it('SRV / Додавання Послуги',  () => {
@@ -364,6 +355,13 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(11);
         baseStorage.payOrder();
+    })
+
+    it('SRV /  Перевірка 0 Залишку, Закуп.та Продж. Суми Приходу від Постачальника',  function() {
+        cy.visit('/new-document')
+        baseStorage.openDocsBtn(11);
+        baseStorage.checkSellingDoc()
+        ///baseStorage.checkPurchaseDoc()
     })
 
     it('SRV / Завантаження документа .pdf ',  function(){   

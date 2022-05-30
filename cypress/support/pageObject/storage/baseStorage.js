@@ -123,8 +123,9 @@ class BaseStorage {
         cy.get('.ant-btn-icon-only').last().click({force: true}) // btn catalog
         cy.get('.ant-input-wrapper > .ant-input-affix-wrapper > .ant-input').should('have.value',idProduct)
         cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click({force: true}) //модалка Каталог ЗЧ btn OK
-        ///// cy.get('.ant-modal-body').find('.ant-input-number').first().clear()
-        cy.get('.ant-modal-body').find('.ant-input-number').first().type(priceSelling)// Закуп.сума
+        cy.wait(2000)
+        cy.get('.ant-input-number-input').eq(0).clear().type(priceSelling)
+       /// cy.get('.ant-modal-body').find('.ant-input-number').first().clear().type(priceSelling)// Закуп.сума
         ////// cy.get('.ant-modal-body').find('.ant-input-number-input').eq(1).clear()
         ///cy.get('.ant-modal-body').find('.ant-input-number-input').type(quantity)    // кількість
         cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
@@ -193,7 +194,9 @@ class BaseStorage {
     payOrder = () => {
         cy.get('tr > td > a').first().click({force: true})
         cy.get('[data-qa="button_open_cash_order_modal_storage_document_page"]').should('be.visible')
+        cy.wait(2000)
         cy.get('[data-qa="button_open_cash_order_modal_storage_document_page"]').first().click({force: true})
+        cy.wait(2000)
         cy.get('.ant-modal-body').should('exist')
         cy.wait(3000)
         cy.get('.ant-modal-footer').find('.ant-btn').click({force: true})
@@ -238,7 +241,33 @@ class BaseStorage {
                 cy.wait(2000)
             })
         })
-     
+      
+    }
+
+    addProductWithStorage = (idProduct) => {
+        cy.get('[data-qa="doc_products_table.add_btn"]').click({force: true})
+        cy.wait(3000)
+        cy.get('.ant-input').eq(0).should('have.text','')
+        cy.wait(2000)
+        cy.get('.ant-modal-body').find('.ant-select-selector').first().type(idProduct)
+        cy.get('.ant-modal-content').find('.ant-select-selector').eq(1).type('ABEX{enter}')
+        cy.wait(2000)
+        cy.get('.ant-input-number-input').eq(0).clear().type('122.25')
+        cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
+        cy.wait(2000)
+        cy.get('.ant-modal').last().should('have.text','Даного товару немає в довіднику товарів. Додати?СкасуватиГаразд')
+        cy.get('.ant-btn-primary').last().click({force: true})
+        cy.wait(2000)
+        cy.get('.ant-modal').contains('Додати продукт').should('exist')
+        /////модалка товара/////
+        cy.get('#StoreProductForm_code').should('have.value', idProduct)
+        cy.get('#StoreProductForm_groupId').type('1020201')             // група ЗЧ
+        cy.wait(2000);
+        cy.get('.ant-select-tree-title').first().click({force: true})   // група ЗЧ
+        cy.wait(2000);
+        cy.get('#StoreProductForm_name').should('have.value', 'Автозапчастина')
+        cy.get('.ant-modal').find('button').contains('Застосувати').click({force: true})   //.contains('Застосувати')
+        cy.wait(2000);
     }
 }
 

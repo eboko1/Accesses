@@ -302,7 +302,7 @@ class OrderPage {
         })
         .then(()=>{
             cy.log('Створити калькуляцію');
-            cy.get('[style="width: 35%; margin-right: 5px;"]').click();//кнопка Створити калькуляцію
+            cy.get('.ant-btn').contains('Створити калькуляцію').click();//кнопка Створити калькуляцію
         })
         .then(()=>{
             cy.get('.styles-m__confirm_diagnostic_modal_element_title---1wZ-P > .ant-btn').click();

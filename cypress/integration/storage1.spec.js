@@ -155,7 +155,7 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(9)
         baseStorage.openListDocs()
-        baseStorage.addProductInDocCatalog(idProduct, 12.5);
+        baseStorage.addProductInDocBORCatalog(idProduct);
     })
 
     it('BOR/ Перевід документа у статус Враховано ', function() {
@@ -361,7 +361,6 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(11);
         baseStorage.checkSellingDoc()
-        ///baseStorage.checkPurchaseDoc()
     })
 
     it('SRV / Завантаження документа .pdf ',  function(){   
@@ -423,12 +422,12 @@ describe ('Складські документи 1 ', function(){
     
     it('SRT / Відсутність Боргу / Картка Пастачальника', function() {
         cy.visit('/storage-incomes')
-        baseStorage.cardSupplierCredit(supplierSystem)
+        baseStorage.cardSupplierCredit(newSupplier)
     })
 
     it('SRT / Відсутність Боргу в Кредиторці/Бухгалтерія',  function() {
         cy.visit('/receivables_and_payables')
-        baseStorage.checkCreditPage(supplierSystem,'Даних немає')   
+        baseStorage.checkCreditPage(newSupplier,'Даних немає')   
     })
 
     it('SRT / Завантаження документа .pdf ',  function(){ 

@@ -99,7 +99,6 @@ class BaseStorage {
         const purchase = purchase_sum.replace(/[^0-9,]/g, '');
             cy.get('[data-qa="button_delete_post_storage_document_page"]').click()
             cy.get('[data-row-key] > :nth-child(5) > span').first().should('have.text', purchase +' грн.')
-            
         })    
     }
 
@@ -148,6 +147,20 @@ class BaseStorage {
         cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
         cy.wait(3000);
         cy.get('.ant-table-cell').should('not.have.text','')
+        cy.wait(3000);
+    }
+
+    addProductInDocBORCatalog = (idProduct) => {
+        cy.get('[data-qa="doc_products_table.add_btn"]').click({force: true})
+        cy.wait(3000)
+        cy.get('.ant-input').eq(0).should('have.text','')
+        cy.wait(2000)
+        cy.get('.ant-modal-body').find('.ant-select-selector').first().type(idProduct)
+        cy.get('.ant-btn-icon-only').last().click({force: true}) // btn catalog
+        cy.get('.ant-input-wrapper > .ant-input-affix-wrapper > .ant-input').should('have.value',idProduct)
+        cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click({force: true}) //модалка Каталог ЗЧ btn OK
+        cy.wait(2000)
+        cy.get('.ant-modal-footer > .ant-btn-primary').first().click({force: true})
         cy.wait(3000);
     }
   

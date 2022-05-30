@@ -110,13 +110,13 @@ describe ('Складські документи 1 ', function(){
         baseStorage.downloadXML();
     })
 
-    it.only(' ORD / Замовлення Постачальнику через + / Сторінка Швидка навігація ', function(){
+    it(' ORD / Замовлення Постачальнику через + / Сторінка Швидка навігація ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsPlus(7)
         baseStorage.fillingForm(idProduct,'Замовлення постачальнику', supplierSystem)
     })
 
-    it.only('ORD / Додавання ЗЧ в Замовлення постачальнику / Модалка +', function() {
+    it('ORD / Додавання ЗЧ в Замовлення постачальнику / Модалка +', function() {
         cy.visit('/new-document')
         baseStorage.openDocsBtn(7)
         baseStorage.openListDocs()
@@ -281,7 +281,7 @@ describe ('Складські документи 1 ', function(){
         baseStorage.cardSupplierCredit(supplierSystem)
     })
 
-    it('INC / Відсутність Постачальника в Кредиторці/Бухгалтерія',  function() {
+    it('INC / Відсутність Боргу Постачальника в Кредиторці/Бухгалтерія',  function() {
         cy.visit('/receivables_and_payables')
         baseStorage.checkCreditPage(supplierSystem,'Даних немає')   
     })

@@ -103,9 +103,9 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(7)
         baseStorage.openListDocs()
-        baseStorage.addProductInDocCatalog(idProduct, 25, 2);
+        baseStorage.addProductInDocCatalog(idProduct, 12.5);
         cy.reload()
-        baseStorage.addProductInDocCatalog(idProduct, '15.8', '2');
+        baseStorage.addProductInDocCatalog(idProduct, 12.5);
     })
 
     it('ORD / Відображення модалки ШК )', function() {
@@ -151,11 +151,11 @@ describe ('Складські документи 1 ', function(){
         baseStorage.fillingForm(idProduct,'Коригування замовлення', supplierSystem)
     })     
 
-    it('BOR / Вибір коригуючого Товару з модалки Каталог. Перевід у статус Враховано', function(){
+    it('BOR / Вибір коригуючого Товару з модалки Каталог', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(9)
         baseStorage.openListDocs()
-        baseStorage.addProductInDocCatalog(idProduct, '3', 1)
+        baseStorage.addProductInDocCatalog(idProduct, 12.5);
     })
 
     it('BOR/ Перевід документа у статус Враховано ', function() {
@@ -199,7 +199,7 @@ describe ('Складські документи 1 ', function(){
         cy.visit('/new-document')
         baseStorage.openDocsBtn(8)
         baseStorage.openListDocs()
-        baseStorage.addProductInDocCatalog(idProduct, 25, 2);
+        baseStorage.addProductInDocCatalog(idProduct, 12.5);
     })
 
     it('COM / Перевід документа Приходу за Замовленням в статус Враховано',  function() {

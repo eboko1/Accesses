@@ -111,7 +111,7 @@ class ProductTab {
         cy.get('.ant-modal-header').last().should('have.text','Додати деталь')
         cy.get('.ant-dropdown-menu-item').eq(1).click({force: true}) // Пошук по авто
         cy.wait(3000)
-        cy.get('tr').contains('Мастила').should('exist')
+        cy.get('tr').should('not.be.empty')
     }
 
     addFirstDetail = () => {

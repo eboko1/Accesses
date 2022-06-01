@@ -111,10 +111,8 @@ class OrderPage {
         cy.get('.ant-dropdown-trigger').eq(1).trigger('mouseover')////Переведіть н/з в статус Завершено 
         cy.wait(1000);
         cy.get('.ant-dropdown-menu-item').contains('Завершено').click()
-        cy.wait(4000);
-       
-        cy.get('.ant-modal-confirm-btns').contains('Гаразд').click()
-        
+      / cy.wait(4000);
+        cy.get('.ant-modal-confirm-btns').contains('Гаразд').click()   // модалка не має зарезервованих ЗЧ
         cy.wait(5000);
         cy.get('[data-qa="button_submit_yes_to_success_form"]').click()
         cy.wait(5000);
@@ -122,15 +120,16 @@ class OrderPage {
 
    payOrderCredit = () =>{
         cy.get('.anticon-dollar').click({force: true})
-        cy.get('[data-qa="input_sum"]').clear().type('12.30')
-        cy.wait(1000);
+        cy.wait(3000);
+        cy.get('[data-qa="input_sum"]').clear().type('12,30')
+        cy.wait(2000);
         cy.get('.ant-btn-primary').last().click({force: true});//ОК;
         cy.wait(1000);   
     }
 
    payOrderDollar = (nameCash$) =>{
         cy.get('.anticon-dollar').last().click() // повна оплата суми 
-        cy.wait(2000)
+        cy.wait(3000)
         cy.get('[data-qa="select_credit_card"]').type(nameCash$+'{enter}');  //Вибір Каси
         cy.wait(2000)
         cy.get('.ant-modal-footer').last().find('.ant-btn').click({ multiple: true })

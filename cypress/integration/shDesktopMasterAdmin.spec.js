@@ -162,7 +162,8 @@ describe ('SH|Desktop|Master|Admin|UA', function(){
     it('Перевірка поля Сплачено', function(){
         cy.visit('/orders/success');
         orderPage.openNZ(idClient)
-        cy.get('.ant-row').eq(7).find('span').eq(2).contains('12,30 грн.') // сплачено Грн -> грн
+        cy.get('[]').contains('12,30 грн.') 
+        ///cy.get('.ant-row').eq(7).find('span').eq(2).contains('12,30 грн.') // сплачено Грн -> грн
     });
 
     it('Повна оплата ч/з $', function(){
@@ -174,7 +175,8 @@ describe ('SH|Desktop|Master|Admin|UA', function(){
     it('Перевірка поля Залишок', function(){
         cy.visit('/orders/success');
         orderPage.openNZ(idClient)
-        cy.get('.ant-row').eq(7).find('span').eq(5).contains('0 грн.') // Залишок Грн -> грн
+        cy.get('[]').contains('0 грн.') 
+        ////cy.get('.ant-row').eq(7).find('span').eq(5).contains('0 грн.') // Залишок Грн -> грн
     });
 
     it('Відкриття форми створення Працівника', function(){

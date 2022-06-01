@@ -19,7 +19,7 @@ const laborDetails = new LaborDetails();
 
 
 var date = new Date();
-const idClient = '91113'
+const idClient = '2228'
 //const idClient =''+date.getDate()+date.getMonth()+date.getMinutes();
 var second = parseInt(date.getSeconds())+10
 var minute = parseInt(date.getMinutes())+10
@@ -219,10 +219,10 @@ describe ('Master|Admin|UA|Desktop|', function(){
     orderPage.addComments();
   });
 
- it('Перевід у статус Завершено', function(){
+  it('Перевід у статус Завершено', function(){
     cy.visit('/orders/progress')
     orderPage.openNZ(idClient)
-    orderPage.createSuccess()
+    orderPage.createSuccess() //
   })
 
   it('Часткова оплата', function(){
@@ -234,7 +234,8 @@ describe ('Master|Admin|UA|Desktop|', function(){
   it('Перевірка поля Сплачено', function(){
     cy.visit('/orders/success');
     orderPage.openNZ(idClient);
-    cy.get('.styles-m__sumWrapper---1Ulp6').find('span').eq(2).contains('12,30 грн.') // сплачено Грн -> грн
+    //cy.get('.styles-m__sumWrapper---1Ulp6').find('span').eq(2).contains('12,30 грн.') // сплачено Грн -> грн
+    cy.get('[data-qa="numaral_cash_sum_order_page"]').contains('12,30 грн.') 
   });
 
   it('Повна оплата ч/з $', function(){
@@ -246,7 +247,8 @@ describe ('Master|Admin|UA|Desktop|', function(){
   it('Перевірка поля Залишок', function(){
     cy.visit('/orders/success');
     orderPage.openNZ(idClient);
-    cy.get('.styles-m__total---JSKrk').find('span').eq(1).contains('0 грн.'); // Залишок Грн -> грн
+    ///cy.get('.styles-m__total---JSKrk').find('span').eq(1).contains('0 грн.'); // Залишок Грн -> грн
+    cy.get('[data-qa="numeral_remain_price_order_page"]').contains('0 грн.');
   });
 
   it('Перевірка Залишкy в списку НЗ', function(){
@@ -255,7 +257,7 @@ describe ('Master|Admin|UA|Desktop|', function(){
     cy.get('[data-icon="close"]').first().click({force: true})
     cy.get('.ant-input-wrapper > .ant-input').type(idClient)
     cy.wait(2000)
-    cy.get('tr >td').eq(7).should('have.text', '0 грн.')
+    cy.get('tr > td').eq(7).should('have.text', '0 грн.')
    // cy.get('.styles-m__total---JSKrk').find('span').eq(1).contains('0 грн.'); // Залишок Грн -> грн
   });
 

@@ -85,7 +85,7 @@ class ProductTab {
         cy.get('[data-qa="button_handle_ok_select_order_detail_modal"]').first().click({force: true})
         cy.wait(2000)
         cy.get('.ant-modal > .ant-modal-content > .ant-modal-footer > .ant-btn-primary').last().click({force: true})            //btn Гаразд;
-        cy.wait(10000)
+        cy.wait(3000)
     }
 
     searchByCar = () => {
@@ -132,7 +132,7 @@ class ProductTab {
         cy.get('.ant-modal-content').should('be.visible')
         cy.get('.ant-modal-header').last().should('have.text','Додати деталь')
         cy.get('.ant-dropdown-menu-item').eq(2).click({force: true}) // Пошук по авто
-        cy.wait(3000)
+        cy.wait(5000)
         cy.get('.ant-modal-content').should('be.visible')
         cy.get('.ant-modal-header').last().should('have.text','Масла і рідини')
         cy.get('tr').contains('Engine').should('exist')

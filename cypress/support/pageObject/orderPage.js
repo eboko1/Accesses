@@ -118,19 +118,23 @@ class OrderPage {
         cy.wait(5000);
     }
 
-   payOrderCredit = () =>{
+   payOrderCredit = (nameCash,summ) =>{
         cy.get('.anticon-dollar').click({force: true})
-        cy.wait(3000);
-        cy.get('[data-qa="input_sum"]').clear().type('12,30')
+        cy.wait(7000);
+        cy.get('[data-qa="select_credit_card"]').type(nameCash+'{enter}');  //Вибір Каси
+        cy.wait(2000);
+        cy.get('[data-qa="input_sum"]').clear()
+        cy.wait(2000);
+        cy.get('[data-qa="input_sum"]').type(summ)
         cy.wait(2000);
         cy.get('.ant-btn-primary').last().click({force: true});//ОК;
         cy.wait(1000);   
     }
 
-   payOrderDollar = (nameCash$) =>{
+   payOrderDollar = (nameCash) =>{
         cy.get('.anticon-dollar').last().click() // повна оплата суми 
-        cy.wait(3000)
-        cy.get('[data-qa="select_credit_card"]').type(nameCash$+'{enter}');  //Вибір Каси
+        cy.wait(6000)
+        cy.get('[data-qa="select_credit_card"]').type(nameCash+'{enter}');  //Вибір Каси
         cy.wait(2000)
         cy.get('.ant-modal-footer').last().find('.ant-btn').click({ multiple: true })
         cy.wait(2000)
@@ -282,7 +286,7 @@ class OrderPage {
             cy.get('tr > td').find('button').contains('Редагувати').first().click({force: true}); //редагувати
         })
         .then(()=>{
-            cy.wait(1000)
+            cy.wait(3000)
             cy.get('[data-row-key] > :nth-child(5) > .styles-m__diagnostic_status_button_wrap---ucmHY > .ant-btn-danger').first().click({force: true}); // Клік на Критично;
         })
         .then(()=>{

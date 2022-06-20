@@ -6,7 +6,6 @@
       "html": false,
       "json": true
   },
-
   "videoCompression": 15,
   "experimentalStudio": true,
   "experimentalSessionSupport":true,

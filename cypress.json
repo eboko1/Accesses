@@ -11,7 +11,7 @@
   "experimentalSessionSupport":true,
   "projectId": "kq8qxc",
   "chromeWebSecurity": false,
-
+  
   "baseUrl":"https://my.carbook.pro",
 
   "env": {

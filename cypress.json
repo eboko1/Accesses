@@ -12,7 +12,7 @@
   "projectId": "kq8qxc",
   "chromeWebSecurity": false,
 
-  "baseUrl":"https://test-my.carbook.pro",
+  "baseUrl":"https://my.carbook.pro",
 
   "env": {
     "pw":"123456",

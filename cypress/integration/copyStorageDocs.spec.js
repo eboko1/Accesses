@@ -24,7 +24,7 @@ describe ('CopyStorageDocs|Master|UA|Desktop|', function(){
 
   beforeEach('User Login ', function(){
     cy.viewport(1240,960)
-    login(Cypress.env('Manual'), Cypress.env('pw')) //присутні: доступи до пошуку, реквізити Постачальника з ПДВ та без ПДВ supplierSystem,
+    login(Cypress.env('LoginMaster'), Cypress.env('pw')) //присутні: доступи до пошуку, реквізити Постачальника з ПДВ та без ПДВ supplierSystem,
   })
 
   it('Профіль вибір українського інтерфейсу', function(){
@@ -175,6 +175,7 @@ describe ('CopyStorageDocs|Master|UA|Desktop|', function(){
   it('STM to STP',  function(){
     cy.visit('/new-document');
     baseStorage.openDocsBtn(19);
+    baseStorage.searchDoc('STM');
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('STP');
   })
@@ -193,13 +194,13 @@ describe ('CopyStorageDocs|Master|UA|Desktop|', function(){
     baseStorage.copyStoreDoc('VRT');
   })
 
-  // // // it('VRT to VRT | VRT to SRV',  function(){
-  // // //   cy.visit('/new-document');
-  // // //   baseStorage.openDocsBtn(!!!!);  // VRT
-  // // //   baseStorage.openListDocs();   
-  // // //   baseStorage.copyStoreDoc('VRT') // VRT to VRT
-  // // //   baseStorage.copyStoreDoc('SRV') // VRT to SRV 
-  // // // })
+  // // it('VRT to VRT | VRT to SRV',  function(){
+  // //   cy.visit('/new-document');
+  // //   baseStorage.openDocsBtn(!!!!);  // VRT
+  // //   baseStorage.openListDocs();   
+  // //   baseStorage.copyStoreDoc('VRT') // VRT to VRT
+  // //   baseStorage.copyStoreDoc('SRV') // VRT to SRV 
+  // // })
 
   it('TOL to TOL',  function(){
     cy.visit('/new-document');

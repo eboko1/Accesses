@@ -294,11 +294,11 @@ class BaseStorage {
         cy.wait(2000)
         cy.get('.ant-select-item-option-content').contains(copyType).click({force: true}) 
         cy.get('.ant-modal-footer').contains('Гаразд').click({force: true})
+        cy.wait(2000)
         cy.get('h1').should('be.visible').invoke('text').then(text =>{
             var words = text.split(' ') 
             var typeDoc =  words[words.length-1].split('-')
             //cy.log('statuDoc = '+statuDoc +'typeDoc = '+typeDoc[0])
-            cy.get('h1').should('be.visible')
             expect(copyType).to.eq(typeDoc[0])
             expect('Нов.').to.eq(words[0])
         })

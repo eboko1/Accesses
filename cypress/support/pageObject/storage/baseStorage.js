@@ -1,3 +1,7 @@
+import { statSync } from "fs";
+import { type } from "os";
+import { listenerCount } from "process";
+
 const path = require("path");
 
 class BaseStorage {
@@ -65,8 +69,8 @@ class BaseStorage {
         cy.get('.ant-select-selection-item').eq(1).should('have.text', nameDocs)
     }
     
-    openListDocs = () => {
-        cy.get('tr > td > a').first().click({force: true}) // вибір зі списку
+    openListDocs = () => {    
+        cy.get('tr > td > a').should('be.visible').first().click({force: true}) // вибір зі списку    
         cy.wait(3000);      
     }
 
@@ -281,6 +285,26 @@ class BaseStorage {
         cy.get('#StoreProductForm_name').should('have.value', 'Автозапчастина')
         cy.get('.ant-modal').find('button').contains('Застосувати').click({force: true})   //.contains('Застосувати')
         cy.wait(2000);
+    }
+    
+    copyStoreDoc = (copyType) => {
+        cy.get('[data-qa="button_copy_document_storage_document_page"]').should('be.visible').click({force: true})
+        cy.get('.ant-select-selection-item').last().click({force: true}) 
+        cy.wait(2000)
+        cy.get('.ant-select-item-option-content').contains(copyType).click({force: true}) 
+        cy.get('.ant-modal-footer').contains('Гаразд').click({force: true})
+        cy.get('h1').should('be.visible').invoke('text').then(text =>{
+            var words = text.split(' ') 
+            var typeDoc =  words[words.length-1].split('-')
+            //cy.log('statuDoc = '+statuDoc +'typeDoc = '+typeDoc[0])
+            expect(copyType).to.eq(typeDoc[0])
+            expect('Нов.').to.eq(words[0])
+            cy.wait(5000)
+        })
+
+    }
+    searchDoc = (nameDoc) => {
+        cy.get('input').last().type(nameDoc)
     }
 }
 

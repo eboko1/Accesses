@@ -5,7 +5,7 @@ on:
     branches:
       - main
 jobs:
-   copyStorageDocs-master-elec-linux:
+  copyStorageDocs-master-elec-linux:
     # ubuntu-latest - Firefox, windows-latest - edge, ubuntu-20.04 -chrome
     runs-on: ubuntu-latest
     steps:

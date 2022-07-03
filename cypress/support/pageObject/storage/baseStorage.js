@@ -297,9 +297,9 @@ class BaseStorage {
             var words = text.split(' ') 
             var typeDoc =  words[words.length-1].split('-')
             //cy.log('statuDoc = '+statuDoc +'typeDoc = '+typeDoc[0])
+            cy.get('h1').should('be.visible')
             expect(copyType).to.eq(typeDoc[0])
             expect('Нов.').to.eq(words[0])
-            cy.wait(5000)
         })
 
     }

@@ -288,6 +288,7 @@ class BaseStorage {
     }
     
     copyStoreDoc = (copyType) => {
+        cy.get('h1').should('be.visible')
         cy.get('[data-qa="button_copy_document_storage_document_page"]').should('be.visible').click({force: true})
         cy.get('.ant-select-selection-item').last().click({force: true}) 
         cy.wait(2000)

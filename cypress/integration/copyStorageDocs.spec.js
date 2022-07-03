@@ -48,7 +48,7 @@ describe ('CopyStorageDocs|Master|UA|Desktop|', function(){
 
   it('ORD to COM',  function(){
     cy.visit('/new-document');
-    baseStorage.openDocsBtn(9);
+    baseStorage.openDocsBtn(7);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('COM');
   })
@@ -69,7 +69,7 @@ describe ('CopyStorageDocs|Master|UA|Desktop|', function(){
 
   it('BOR to COM',  function(){
     cy.visit('/new-document');
-    baseStorage.openDocsBtn(7); 
+    baseStorage.openDocsBtn(9); 
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('COM'); 
   })
@@ -95,59 +95,101 @@ describe ('CopyStorageDocs|Master|UA|Desktop|', function(){
     baseStorage.copyStoreDoc('ORD'); 
   })
 
-  it('INC to INC | INC to SRT',  function(){
+  it('INC to INC',  function(){
     cy.visit('/new-document');
     baseStorage.openDocsBtn(10);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('INC');
+  })
+
+  it('INC to SRT',  function(){
+    cy.visit('/new-document');
+    baseStorage.openDocsBtn(10);
+    baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('SRT');
   })
 
-  it('SRT to SRT | SRT to INC',  function(){
+  it('SRT to SRT',  function(){
     cy.visit('/new-document');
     baseStorage.openDocsBtn(12);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('SRT');
+  })
+
+  it('SRT to INC',  function(){
+    cy.visit('/new-document');
+    baseStorage.openDocsBtn(12);
+    baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('INC');
   })
 
-  it('OUT to OUT | OUT to CRT',  function(){
+  it('OUT to OUT',  function(){
     cy.visit('/new-document');
     baseStorage.openDocsBtn(15);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('OUT');
+  })
+
+  it('OUT to CRT',  function(){
+    cy.visit('/new-document');
+    baseStorage.openDocsBtn(15);
+    baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('CRT');
   })
 
-  it('CRT to CRT | CRT to OUT',  function(){
+  it('CRT to CRT',  function(){
     cy.visit('/new-document');
     baseStorage.openDocsBtn(17);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('CRT');
+  })
+
+  it('CRT to OUT',  function(){
+    cy.visit('/new-document');
+    baseStorage.openDocsBtn(17);
+    baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('OUT');
   })
 
-  it('STP to STP | STP to STM',  function(){
+  it('STP to STP',  function(){
     cy.visit('/new-document');
     baseStorage.openDocsBtn(14);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('STP');
+  })
+
+  it('STP to STM',  function(){
+    cy.visit('/new-document');
+    baseStorage.openDocsBtn(14);
+    baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('STM');
   })
 
-  it('STM to STM | STM to STP',  function(){
+  it('STM to STM',  function(){
     cy.visit('/new-document');
-    baseStorage.openDocsBtn(20);
+    baseStorage.openDocsBtn(19);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('STM');
+  })
+
+  it('STM to STP',  function(){
+    cy.visit('/new-document');
+    baseStorage.openDocsBtn(19);
+    baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('STP');
   })
 
-  it('SRV to SRV | SRV to VRT',  function(){
+  it('SRV to SRV',  function(){
     cy.visit('/new-document');
     baseStorage.openDocsBtn(11);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('SRV');
+  })
+
+  it('SRV to VRT',  function(){
+    cy.visit('/new-document');
+    baseStorage.openDocsBtn(11);
+    baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('VRT');
   })
 
@@ -159,19 +201,31 @@ describe ('CopyStorageDocs|Master|UA|Desktop|', function(){
   // // //   baseStorage.copyStoreDoc('SRV') // VRT to SRV 
   // // // })
 
-  it('TOL to TOL | TOL to TOR',  function(){
+  it('TOL to TOL',  function(){
     cy.visit('/new-document');
-    baseStorage.openDocsBtn(23);
+    baseStorage.openDocsBtn(22);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('TOL');
+  })
+
+  it('TOL to TOR',  function(){
+    cy.visit('/new-document');
+    baseStorage.openDocsBtn(22);
+    baseStorage.openListDocs();  
     baseStorage.copyStoreDoc('TOR');
   })
 
-  it('TOR to TOR | TOR to TOL',  function(){
+  it('TOR to TOR',  function(){
     cy.visit('/new-document');
-    baseStorage.openDocsBtn(24);
+    baseStorage.openDocsBtn(23);
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('TOR');
+  })
+
+  it('TOR to TOL',  function(){
+    cy.visit('/new-document');
+    baseStorage.openDocsBtn(23);
+    baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('TOL');
   })
 

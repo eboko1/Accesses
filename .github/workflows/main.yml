@@ -18,7 +18,7 @@ jobs:
         with:
           browser: chrome
           record: false
-          spec: cypress/integration/copiStorageDocs.spec.js
+          spec: cypress/integration/copyStorageDocs.spec.js
           # edge, firefox
         env:
           # pass the Dashboard record key as an environment variable

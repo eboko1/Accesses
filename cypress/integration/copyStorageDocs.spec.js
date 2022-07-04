@@ -175,7 +175,6 @@ describe ('CopyStorageDocs|Master|UA|Desktop|', function(){
   it('STM to STP',  function(){
     cy.visit('/new-document');
     baseStorage.openDocsBtn(19);
-    baseStorage.searchDoc('STM');
     baseStorage.openListDocs();   
     baseStorage.copyStoreDoc('STP');
   })

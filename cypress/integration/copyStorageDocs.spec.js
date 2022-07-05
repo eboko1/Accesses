@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+
 import ProfilePage from '../support/pageObject/profilePage';
 import BaseStorage from '../support/pageObject/storage/baseStorage';
 
@@ -238,9 +239,10 @@ describe ('CopyStorageDocs|Master|UA|Desktop|', function(){
     
   it('TSF to TSF',  function(){
     cy.visit('/new-document');
-    baseStorage.openDocsBtn(20);
-    baseStorage.searchDoc('TSF');
-    baseStorage.openListDocs();   
+    baseStorage.openDocsPlus(20);
+    cy.get('.ant-select-selector').eq(3).click({force: true}) // зміна складу витрат
+    cy.get('.ant-select-item-option-content').should('be.visible').eq(1).click({force: true})
+    cy.get('[data-qa="button_update_or_create_document_storage_document_page"]').click({force: true})
     baseStorage.copyStoreDoc('TSF');
   })
 

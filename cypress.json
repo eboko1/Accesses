@@ -13,7 +13,7 @@
   "chromeWebSecurity": false,
 
   "baseUrl":"https://test-my.carbook.pro",
-
+  
   "env": {
     "pw":"123456",
     "LoginFree":"free@admin.com",
